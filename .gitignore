@@ -25,3 +25,7 @@ lerna-debug.log*
 .env
 .env.local
 .env.*.local
+
+# Local tooling
+.claude/
+tsconfig.tsbuildinfo
