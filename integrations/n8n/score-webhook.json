@@ -1,0 +1,151 @@
+{
+  "name": "Score Digital — Captura de leads (Picard-IA)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "score-digital",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook (POST /score-digital)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "score-digital-picard-ia"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": "leads"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nombre": "={{ $json.body.respuestas.nombre }}",
+            "empresa": "={{ $json.body.respuestas.empresa }}",
+            "email": "={{ $json.body.respuestas.email }}",
+            "telefono": "={{ $json.body.respuestas.telefono }}",
+            "sector": "={{ $json.body.respuestas.sector }}",
+            "tamano": "={{ $json.body.respuestas.tamano }}",
+            "ciudad": "={{ $json.body.respuestas.ciudad }}",
+            "score_total": "={{ $json.body.reporte.total }}",
+            "rango": "={{ $json.body.reporte.rango }}",
+            "frentes": "={{ JSON.stringify($json.body.reporte.frentes) }}",
+            "respuestas": "={{ JSON.stringify($json.body.respuestas) }}",
+            "plan": "={{ JSON.stringify($json.body.reporte.acciones) }}",
+            "user_agent": "={{ $json.headers['user-agent'] }}",
+            "ip_address": "={{ $json.headers['x-forwarded-for'] || $json.headers['x-real-ip'] }}",
+            "source": "web"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {
+          "queryReplacement": ""
+        }
+      },
+      "id": "postgres-insert",
+      "name": "Postgres → INSERT lead",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [480, 300],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres account"
+        }
+      },
+      "notes": "IMPORTANTE: cambiar credencial a una que apunte a la base 'agencia_digital'. Si no existe, crear nueva con host=shared_postgres, port=5432, db=agencia_digital, user=postgres."
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook (POST /score-digital)').item.json.body.respuestas.email }}",
+        "subject": "=Tu Score Digital — {{ $('Webhook (POST /score-digital)').item.json.body.reporte.total }}/100 ({{ $('Webhook (POST /score-digital)').item.json.body.reporte.rango }})",
+        "emailType": "html",
+        "message": "=<!DOCTYPE html>\n<html lang=\"es\">\n<head><meta charset=\"UTF-8\"></head>\n<body style=\"font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #0A1628; margin: 0; padding: 40px 16px;\">\n  <div style=\"max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 24px rgba(10,22,40,0.08);\">\n    <div style=\"padding: 32px 32px 24px; background: linear-gradient(135deg, #0A1628 0%, #102441 100%); color: #e6ecf5;\">\n      <div style=\"font-size: 11px; letter-spacing: 0.15em; color: #00D4FF; margin-bottom: 8px; text-transform: uppercase;\">Diagnóstico Digital · {{ $('Webhook (POST /score-digital)').item.json.body.respuestas.empresa || 'Tu negocio' }}</div>\n      <div style=\"font-size: 64px; font-weight: 700; line-height: 1; margin: 16px 0 8px;\">{{ $('Webhook (POST /score-digital)').item.json.body.reporte.total }}<span style=\"font-size: 24px; color: #5e708a; font-weight: 400;\">/100</span></div>\n      <div style=\"font-size: 18px; font-weight: 600; color: #00D4FF;\">{{ $('Webhook (POST /score-digital)').item.json.body.reporte.rango }}</div>\n    </div>\n    <div style=\"padding: 32px;\">\n      <p style=\"margin: 0 0 16px; font-size: 16px; line-height: 1.6;\">Hola {{ $('Webhook (POST /score-digital)').item.json.body.respuestas.nombre || '' }},</p>\n      <p style=\"margin: 0 0 16px; font-size: 15px; line-height: 1.6; color: #475569;\">Acabás de completar el Score Digital. Acá te dejamos el resumen para que lo tengas a mano.</p>\n      <h3 style=\"font-size: 14px; font-weight: 600; margin: 32px 0 12px; color: #0A1628; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;\">Tus 5 frentes evaluados</h3>\n      <table style=\"width: 100%; border-collapse: collapse; font-size: 14px;\">\n        {{#each (JSON.parse(JSON.stringify($('Webhook (POST /score-digital)').item.json.body.reporte.frentes)))}}\n        <tr><td style=\"padding: 8px 0; color: #475569;\">{{this.label}}</td><td style=\"padding: 8px 0; text-align: right; font-weight: 600; color: #0A1628;\">{{this.score}}/100</td></tr>\n        {{/each}}\n      </table>\n      <h3 style=\"font-size: 14px; font-weight: 600; margin: 32px 0 12px; color: #0A1628; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;\">Próximos pasos</h3>\n      <p style=\"margin: 0 0 16px; font-size: 15px; line-height: 1.6; color: #475569;\">Si querés conversar sobre cómo ejecutar el plan, escribime por WhatsApp:</p>\n      <p style=\"margin: 0 0 24px;\"><a href=\"https://wa.me/573164728441?text=Hola%2C%20vengo%20del%20Score%20Digital.%20Mi%20puntaje%20fue%20{{ $('Webhook (POST /score-digital)').item.json.body.reporte.total }}%2F100%20y%20quiero%20conversar%20sobre%20los%20pr%C3%B3ximos%20pasos.\" style=\"display: inline-block; padding: 14px 28px; background: #25D366; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 15px;\">💬 Hablemos por WhatsApp</a></p>\n      <p style=\"margin: 32px 0 0; color: #94a3b8; font-size: 13px; line-height: 1.6;\">Cualquier duda, simplemente respondé este email.<br>— Diagnóstico Digital</p>\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {
+          "senderName": "Diagnóstico Digital"
+        }
+      },
+      "id": "gmail-send",
+      "name": "Gmail → Enviar reporte",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [720, 300],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PLACEHOLDER_GMAIL_CREDENTIAL_ID",
+          "name": "Gmail account"
+        }
+      },
+      "notes": "Seleccionar una credencial Gmail OAuth existente (Gmail account, Gmail account 2 o Gmail account 3). El sender name 'Diagnóstico Digital' va en options."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"leadId\": {{ $('Postgres → INSERT lead').item.json.id }} }"
+      },
+      "id": "respond-success",
+      "name": "Responder OK al frontend",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /score-digital)": {
+      "main": [
+        [
+          {
+            "node": "Postgres → INSERT lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres → INSERT lead": {
+      "main": [
+        [
+          {
+            "node": "Gmail → Enviar reporte",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail → Enviar reporte": {
+      "main": [
+        [
+          {
+            "node": "Responder OK al frontend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "errorWorkflow": ""
+  },
+  "tags": [
+    { "name": "picard-ia" },
+    { "name": "lead-capture" }
+  ]
+}

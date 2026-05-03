@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar, Download, Mail, RotateCcw } from "lucide-react";
+import { MessageCircle, Download, Mail, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ScoreAnswers, ScoreReport, FrenteScore } from "./types";
 
@@ -97,8 +97,15 @@ export const ScoreReportView = ({
           </div>
           <div className="flex flex-col gap-2.5">
             <Button size="lg" asChild>
-              {/* TODO: reemplazar # por URL de Calendly/Cal.com */}
-              <a href="#"><Calendar className="h-4 w-4" /> Agendar llamada de 30 min</a>
+              <a
+                href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || "573164728441"}?text=${encodeURIComponent(
+                  `Hola, vengo del Score Digital. Mi puntaje fue ${report.total}/100 (${report.rango}) y quiero conversar sobre los próximos pasos.`,
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle className="h-4 w-4" /> Hablemos por WhatsApp
+              </a>
             </Button>
             <Button size="md" variant="outline" onClick={sendEmail}>
               <Mail className="h-4 w-4" /> Enviarme el reporte por email

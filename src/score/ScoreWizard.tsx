@@ -31,11 +31,23 @@ export const ScoreWizard = () => {
     return Boolean(answers.nombre && answers.email);
   })();
 
-  const submit = () => {
+  const submit = async () => {
     const r = calcScore(answers);
     setReport(r);
-    // TODO: enviar respuestas + reporte al backend (POST /api/score) y disparar email con PDF
-    // TODO: trigger del CRM (HubSpot/Notion/Airtable) con el lead
+
+    const webhookUrl = import.meta.env.VITE_SCORE_WEBHOOK_URL;
+    if (!webhookUrl) return;
+
+    try {
+      await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ respuestas: answers, reporte: r }),
+        keepalive: true,
+      });
+    } catch (err) {
+      console.error("[score] webhook failed:", err);
+    }
   };
 
   const reset = () => {

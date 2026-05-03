@@ -1,6 +1,11 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Eyebrow, Section } from "./_atoms";
+
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "573164728441";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Hola, quiero conversar sobre cómo Diagnóstico Digital puede ayudar a mi negocio.",
+)}`;
 
 export const Cta = () => (
   <Section alt className="relative overflow-hidden py-20 md:py-32 lg:py-40">
@@ -27,10 +32,11 @@ export const Cta = () => (
             Hacer mi Score Digital gratis <ArrowRight className="h-[18px] w-[18px]" />
           </a>
         </Button>
-        <Button size="lg" variant="outline">
-          Agendar una llamada
+        <Button size="lg" variant="outline" asChild>
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <MessageCircle className="h-[18px] w-[18px]" /> Hablemos por WhatsApp
+          </a>
         </Button>
-        {/* TODO: integrar formulario funcional + Calendly/Cal.com aquí */}
       </div>
       <div className="mt-14 md:mt-18 flex justify-center gap-x-8 sm:gap-x-12 gap-y-3 flex-wrap font-mono text-[11px] sm:text-xs text-ink-3 tracking-wider">
         <div>SIN COSTO</div>
