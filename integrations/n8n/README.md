@@ -2,11 +2,100 @@
 
 Workflows de n8n que orquestan la captura y notificacion de leads del Score Digital.
 
-## Workflow disponible
+## Workflows disponibles
 
-| Archivo | Trigger | Que hace |
+| Archivo | Trigger | Que hace | Estado |
+|---|---|---|---|
+| `score-webhook.json` | POST a `https://n8n.lithv.net/webhook/score-digital` | Inserta lead en Postgres `agencia_digital.leads` y envia email transaccional al lead via Gmail OAuth | ✅ Productivo |
+| `agent-analyzer.json` | POST a `https://n8n.lithv.net/webhook/agent-analyzer` | Clasifica un mensaje (sentiment, intent, topics, flags, scores) usando OpenAI GPT-4o-mini y guarda en `mensajes_analisis` | ⏳ Importar y configurar |
+
+---
+
+## Como importar `agent-analyzer.json`
+
+### 1. Importar
+- En n8n: menu hamburguesa → **Workflows** → **Import from File**
+- Seleccionar `integrations/n8n/agent-analyzer.json`
+
+### 2. Configurar credenciales
+
+#### Nodo OpenAI: clasificar mensaje
+- Click el nodo
+- En **Credential to connect with**: seleccionar **`OpenAI - Picard-IA`**
+
+#### Nodo Postgres → INSERT mensajes_analisis
+- Click el nodo
+- En **Credential to connect with**: seleccionar la credencial Postgres que apunta a `agencia_digital` (la que se llama `agencia digital` o similar)
+
+### 3. Activar (Publish)
+- Click **Publish** (esquina superior derecha)
+
+### 4. Probar el workflow
+
+**Desde terminal (curl):**
+
+```bash
+curl -X POST https://n8n.lithv.net/webhook/agent-analyzer \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "text": "Hola, quiero saber cuanto cuesta el chatbot de WhatsApp para mi clinica dental",
+    "conversacion_id": null,
+    "message_id": "test-001",
+    "direction": "inbound"
+  }'
+```
+
+**Esperado:**
+
+```json
+{
+  "ok": true,
+  "analysis": {
+    "sentiment": 0.3,
+    "emotion": ["curioso"],
+    "intent": "pregunta_precio",
+    "topics": ["chatbot", "whatsapp"],
+    "flags": ["high_value_signal"],
+    "opportunity_score": 0.75,
+    "risk_score": 0.05,
+    "summary_es": "Cliente pregunta precio del chatbot WhatsApp para su clinica dental"
+  },
+  "saved_id": 1
+}
+```
+
+### 5. Verificar persistencia en Postgres
+
+```sql
+SELECT id, text, sentiment, intent, opportunity_score, created_at
+FROM mensajes_analisis
+ORDER BY id DESC LIMIT 5;
+```
+
+---
+
+## Probar mensajes que disparan flags
+
+Para validar que el detector funciona bien, probar con estos casos:
+
+| Texto | Flag esperado | Severidad |
 |---|---|---|
-| `score-webhook.json` | POST a `https://n8n.lithv.net/webhook/score-digital` | Inserta lead en Postgres `agencia_digital.leads` y envia email transaccional al lead via Gmail OAuth |
+| "Quiero hablar con un humano" | `escalation_request` | media |
+| "Esto es una porqueria, voy a poner una demanda" | `bad_language`, `legal_mention` | crítica |
+| "Necesitamos contratar urgente, tenemos presupuesto" | `high_value_signal`, `urgency` | media-alta |
+| "Hola buenos dias" | (sin flags) | baja |
+
+---
+
+## Como importar `score-webhook.json`
+
+### 1. Abrir n8n
+Ir a [https://n8n.lithv.net](https://n8n.lithv.net) y loguearse.
+
+### 2. Importar el archivo
+- Click el menu hamburguesa (arriba a la izquierda) → **Workflows** → **Import from File**
+- Seleccionar `integrations/n8n/score-webhook.json`
+- n8n carga el workflow con 4 nodos: Webhook → Postgres INSERT → Gmail Send → Respond to Webhook
 
 ## Como importar `score-webhook.json`
 

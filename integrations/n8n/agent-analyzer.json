@@ -1,0 +1,110 @@
+{
+  "name": "Agent · Analyzer (clasifica mensajes WhatsApp)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-analyzer",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "webhook-analyzer",
+      "name": "Webhook (POST /agent-analyzer)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "agent-analyzer-picard-ia"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "=Sos el analizador de mensajes de WhatsApp para Picard-IA. Cada mensaje del cliente lo analizás y devolvés JSON estricto. Solo JSON. Nada más.\n\nOUTPUT JSON (todos los campos obligatorios):\n{\n  \"sentiment\": <number entre -1 y 1>,\n  \"emotion\": [<lista, ej: \"frustrado\", \"urgente\", \"curioso\", \"decidido\", \"escéptico\">],\n  \"intent\": <una de: \"pregunta_general\", \"pregunta_precio\", \"queja\", \"agendar_reunion\", \"comprar\", \"cancelar\", \"soporte\", \"comparar_competencia\", \"saludo\", \"otro\">,\n  \"topics\": [<servicios o temas mencionados, ej: \"chatbot\", \"web\", \"automatizacion\">],\n  \"flags\": [<lista, ej: \"bad_language\", \"escalation_request\", \"urgency\", \"high_value_signal\", \"competitor_mention\", \"legal_mention\">],\n  \"opportunity_score\": <0 a 1>,\n  \"risk_score\": <0 a 1>,\n  \"summary_es\": <una oración resumiendo el mensaje del cliente>\n}\n\nREGLAS DE DETECCIÓN\n- bad_language: groserías en español colombiano (marica, hijueputa, malparido, gonorrea, etc.) o amenazas\n- escalation_request: cliente escribe \"humano\", \"persona\", \"alguien real\", \"tu jefe\", \"el dueño\"\n- legal_mention: \"demanda\", \"denuncia\", \"estafa\", \"fraude\", \"abogado\", \"tutela\"\n- competitor_mention: nombres de otras agencias o \"su competencia\"\n- high_value_signal: menciones de presupuesto, \"necesito esto urgente\", empresa grande, \"queremos contratar\"\n- urgency: \"hoy\", \"ya\", \"urgente\", \"ahora mismo\"\n\nSCORING\n- opportunity_score alto (>0.7): pregunta precio + agenda reunión + menciona presupuesto\n- opportunity_score medio (0.4-0.7): muestra interés genuino pero sin compromiso\n- opportunity_score bajo (<0.4): consulta general, primera curiosidad\n- risk_score alto (>0.7): bad_language, sentiment muy negativo, legal_mention\n- risk_score medio: queja sin escalación, frustración detectable\n- risk_score bajo: tono normal o positivo\n\nIMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicación."
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.body.text }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "openai-analyze",
+      "name": "OpenAI: clasificar mensaje",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [480, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "PLACEHOLDER_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI - Picard-IA"
+        }
+      },
+      "notes": "Modelo: gpt-4o-mini (más barato y suficiente para clasificación). Si OpenAI falla, considerar workflow de fallback con Anthropic."
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO mensajes_analisis (\n  conversacion_id, message_id, direction, text,\n  sentiment, emotion, intent, topics, flags,\n  opportunity_score, risk_score, summary_es\n) VALUES (\n  $1, $2, $3, $4,\n  $5, $6, $7, $8, $9,\n  $10, $11, $12\n) RETURNING id, created_at;",
+        "options": {
+          "queryReplacement": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.conversacion_id || null }},{{ $('Webhook (POST /agent-analyzer)').item.json.body.message_id || null }},{{ $('Webhook (POST /agent-analyzer)').item.json.body.direction || 'inbound' }},{{ $('Webhook (POST /agent-analyzer)').item.json.body.text }},{{ $json.message.content.sentiment }},{{ JSON.stringify($json.message.content.emotion || []) }}::text[],{{ $json.message.content.intent }},{{ JSON.stringify($json.message.content.topics || []) }}::text[],{{ JSON.stringify($json.message.content.flags || []) }}::text[],{{ $json.message.content.opportunity_score }},{{ $json.message.content.risk_score }},{{ $json.message.content.summary_es }}"
+        }
+      },
+      "id": "postgres-insert-analisis",
+      "name": "Postgres → INSERT mensajes_analisis",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [720, 300],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "agencia digital"
+        }
+      },
+      "notes": "Usar la credencial Postgres que apunta a agencia_digital."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"analysis\": {{ JSON.stringify($('OpenAI: clasificar mensaje').item.json.message.content) }},\n  \"saved_id\": {{ $('Postgres → INSERT mensajes_analisis').item.json.id }}\n}"
+      },
+      "id": "respond-success",
+      "name": "Responder OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /agent-analyzer)": {
+      "main": [[{ "node": "OpenAI: clasificar mensaje", "type": "main", "index": 0 }]]
+    },
+    "OpenAI: clasificar mensaje": {
+      "main": [[{ "node": "Postgres → INSERT mensajes_analisis", "type": "main", "index": 0 }]]
+    },
+    "Postgres → INSERT mensajes_analisis": {
+      "main": [[{ "node": "Responder OK", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "picard-ia" },
+    { "name": "agent" },
+    { "name": "v1" }
+  ]
+}
