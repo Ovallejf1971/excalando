@@ -1,8 +1,12 @@
 # WhatsApp AI Agent — Picard-IA
 
 **Documento de diseño técnico y operacional**
-Última actualización: 2026-05-05
+Última actualización: 2026-05-05 (post decisiones estratégicas)
 Owner: Francisco Ovalle
+
+> Las decisiones de configuración (LLM, modo de operación, alertas, temas no-IA, etc.)
+> están consolidadas en [decisiones-estrategicas-2026-05-05.md](./decisiones-estrategicas-2026-05-05.md).
+> Si hay diferencia entre este doc y ese, **el de decisiones gana**.
 
 ---
 
@@ -121,14 +125,20 @@ El agente de WhatsApp de Picard-IA tiene tres roles simultáneos:
 - Mandar links del sitio (servicios, casos)
 - Confirmar disponibilidad para llamada
 
-### 🚫 NO HACE (escala a humano)
+### 🚫 NO HACE (escala a humano) — confirmado 2026-05-05
 
-- **Negociar precios** fuera del catálogo
+Temas **siempre** escalados a humano, sin importar la fase de operación:
+
+- 🚫 **Precios negociados** — descuentos, paquetes a medida, condiciones especiales
+- 🚫 **Contratos** — cláusulas, NDAs, términos legales
+- 🚫 **Refunds** — devoluciones, cancelaciones de servicios pagos, disputas
+- 🚫 **Casos legales** — menciones de abogados, denuncias, demandas, tutelas
+
+Adicionalmente, no debe:
 - **Comprometer fechas exactas** ("entregamos el 15") — siempre rangos aproximados
 - **Hablar mal de competencia** o compararse en detalle
 - **Inventar información** no presente en el knowledge base
 - **Cerrar ventas** de paquetes integrales (>$5M COP) — siempre vía humano
-- **Discutir contratos, NDAs, cláusulas legales**
 - **Aceptar quejas formales** o reclamos
 
 ### 🚨 ESCALACIÓN INMEDIATA A HUMANO
@@ -431,16 +441,16 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
   - Cliente pide humano explícito
   - Métrica de calidad baja (revisión semanal)
 
-### Reglas de alerta (todos los modos)
+### Reglas de alerta (todos los modos) — confirmadas 2026-05-05
 
-| Disparador | Severidad | Notificación |
+Mapa de severidad → canal de notificación a Francisco:
+
+| Severidad | Disparador | Canal de notificación |
 |---|---|---|
-| `sentiment < -0.5` en 2 mensajes seguidos | 🔴 Alta | WhatsApp + Telegram inmediato |
-| Flag `bad_language` | 🔴 Alta | WhatsApp + Telegram inmediato |
-| Flag `escalation_request` | 🟡 Media | WhatsApp en 5 min |
-| Flag `legal_mention` | 🔴 Crítica | WhatsApp + Telegram + email inmediato |
-| `opportunity_score > 0.8` | 🟡 Media | Email diario consolidado |
-| 24h sin respuesta del cliente | 🟢 Baja | Reporte semanal |
+| 🔴 **Crítica** | Flag `bad_language` o `legal_mention` (demanda, denuncia, abogado) | **WhatsApp + Telegram** inmediato |
+| 🔴 **Alta** | `sentiment < -0.5` en 2 mensajes seguidos | **WhatsApp** inmediato |
+| 🟡 **Media** | Flag `escalation_request` (cliente pide humano) o `opportunity_score > 0.8` | **Telegram** |
+| 🟢 **Baja** | 24h sin respuesta del cliente, FAQ que la IA escaló | **Email diario consolidado** |
 
 ---
 
@@ -515,17 +525,21 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
 
 ## 11. Costos estimados
 
-### Costos fijos mensuales
+### Costos fijos mensuales (estimación con presupuesto inicial <$100 USD/mes)
 
 | Item | Costo |
 |---|---|
-| Claude API (estimado 1000 conversaciones/mes, ~5 mensajes c/u) | ~$30-50 USD |
-| OpenAI embeddings (ada-002 para RAG) | ~$5-10 USD |
+| OpenAI API — GPT-4o (estimado 1000 conversaciones/mes, ~5 mensajes c/u) | ~$25-50 USD |
+| OpenAI embeddings (`text-embedding-3-small` para RAG) | ~$2-5 USD |
+| Claude API (fallback, uso esporádico) | ~$5 USD |
 | Metabase self-hosted | $0 |
 | pgvector | $0 |
-| Cal.com self-hosted (opcional) | $0 |
+| Cal.com self-hosted | $0 |
 | Telegram bot | $0 |
-| **Total** | **~$35-60 USD/mes** |
+| **Total** | **~$32-60 USD/mes** |
+
+Esto deja margen dentro del presupuesto inicial de <$100 USD/mes para extras
+(dominio, herramientas adicionales, contingencia).
 
 ### Costos variables
 
@@ -540,24 +554,20 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
 
 ---
 
-## 12. Decisiones pendientes
+## 12. Decisiones tomadas (2026-05-05)
 
-1. **API a usar:** ¿Claude solo, OpenAI solo, o ambos como fallback?
-   - Recomendación: **Claude principal** (mejor en español + nuance), **OpenAI fallback** si Claude está caído.
+| Tema | Decisión |
+|---|---|
+| **LLM principal** | **OpenAI** (GPT-4 turbo o GPT-4o) |
+| **LLM fallback** | **Claude** (si OpenAI falla o está caído) |
+| **Embeddings** | **OpenAI `text-embedding-3-small`** ($0.02/1M tokens) |
+| **Calendario** | **Cal.com self-hosted** en VPS |
+| **Voz** | **NO** en fase inicial. Reconsiderar en mes 6+ si clientes lo piden |
+| **Idiomas** | **Español primero**. Inglés solo cuando llegue el primer caso |
 
-2. **Modelo de embeddings:** OpenAI text-embedding-3-small (más barato y bueno) vs Cohere multilingual (alternativa).
-   - Recomendación: **OpenAI text-embedding-3-small** ($0.02/1M tokens).
-
-3. **Cal.com vs Calendly:**
-   - Recomendación: **Cal.com self-hosted** (gratis, control total, encaja con la filosofía).
-
-4. **Voz a futuro:**
-   - WhatsApp permite audios. Integrar transcripción (Whisper) y respuesta por voz?
-   - Decisión: **NO en fase inicial**, agregar en Fase 4 si los clientes lo piden.
-
-5. **Multi-idioma:**
-   - ¿Atender solo español, o también inglés (clientes internacionales)?
-   - Recomendación: **Español primero**, inglés cuando llegue el primer caso.
+**Implicación para el código:** los workflows en n8n deben tener primero el llamado a
+OpenAI; si falla (timeout, error API, rate limit), reintentar con Claude. Esto se
+configura como try/catch en el nodo HTTP de n8n.
 
 ---
 
@@ -579,14 +589,23 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
 
 Cuando retomemos:
 
-1. **Conseguir API key de Anthropic** (vos: ir a console.anthropic.com → crear cuenta → generar key)
-2. **Instalar pgvector** en `shared_postgres` (yo: 1 comando)
-3. **Instalar Metabase** en el VPS (yo: docker-compose, 30 min)
-4. **Crear base `kb_picard`** y poblar las tablas con contenido inicial
-5. **Diseñar el primer workflow en n8n:** Agente Analizador (más simple, sin tools, solo clasifica)
-6. **Diseñar el segundo workflow:** Agente Conversacional con tools
+### Vos
+1. **API key OpenAI** (principal) — [platform.openai.com](https://platform.openai.com) → crear cuenta → API keys → generar. Cargá $10-20 USD de saldo inicial.
+2. **API key Anthropic** (fallback) — [console.anthropic.com](https://console.anthropic.com) → crear cuenta → API keys → generar. Cargá $5 USD de saldo (uso esporádico).
+3. **Confirmar 5 servicios + descripciones** que voy a cargar a la KB inicial
 
-Después de esos pasos ya hay sistema funcional para validar.
+### Yo (cuando me confirmes que tenés las keys)
+4. **Instalar pgvector** en `shared_postgres` (1 comando)
+5. **Instalar Metabase** en el VPS (Docker compose, 30 min)
+6. **Instalar Cal.com self-hosted** (Docker compose, 1 hora)
+7. **Crear base `kb_picard`** + tablas + índices
+8. **Cargar contenido inicial** a la KB (5 servicios + 30 FAQs + 5 políticas)
+9. **Workflow #1 en n8n:** Agente Analizador (clasifica cada mensaje en background)
+10. **Workflow #2 en n8n:** Agente Conversacional (responde, con tools y fallback)
+11. **Configurar bot de Telegram** y reglas de alerta por severidad
+12. **Modo Approval activado** — Francisco aprueba primeras 100 conversaciones
+
+Después de esos pasos ya hay sistema funcional para validar con tráfico real.
 
 ---
 
