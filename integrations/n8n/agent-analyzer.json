@@ -56,11 +56,26 @@
     },
     {
       "parameters": {
-        "operation": "executeQuery",
-        "query": "INSERT INTO mensajes_analisis (\n  conversacion_id, message_id, direction, text,\n  sentiment, emotion, intent, topics, flags,\n  opportunity_score, risk_score, summary_es\n) VALUES (\n  $1, $2, $3, $4,\n  $5, $6, $7, $8, $9,\n  $10, $11, $12\n) RETURNING id, created_at;",
-        "options": {
-          "queryReplacement": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.conversacion_id || null }},{{ $('Webhook (POST /agent-analyzer)').item.json.body.message_id || null }},{{ $('Webhook (POST /agent-analyzer)').item.json.body.direction || 'inbound' }},{{ $('Webhook (POST /agent-analyzer)').item.json.body.text }},{{ $json.message.content.sentiment }},{{ JSON.stringify($json.message.content.emotion || []) }}::text[],{{ $json.message.content.intent }},{{ JSON.stringify($json.message.content.topics || []) }}::text[],{{ JSON.stringify($json.message.content.flags || []) }}::text[],{{ $json.message.content.opportunity_score }},{{ $json.message.content.risk_score }},{{ $json.message.content.summary_es }}"
-        }
+        "operation": "insert",
+        "schema": { "__rl": true, "mode": "list", "value": "public" },
+        "table": { "__rl": true, "mode": "list", "value": "mensajes_analisis" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "direction": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.direction || 'inbound' }}",
+            "text": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.text }}",
+            "sentiment": "={{ $json.message.content.sentiment }}",
+            "intent": "={{ $json.message.content.intent }}",
+            "opportunity_score": "={{ $json.message.content.opportunity_score }}",
+            "risk_score": "={{ $json.message.content.risk_score }}",
+            "summary_es": "={{ $json.message.content.summary_es }}",
+            "emotion": "={{ $json.message.content.emotion }}",
+            "topics": "={{ $json.message.content.topics }}",
+            "flags": "={{ $json.message.content.flags }}",
+            "message_id": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.message_id }}"
+          }
+        },
+        "options": {}
       },
       "id": "postgres-insert-analisis",
       "name": "Postgres → INSERT mensajes_analisis",
@@ -73,7 +88,7 @@
           "name": "agencia digital"
         }
       },
-      "notes": "Usar la credencial Postgres que apunta a agencia_digital."
+      "notes": "Usar la credencial Postgres que apunta a agencia_digital. NOTA: las 3 columnas de array (emotion, topics, flags) son TEXT[] en Postgres — n8n debe enviarlas como JS arrays directos, no JSON.stringify. La columna conversacion_id NO se mapea — queda NULL automaticamente."
     },
     {
       "parameters": {
