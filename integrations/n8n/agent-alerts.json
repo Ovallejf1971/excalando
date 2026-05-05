@@ -1,0 +1,152 @@
+{
+  "name": "Agent · Alerts (router de alertas por severidad)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-alerts",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "webhook-alerts",
+      "name": "Webhook (POST /agent-alerts)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "agent-alerts-picard-ia"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Computa severidad y formatea mensaje para Telegram\nconst body = $input.item.json.body || $input.item.json;\nconst analysis = body.analysis || {};\nconst flags = analysis.flags || [];\nconst sentiment = analysis.sentiment ?? 0;\nconst opportunity = analysis.opportunity_score ?? 0;\nconst risk = analysis.risk_score ?? 0;\nconst text = body.text || '(sin texto)';\nconst summary = analysis.summary_es || '(sin resumen)';\nconst conversacion_id = body.conversacion_id || null;\nconst customer = body.customer_name || 'Anónimo';\n\nlet severity = 'baja';\nlet emoji = '🟢';\nlet title = 'EVENTO BAJO';\nlet tipo = 'low_priority';\n\nif (flags.includes('legal_mention')) {\n  severity = 'critica';\n  emoji = '🚨';\n  title = 'ALERTA CRÍTICA · MENCIÓN LEGAL';\n  tipo = 'legal_mention';\n} else if (flags.includes('bad_language')) {\n  severity = 'critica';\n  emoji = '🚨';\n  title = 'ALERTA CRÍTICA · LENGUAJE AGRESIVO';\n  tipo = 'bad_language';\n} else if (sentiment < -0.5) {\n  severity = 'alta';\n  emoji = '🟠';\n  title = 'ALERTA ALTA · SENTIMENT NEGATIVO';\n  tipo = 'sentiment_drop';\n} else if (flags.includes('escalation_request')) {\n  severity = 'media';\n  emoji = '🟡';\n  title = 'CLIENTE PIDE HUMANO';\n  tipo = 'escalation_request';\n} else if (opportunity > 0.8) {\n  severity = 'media';\n  emoji = '💎';\n  title = 'OPORTUNIDAD CALIENTE';\n  tipo = 'high_value_opportunity';\n}\n\n// Formatear mensaje Telegram (Markdown)\nconst message = `${emoji} *${title}*\\n\\n` +\n  `*Cliente:* ${customer}\\n` +\n  `*Sentiment:* ${sentiment} | *Risk:* ${risk} | *Opp:* ${opportunity}\\n` +\n  (flags.length > 0 ? `*Flags:* ${flags.join(', ')}\\n` : '') +\n  `\\n📝 *Mensaje del cliente:*\\n_${text.substring(0, 300)}${text.length > 300 ? '...' : ''}_\\n\\n` +\n  `🔍 *Análisis IA:*\\n${summary}\\n\\n` +\n  `🔗 *Conversación ID:* ${conversacion_id ?? 'sin asignar'}`;\n\nreturn {\n  severity,\n  tipo,\n  emoji,\n  title,\n  message,\n  conversacion_id,\n  customer,\n  shouldNotifyTelegram: severity !== 'baja'\n};"
+      },
+      "id": "code-compute-severity",
+      "name": "Computar severidad y mensaje",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": { "__rl": true, "mode": "list", "value": "public" },
+        "table": { "__rl": true, "mode": "list", "value": "alertas" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "conversacion_id": "={{ $json.conversacion_id }}",
+            "tipo": "={{ $json.tipo }}",
+            "severity": "={{ $json.severity }}",
+            "message": "={{ $json.message }}",
+            "notified_via": "={{ $json.shouldNotifyTelegram ? ['telegram'] : [] }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "postgres-insert-alerta",
+      "name": "Postgres → INSERT alertas",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [720, 300],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "agencia digital"
+        }
+      },
+      "notes": "Siempre INSERT, sin importar severidad. Para baja queda guardada para el email diario."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "is-not-baja",
+              "leftValue": "={{ $('Computar severidad y mensaje').item.json.severity }}",
+              "rightValue": "baja",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-notify-telegram",
+      "name": "¿Notificar Telegram?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "chatId": "2102520487",
+        "text": "={{ $('Computar severidad y mensaje').item.json.message }}",
+        "additionalFields": {
+          "parse_mode": "Markdown",
+          "disable_notification": false
+        }
+      },
+      "id": "telegram-send",
+      "name": "Telegram → Enviar alerta",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1200, 240],
+      "credentials": {
+        "telegramApi": {
+          "id": "PLACEHOLDER_TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram - Picard-IA Alerts"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"severity\": \"{{ $('Computar severidad y mensaje').item.json.severity }}\",\n  \"notified_telegram\": {{ $('Computar severidad y mensaje').item.json.shouldNotifyTelegram }},\n  \"alerta_id\": {{ $('Postgres → INSERT alertas').item.json.id }}\n}"
+      },
+      "id": "respond-success",
+      "name": "Responder OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1440, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /agent-alerts)": {
+      "main": [[{ "node": "Computar severidad y mensaje", "type": "main", "index": 0 }]]
+    },
+    "Computar severidad y mensaje": {
+      "main": [[{ "node": "Postgres → INSERT alertas", "type": "main", "index": 0 }]]
+    },
+    "Postgres → INSERT alertas": {
+      "main": [[{ "node": "¿Notificar Telegram?", "type": "main", "index": 0 }]]
+    },
+    "¿Notificar Telegram?": {
+      "main": [
+        [{ "node": "Telegram → Enviar alerta", "type": "main", "index": 0 }],
+        [{ "node": "Responder OK", "type": "main", "index": 0 }]
+      ]
+    },
+    "Telegram → Enviar alerta": {
+      "main": [[{ "node": "Responder OK", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "picard-ia" },
+    { "name": "agent" },
+    { "name": "alerts" },
+    { "name": "v1" }
+  ]
+}
