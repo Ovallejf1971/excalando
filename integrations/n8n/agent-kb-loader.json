@@ -69,10 +69,10 @@
     },
     {
       "parameters": {
-        "jsCode": "// Combina datos del servicio con el embedding generado\nconst servicio = $('Construir texto a embedear').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error(`No se obtuvo embedding para ${servicio.slug}`);\n}\n\nreturn {\n  slug: servicio.slug,\n  categoria: servicio.categoria,\n  nombre: servicio.nombre,\n  descripcion_corta: servicio.descripcion_corta || null,\n  descripcion_larga: servicio.descripcion_larga || null,\n  precio_setup: servicio.precio_setup || null,\n  precio_recurrente: servicio.precio_recurrente || null,\n  tiempo_entrega: servicio.tiempo_entrega || null,\n  entregables: servicio.entregables || [],\n  casos_uso: servicio.casos_uso || [],\n  prerequisitos: servicio.prerequisitos || [],\n  embedding: '[' + embedding.join(',') + ']'\n};"
+        "jsCode": "// Construye el SQL INSERT completo con valores ya escapados (evita el bug de queryReplacement con comas en el embedding)\nconst servicio = $('Construir texto a embedear').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error(`No se obtuvo embedding para ${servicio.slug}`);\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nfunction escArray(arr) {\n  if (!arr || !arr.length) return \"ARRAY[]::text[]\";\n  return 'ARRAY[' + arr.map(escString).join(',') + ']::text[]';\n}\n\nconst embedLiteral = \"'[\" + embedding.join(',') + \"]'::vector\";\n\nconst sql = `INSERT INTO kb_servicios (slug, categoria, nombre, descripcion_corta, descripcion_larga, precio_setup, precio_recurrente, tiempo_entrega, entregables, casos_uso, prerequisitos, embedding, updated_at)\nVALUES (\n  ${escString(servicio.slug)},\n  ${escString(servicio.categoria)},\n  ${escString(servicio.nombre)},\n  ${escString(servicio.descripcion_corta)},\n  ${escString(servicio.descripcion_larga)},\n  ${escString(servicio.precio_setup)},\n  ${escString(servicio.precio_recurrente)},\n  ${escString(servicio.tiempo_entrega)},\n  ${escArray(servicio.entregables)},\n  ${escArray(servicio.casos_uso)},\n  ${escArray(servicio.prerequisitos)},\n  ${embedLiteral},\n  NOW()\n)\nON CONFLICT (slug) DO UPDATE SET\n  categoria = EXCLUDED.categoria,\n  nombre = EXCLUDED.nombre,\n  descripcion_corta = EXCLUDED.descripcion_corta,\n  descripcion_larga = EXCLUDED.descripcion_larga,\n  precio_setup = EXCLUDED.precio_setup,\n  precio_recurrente = EXCLUDED.precio_recurrente,\n  tiempo_entrega = EXCLUDED.tiempo_entrega,\n  entregables = EXCLUDED.entregables,\n  casos_uso = EXCLUDED.casos_uso,\n  prerequisitos = EXCLUDED.prerequisitos,\n  embedding = EXCLUDED.embedding,\n  updated_at = NOW()\nRETURNING id, slug, nombre;`;\n\nreturn { sql, slug: servicio.slug };"
       },
-      "id": "code-merge-embedding",
-      "name": "Combinar servicio + embedding",
+      "id": "code-build-sql",
+      "name": "Construir SQL completo",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [1440, 300]
@@ -80,10 +80,8 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "INSERT INTO kb_servicios (slug, categoria, nombre, descripcion_corta, descripcion_larga, precio_setup, precio_recurrente, tiempo_entrega, entregables, casos_uso, prerequisitos, embedding, updated_at)\nVALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12::vector, NOW())\nON CONFLICT (slug) DO UPDATE SET\n  categoria = EXCLUDED.categoria,\n  nombre = EXCLUDED.nombre,\n  descripcion_corta = EXCLUDED.descripcion_corta,\n  descripcion_larga = EXCLUDED.descripcion_larga,\n  precio_setup = EXCLUDED.precio_setup,\n  precio_recurrente = EXCLUDED.precio_recurrente,\n  tiempo_entrega = EXCLUDED.tiempo_entrega,\n  entregables = EXCLUDED.entregables,\n  casos_uso = EXCLUDED.casos_uso,\n  prerequisitos = EXCLUDED.prerequisitos,\n  embedding = EXCLUDED.embedding,\n  updated_at = NOW()\nRETURNING id, slug, nombre;",
-        "options": {
-          "queryReplacement": "={{ $json.slug }},{{ $json.categoria }},{{ $json.nombre }},{{ $json.descripcion_corta }},{{ $json.descripcion_larga }},{{ $json.precio_setup }},{{ $json.precio_recurrente }},{{ $json.tiempo_entrega }},{{ JSON.stringify($json.entregables) }},{{ JSON.stringify($json.casos_uso) }},{{ JSON.stringify($json.prerequisitos) }},{{ $json.embedding }}"
-        }
+        "query": "={{ $json.sql }}",
+        "options": {}
       },
       "id": "postgres-upsert-servicio",
       "name": "Postgres: UPSERT kb_servicios",
@@ -96,7 +94,7 @@
           "name": "agencia digital"
         }
       },
-      "notes": "ON CONFLICT (slug) hace UPDATE: el workflow es idempotente, se puede correr cuantas veces quieras."
+      "notes": "El SQL ya viene completamente armado del Code node anterior (sin parametros), evitando el bug de queryReplacement con comas internas en el embedding. Idempotente via ON CONFLICT (slug) DO UPDATE."
     },
     {
       "parameters": {
@@ -130,9 +128,9 @@
       "main": [[{ "node": "OpenAI: generar embedding", "type": "main", "index": 0 }]]
     },
     "OpenAI: generar embedding": {
-      "main": [[{ "node": "Combinar servicio + embedding", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Construir SQL completo", "type": "main", "index": 0 }]]
     },
-    "Combinar servicio + embedding": {
+    "Construir SQL completo": {
       "main": [[{ "node": "Postgres: UPSERT kb_servicios", "type": "main", "index": 0 }]]
     },
     "Postgres: UPSERT kb_servicios": {

@@ -19,7 +19,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Valida y normaliza la query entrante\nconst body = $input.item.json.body || $input.item.json;\nconst query = (body.query || '').trim();\nconst topK = body.top_k || 3;\nconst categoria = body.categoria || null; // opcional: filtrar por 'presencia', 'empleado', etc.\n\nif (!query) {\n  throw new Error('El campo \"query\" es obligatorio');\n}\n\nreturn { query, top_k: topK, categoria };"
+        "jsCode": "// Valida y normaliza la query entrante\nconst body = $input.item.json.body || $input.item.json;\nconst query = (body.query || '').trim();\nconst topK = body.top_k || 3;\nconst categoria = body.categoria || null;\n\nif (!query) {\n  throw new Error('El campo \"query\" es obligatorio');\n}\n\nreturn { query, top_k: topK, categoria };"
       },
       "id": "code-validate-query",
       "name": "Validar query",
@@ -52,10 +52,10 @@
     },
     {
       "parameters": {
-        "jsCode": "// Prepara el embedding y los parametros para Postgres\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nreturn {\n  query: params.query,\n  top_k: params.top_k,\n  categoria: params.categoria,\n  embedding_str: '[' + embedding.join(',') + ']'\n};"
+        "jsCode": "// Construye el SQL completo con el embedding inline (evita el bug de queryReplacement con comas)\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst embedLiteral = \"'[\" + embedding.join(',') + \"]'::vector\";\nconst categoriaFilter = params.categoria\n  ? `WHERE categoria = ${escString(params.categoria)}`\n  : '';\nconst topK = parseInt(params.top_k, 10) || 3;\n\nconst sql = `SELECT\n  id,\n  slug,\n  categoria,\n  nombre,\n  descripcion_corta,\n  descripcion_larga,\n  precio_setup,\n  precio_recurrente,\n  tiempo_entrega,\n  entregables,\n  casos_uso,\n  prerequisitos,\n  1 - (embedding <=> ${embedLiteral}) AS similarity\nFROM kb_servicios\n${categoriaFilter}\nORDER BY embedding <=> ${embedLiteral}\nLIMIT ${topK};`;\n\nreturn { sql, query: params.query };"
       },
-      "id": "code-prepare-search",
-      "name": "Preparar busqueda",
+      "id": "code-build-search-sql",
+      "name": "Construir SQL de busqueda",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [960, 300]
@@ -63,10 +63,8 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT\n  id,\n  slug,\n  categoria,\n  nombre,\n  descripcion_corta,\n  descripcion_larga,\n  precio_setup,\n  precio_recurrente,\n  tiempo_entrega,\n  entregables,\n  casos_uso,\n  prerequisitos,\n  1 - (embedding <=> $1::vector) AS similarity\nFROM kb_servicios\nWHERE ($2::text IS NULL OR categoria = $2)\nORDER BY embedding <=> $1::vector\nLIMIT $3;",
-        "options": {
-          "queryReplacement": "={{ $json.embedding_str }},{{ $json.categoria }},{{ $json.top_k }}"
-        }
+        "query": "={{ $json.sql }}",
+        "options": {}
       },
       "id": "postgres-semantic-search",
       "name": "Postgres: busqueda semantica",
@@ -79,46 +77,17 @@
           "name": "agencia digital"
         }
       },
-      "notes": "El operador <=> en pgvector calcula cosine distance (0 = identico, 2 = opuesto). 1 - distance = similarity (1 = perfecto match). Filtra opcionalmente por categoria."
+      "notes": "El operador <=> en pgvector calcula cosine distance. 1 - distance = similarity (1 = perfecto match). El SQL viene completamente armado del Code node anterior."
     },
     {
       "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
-            { "fieldToAggregate": "id" },
-            { "fieldToAggregate": "slug" },
-            { "fieldToAggregate": "categoria" },
-            { "fieldToAggregate": "nombre" },
-            { "fieldToAggregate": "descripcion_corta" },
-            { "fieldToAggregate": "descripcion_larga" },
-            { "fieldToAggregate": "precio_setup" },
-            { "fieldToAggregate": "precio_recurrente" },
-            { "fieldToAggregate": "tiempo_entrega" },
-            { "fieldToAggregate": "entregables" },
-            { "fieldToAggregate": "casos_uso" },
-            { "fieldToAggregate": "prerequisitos" },
-            { "fieldToAggregate": "similarity" }
-          ]
-        },
-        "options": {
-          "mergeLists": true
-        }
-      },
-      "id": "aggregate-results",
-      "name": "Agregar resultados",
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [1440, 300]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Reformatea la respuesta como array de objetos para mejor lectura\nconst arr = $input.item.json;\nconst keys = ['id', 'slug', 'categoria', 'nombre', 'descripcion_corta', 'descripcion_larga', 'precio_setup', 'precio_recurrente', 'tiempo_entrega', 'entregables', 'casos_uso', 'prerequisitos', 'similarity'];\nconst length = (arr.id || []).length;\n\nconst resultados = [];\nfor (let i = 0; i < length; i++) {\n  const r = {};\n  keys.forEach(k => { r[k] = arr[k]?.[i]; });\n  resultados.push(r);\n}\n\nconst query = $('Validar query').item.json.query;\n\nreturn {\n  ok: true,\n  query,\n  total: resultados.length,\n  resultados\n};"
+        "jsCode": "// Recolecta todos los resultados (cada item es una fila) y los retorna como array\nconst items = $input.all();\nconst query = $('Validar query').item.json.query;\n\nconst resultados = items.map(it => ({\n  id: it.json.id,\n  slug: it.json.slug,\n  categoria: it.json.categoria,\n  nombre: it.json.nombre,\n  descripcion_corta: it.json.descripcion_corta,\n  descripcion_larga: it.json.descripcion_larga,\n  precio_setup: it.json.precio_setup,\n  precio_recurrente: it.json.precio_recurrente,\n  tiempo_entrega: it.json.tiempo_entrega,\n  entregables: it.json.entregables,\n  casos_uso: it.json.casos_uso,\n  prerequisitos: it.json.prerequisitos,\n  similarity: it.json.similarity\n}));\n\nreturn {\n  ok: true,\n  query,\n  total: resultados.length,\n  resultados\n};"
       },
       "id": "code-format-response",
       "name": "Formatear respuesta",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1680, 300]
+      "position": [1440, 300]
     },
     {
       "parameters": {
@@ -129,7 +98,7 @@
       "name": "Responder JSON",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [1920, 300]
+      "position": [1680, 300]
     }
   ],
   "connections": {
@@ -140,15 +109,12 @@
       "main": [[{ "node": "OpenAI: embedding de la query", "type": "main", "index": 0 }]]
     },
     "OpenAI: embedding de la query": {
-      "main": [[{ "node": "Preparar busqueda", "type": "main", "index": 0 }]]
+      "main": [[{ "node": "Construir SQL de busqueda", "type": "main", "index": 0 }]]
     },
-    "Preparar busqueda": {
+    "Construir SQL de busqueda": {
       "main": [[{ "node": "Postgres: busqueda semantica", "type": "main", "index": 0 }]]
     },
     "Postgres: busqueda semantica": {
-      "main": [[{ "node": "Agregar resultados", "type": "main", "index": 0 }]]
-    },
-    "Agregar resultados": {
       "main": [[{ "node": "Formatear respuesta", "type": "main", "index": 0 }]]
     },
     "Formatear respuesta": {
