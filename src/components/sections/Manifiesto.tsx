@@ -5,7 +5,7 @@ import { Section, SectionHeader } from "./_atoms";
 export const Manifiesto = () => (
   <Section>
     <SectionHeader
-      n="05"
+      n="09"
       eyebrow="Por qué Picard-IA"
       title={
         <>

@@ -16,11 +16,11 @@ export const Score = () => (
       aria-hidden
     />
     <SectionHeader
-      n="03"
+      n="02"
       eyebrow="Score Digital · Gratis"
       title={
         <>
-          15 minutos. <span className="text-accent">Cero costo.</span> Una hoja de ruta clara.
+          5 minutos. <span className="text-accent">Cero costo.</span> Una hoja de ruta clara.
         </>
       }
       lead="Es nuestro lead magnet, sí. También es la mejor forma que conocemos de que veas el valor antes de pagar un peso. Si después no quieres seguir, te quedas con el plan."

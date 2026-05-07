@@ -1,0 +1,288 @@
+{
+  "_metadata": {
+    "version": "v1",
+    "fecha_actualizacion": "2026-05-06",
+    "total_entradas": 10,
+    "descripcion": "Contenido estructurado del catálogo Picard-IA para cargar a kb_servicios (Postgres + pgvector). Cada entrada se transforma en embedding via OpenAI text-embedding-3-small (1536 dims) y se inserta en la tabla. El RAG agente consulta este catálogo para responder consultas de clientes con información real."
+  },
+  "servicios": [
+    {
+      "slug": "score-digital",
+      "categoria": "diagnostico",
+      "nombre": "Score Digital",
+      "descripcion_corta": "Diagnóstico gratis de tu presencia digital en 5 minutos. Score 0-100 y plan de acción priorizado.",
+      "descripcion_larga": "El Score Digital es la puerta de entrada de Picard-IA. Un asistente web evalúa 6 frentes de tu negocio (presencia web, ficha de Google, redes sociales, atención al cliente, automatización y reputación online). En menos de 5 minutos recibes un reporte personalizado con tu score total, el detalle por frente, y las 3 a 5 acciones de mayor impacto ordenadas por esfuerzo. Es 100% gratis, no necesitas tarjeta. El reporte llega por correo con el remitente Diagnóstico Digital y queda guardado para hacer seguimiento.",
+      "precio_setup": "Gratis",
+      "precio_recurrente": null,
+      "tiempo_entrega": "5 minutos, sin agendar nada",
+      "entregables": [
+        "Reporte completo con tu score 0-100",
+        "Desglose por 6 frentes con notas específicas",
+        "Top 3 a 5 acciones priorizadas (impacto vs esfuerzo)",
+        "Reporte por correo (puedes reenviarlo a tu socio o equipo)",
+        "Click en la agenda y separamos una cita para revisar el reporte juntos"
+      ],
+      "casos_uso": [
+        "PyME que quiere saber por dónde empezar a digitalizarse",
+        "Empresario que ya invirtió en digital pero no ve resultados",
+        "Negocio que sospecha que está perdiendo clientes online"
+      ],
+      "prerequisitos": [
+        "5 minutos para responder el asistente",
+        "Un correo válido para enviarte el reporte"
+      ]
+    },
+    {
+      "slug": "presencia-digital-basico",
+      "categoria": "presencia",
+      "nombre": "Presencia Digital · Nivel Básico",
+      "descripcion_corta": "Tu base digital. Página web profesional + ficha de Google + analista digital. $290.000/mes + setup único de $1.500.000.",
+      "descripcion_larga": "El Nivel Básico de Presencia Digital es para negocios que arrancan o tienen una web abandonada. Te entregamos una página web rápida, mobile-first y optimizada para conversión, configuramos tu ficha de Google con horarios y fotos, y te incluimos a Tu Analista Digital, un empleado IA que te manda cada lunes un reporte de cómo te fue la semana (visitas, llamadas, búsquedas). Compromiso mes a mes, sin permanencia. Soporte por chat con IA + escalado a humano si es crítico.",
+      "precio_setup": "$1.500.000 (única vez)",
+      "precio_recurrente": "$290.000 COP/mes",
+      "tiempo_entrega": "2 a 3 semanas desde la primera reunión",
+      "entregables": [
+        "Página web profesional responsive",
+        "Tu dirección de internet (dominio) y servidor incluido",
+        "Tu ficha de Google verificada y optimizada",
+        "Tu analista digital (reportes semanales automáticos)",
+        "Soporte por chat con IA + humano si es crítico"
+      ],
+      "casos_uso": [
+        "PyME que arranca de cero con presencia digital",
+        "Negocio con web abandonada hace años",
+        "Profesional independiente que necesita verse serio online",
+        "Quien quiere base digital sin pago grande mensual"
+      ],
+      "prerequisitos": [
+        "Logo o ideas gráficas (si no tienes, lo armamos juntos)",
+        "Acceso a tu cuenta de Google o creamos una",
+        "5 a 10 fotos de tu negocio o productos"
+      ]
+    },
+    {
+      "slug": "presencia-digital-intermedio",
+      "categoria": "presencia",
+      "nombre": "Presencia Digital · Nivel Intermedio",
+      "descripcion_corta": "El más elegido. Web + ficha Google + 4 empleados digitales (analista, vigilante de reseñas, community manager, vendedor de fidelización). $790.000/mes + setup único $1.500.000.",
+      "descripcion_larga": "El Nivel Intermedio es para negocios que ya tienen flujo y quieren crecer en clientes nuevos sin estar pendientes. Incluye todo lo del Nivel Básico más tres empleados digitales adicionales: Tu Vigilante de Reputación que monitorea reseñas en Google, Facebook y TripAdvisor 24/7; Tu Community Manager que crea 12 publicaciones al mes en Instagram y Facebook (tú apruebas con un clic); y Tu Vendedor de Fidelización que arma campañas mensuales para reactivar clientes que no te compran hace tiempo. Incluye 2 actualizaciones de contenido al mes en tu web. Soporte por chat con IA + humano si es crítico.",
+      "precio_setup": "$1.500.000 (única vez)",
+      "precio_recurrente": "$790.000 COP/mes",
+      "tiempo_entrega": "2 a 3 semanas desde la primera reunión",
+      "entregables": [
+        "Todo lo del Nivel Básico",
+        "Tu vigilante de reputación (monitoreo y respuestas a reseñas)",
+        "Tu community manager (12 publicaciones/mes en redes)",
+        "Tu vendedor de fidelización (campañas mensuales para reactivar clientes)",
+        "2 actualizaciones de contenido al mes en tu web"
+      ],
+      "casos_uso": [
+        "PyME en crecimiento que quiere clientes nuevos",
+        "Negocio con base de clientes que no aprovecha",
+        "Restaurantes, hoteles, clínicas que viven de reseñas",
+        "Comercio que quiere consistencia en redes sin tiempo"
+      ],
+      "prerequisitos": [
+        "Todo lo del Nivel Básico",
+        "Cuentas de Instagram y Facebook activas o las creamos",
+        "Base de clientes históricos para reactivación (planilla u opcional)"
+      ]
+    },
+    {
+      "slug": "presencia-digital-profesional",
+      "categoria": "presencia",
+      "nombre": "Presencia Digital · Nivel Profesional",
+      "descripcion_corta": "El paquete completo. Web + ficha Google + los 5 empleados digitales + reunión Zoom mensual + soporte humano lun-vie 8h. $1.590.000/mes + setup único $1.500.000.",
+      "descripcion_larga": "El Nivel Profesional es para negocios que quieren atender 24/7 y nunca perder una venta. Incluye todo lo del Nivel Intermedio más Tu Recepcionista WhatsApp 24/7 (asistente IA que contesta preguntas, agenda citas y te avisa solo cuando hay que entrar tú), una reunión Zoom mensual con vos para revisar resultados, 4 actualizaciones de contenido al mes en tu web, y soporte humano dedicado lunes a viernes 8h con respuesta en menos de 4 horas hábiles.",
+      "precio_setup": "$1.500.000 (única vez)",
+      "precio_recurrente": "$1.590.000 COP/mes",
+      "tiempo_entrega": "3 a 4 semanas desde la primera reunión",
+      "entregables": [
+        "Todo lo del Nivel Intermedio",
+        "Tu recepcionista WhatsApp 24/7 (asistente IA con escalación)",
+        "Reunión Zoom mensual contigo para revisar resultados",
+        "4 actualizaciones de contenido al mes en tu web",
+        "Soporte humano dedicado lun-vie 8h (respuesta menor a 4h)"
+      ],
+      "casos_uso": [
+        "Negocio que pierde ventas por no contestar a tiempo",
+        "PyME con un solo dueño/empleado que no puede estar pegado al WhatsApp",
+        "Comercio o servicio con muchas preguntas repetitivas",
+        "Empresario que quiere salir del operativo y dedicarse a estrategia"
+      ],
+      "prerequisitos": [
+        "Todo lo del Nivel Intermedio",
+        "WhatsApp Business activado o lo configuramos",
+        "30 preguntas frecuentes definidas (las armamos juntos)"
+      ]
+    },
+    {
+      "slug": "empleado-analista-digital",
+      "categoria": "empleado",
+      "nombre": "Tu Analista Digital · Reporte Semanal",
+      "descripcion_corta": "Cada lunes te llega un mensaje con cómo te fue la semana: visitas, llamadas, búsquedas. Si pasa algo raro, te alerta. $180.000/mes.",
+      "descripcion_larga": "Tu Analista Digital es un empleado IA que vigila las métricas clave de tu negocio y te las traduce a lenguaje claro. Cada lunes a las 8 AM recibes un mensaje (WhatsApp o correo) con cuánta gente visitó tu web, de dónde vienen, qué buscaron en Google para encontrarte, cuántos te llamaron desde tu ficha de Google. Si pasa algo raro (caída de visitas, aumento brusco) te alerta de inmediato. Compara con la semana anterior y te dice si vas mejor o peor, sin gráficas confusas. Funciona 24/7, prácticamente cero tiempo tuyo.",
+      "precio_setup": null,
+      "precio_recurrente": "$180.000 COP/mes",
+      "tiempo_entrega": "3 a 5 días para activar",
+      "entregables": [
+        "Reporte semanal automático cada lunes a las 8 AM",
+        "Alertas inmediatas si hay anomalías de tráfico",
+        "Comparativo semana vs semana anterior",
+        "Métricas en lenguaje claro (sin gráficas confusas)"
+      ],
+      "casos_uso": [
+        "Quien invierte en publicidad y no sabe si está funcionando",
+        "Negocio sin tiempo para abrir paneles y revisar métricas",
+        "Emprendedor que quiere decisiones basadas en datos"
+      ],
+      "prerequisitos": [
+        "Acceso a tu ficha de Google",
+        "Conectar tu web a Google Analytics (lo hacemos nosotros)",
+        "Reunión inicial de 30 min para definir métricas que te importan"
+      ]
+    },
+    {
+      "slug": "empleado-vigilante-reputacion",
+      "categoria": "empleado",
+      "nombre": "Tu Vigilante de Reputación · Guardián de Reseñas",
+      "descripcion_corta": "Vigila 24/7 tus reseñas en Google, Facebook y TripAdvisor. Responde solo las buenas, te avisa de las malas en menos de 5 minutos. $250.000/mes.",
+      "descripcion_larga": "Tu Vigilante de Reputación es un empleado IA que cuida tu imagen online sin que tú tengas que abrir tus redes. Monitorea las 24 horas las reseñas que entran a tu Google, Facebook y TripAdvisor. Cuando entra una reseña de 5 estrellas, le responde solo con un mensaje cálido y personalizado (sin sonar a robot). Cuando entra una reseña de 1 a 3 estrellas, te avisa por WhatsApp en menos de 5 minutos y te sugiere una respuesta para que tú decidas. Te manda un reporte mensual con tu rating, su evolución, y comparativo con tu competencia más cercana.",
+      "precio_setup": null,
+      "precio_recurrente": "$250.000 COP/mes",
+      "tiempo_entrega": "5 a 7 días para activar",
+      "entregables": [
+        "Monitoreo 24/7 de reseñas en Google, Facebook, TripAdvisor",
+        "Respuestas automáticas personalizadas a reseñas 5 estrellas",
+        "Alerta WhatsApp en menos de 5 minutos para reseñas 1-3 estrellas",
+        "Sugerencia de respuesta para reseñas negativas",
+        "Reporte mensual de rating y comparativo con competencia"
+      ],
+      "casos_uso": [
+        "Restaurantes, hoteles, clínicas dentales, peluquerías",
+        "Negocio que ya tiene reseñas pero no las contesta",
+        "PyME que quiere ver malas reseñas antes que clientes"
+      ],
+      "prerequisitos": [
+        "Permiso de gestor en tu ficha de Google y Facebook",
+        "10 ejemplos de cómo respondes a reseñas buenas (entrenar tono)",
+        "5 ejemplos de cómo manejas quejas"
+      ]
+    },
+    {
+      "slug": "empleado-community-manager",
+      "categoria": "empleado",
+      "nombre": "Tu Community Manager · Creador de Contenido",
+      "descripcion_corta": "Cada lunes te entrega 3 publicaciones listas para esa semana. Tú apruebas con un clic y se publican solas en Instagram y Facebook. $480.000/mes.",
+      "descripcion_larga": "Tu Community Manager es un empleado IA que mantiene tus redes activas sin que tú tengas que pensar qué publicar. Cada lunes te entrega 3 publicaciones listas para esa semana (12 al mes). Cada publicación trae el texto, la idea para la imagen, los hashtags, y la mejor hora para publicar. Llegan a una carpeta compartida en Google Drive o Notion para que las apruebes con un clic. Una vez aprobadas, se publican solas en Instagram y Facebook a la hora indicada. El agente conoce tu rubro, servicios, ciudad y tono.",
+      "precio_setup": null,
+      "precio_recurrente": "$480.000 COP/mes",
+      "tiempo_entrega": "7 a 10 días para activar",
+      "entregables": [
+        "12 publicaciones al mes (3 por semana) listas con texto + imagen + hashtags",
+        "Aprobación con un clic vía Google Drive o Notion",
+        "Publicación automática en Instagram y Facebook en mejor hora",
+        "Adaptación al tono, rubro, servicios y ciudad de tu negocio"
+      ],
+      "casos_uso": [
+        "PyME que sabe que tiene que publicar pero no tiene tiempo",
+        "Negocio que está publicando mal o sin estrategia",
+        "Emprendedor que ya invirtió en redes pero no ve resultados"
+      ],
+      "prerequisitos": [
+        "1 hora de reunión inicial sobre tu negocio",
+        "10 fotos de tu negocio, productos o servicios",
+        "Acceso a Instagram y Facebook (te guiamos)",
+        "3 a 5 temas que quieres tocar"
+      ]
+    },
+    {
+      "slug": "empleado-vendedor-fidelizacion",
+      "categoria": "empleado",
+      "nombre": "Tu Vendedor de Fidelización · Recuperador de Clientes",
+      "descripcion_corta": "Detecta clientes que no te compran hace 60-180 días y arma campañas personalizadas por WhatsApp o correo para reactivarlos. $420.000/mes.",
+      "descripcion_larga": "Tu Vendedor de Fidelización es un empleado IA que recupera clientes que ya te conocen. Lee tu base de clientes (planilla de Excel, sistema de facturación, lo que sea) y detecta los que no te compran hace 60, 90 o 180 días. Una vez al mes arma una campaña personalizada por tipo de cliente (oferta especial, recordatorio, encuesta corta) y la envía vía WhatsApp Business o correo según prefiera cada uno. Te muestra cuántos respondieron, cuántos volvieron a comprar y cuánta plata recuperaste. Recordatorio: recuperar un cliente que ya te conoce cuesta 5 veces menos que conseguir uno nuevo.",
+      "precio_setup": null,
+      "precio_recurrente": "$420.000 COP/mes",
+      "tiempo_entrega": "10 a 14 días para activar",
+      "entregables": [
+        "Análisis automático de tu base de clientes",
+        "Detección de clientes inactivos por 60, 90, 180 días",
+        "Campaña mensual personalizada por segmento",
+        "Envío vía WhatsApp Business o correo",
+        "Reporte de respuestas, recompras y plata recuperada"
+      ],
+      "casos_uso": [
+        "Negocio con base acumulada de más de 100 clientes históricos",
+        "Servicio recurrente: peluquería, consultorio, taller, gimnasio",
+        "Comercio con clientes dormidos sin forma de despertarlos"
+      ],
+      "prerequisitos": [
+        "Base de clientes con nombre, teléfono o correo, fecha última compra",
+        "3 tipos de oferta que estás dispuesto a hacer",
+        "WhatsApp Business activado o lo configuramos"
+      ]
+    },
+    {
+      "slug": "empleado-recepcionista-whatsapp",
+      "categoria": "empleado",
+      "nombre": "Tu Recepcionista WhatsApp · Asistente 24/7",
+      "descripcion_corta": "Contesta tu WhatsApp 24/7. Responde preguntas, agenda citas, te avisa solo cuando hay que entrar tú. $750.000/mes.",
+      "descripcion_larga": "Tu Recepcionista WhatsApp es el empleado IA más completo. Contesta tu WhatsApp las 24 horas, los 7 días, incluso a las 11 de la noche o un domingo. Responde preguntas frecuentes (precios, horarios, ubicación, formas de pago). Agenda citas o reuniones directo en tu calendario. Te avisa solo cuando tiene que entrar una persona: cuando hay queja, una venta caliente, una pregunta legal o algo fuera de su conocimiento. Cada noche te manda un resumen del día con cuántos contactos atendió, cuántas citas agendó, los temas top. Aprende constantemente: cuanto más responde, mejor lo hace. El 60% de las consultas WhatsApp llegan fuera del horario de oficina.",
+      "precio_setup": null,
+      "precio_recurrente": "$750.000 COP/mes",
+      "tiempo_entrega": "14 a 21 días para activar",
+      "entregables": [
+        "Atención WhatsApp 24/7 con IA conversacional",
+        "Respuestas a preguntas frecuentes con tu información real",
+        "Agenda automática de citas en tu calendario",
+        "Escalación inteligente a humano (queja, venta caliente, fuera de KB)",
+        "Resumen diario nocturno con métricas de atención"
+      ],
+      "casos_uso": [
+        "Negocio que pierde ventas por no contestar a tiempo",
+        "PyME con un solo dueño que no puede estar pegado al WhatsApp",
+        "Comercio o servicio con muchas preguntas repetitivas (clínica, escuela, restaurante, hotel)",
+        "Negocio que quiere atender por la noche y fines de semana sin contratar a nadie"
+      ],
+      "prerequisitos": [
+        "2 horas de reunión inicial para armar 30 preguntas frecuentes",
+        "5 a 10 servicios o productos con precios y características",
+        "WhatsApp Business activado",
+        "Definir qué temas siempre escala a humano"
+      ]
+    },
+    {
+      "slug": "automatizacion-medida",
+      "categoria": "automatizacion",
+      "nombre": "Automatización a Medida",
+      "descripcion_corta": "Conectamos las herramientas que ya usas para que trabajen solas. Proyectos custom desde $800.000.",
+      "descripcion_larga": "La Automatización a Medida es para negocios que tienen procesos repetitivos diarios. Diseñamos un flujo a tu medida que conecta las herramientas que ya tienes (WhatsApp, correo, Excel, sistema de facturación, tienda virtual, CRM) y dejamos que la información viaje sola entre ellas. Casos típicos: pedidos por WhatsApp creados solos en tu sistema de facturación, cotización aprobada que dispara contrato + agenda + notifica equipo, tienda virtual conectada con inventario y contabilidad. Tres niveles según complejidad. La regla 20/80: el 20% de tus tareas repetitivas se llevan el 80% de tu tiempo administrativo, una buena automatización te recupera 10-30 horas al mes.",
+      "precio_setup": "Desde $800.000 (Simple) · Desde $2.000.000 (Intermedia) · Desde $5.000.000 (Compleja)",
+      "precio_recurrente": "Mantenimiento opcional: $80.000 (Simple) · $180.000 (Intermedia) · $350.000 (Compleja) por mes",
+      "tiempo_entrega": "1 a 2 semanas (Simple) · 2 a 4 semanas (Intermedia) · 4 a 6 semanas (Compleja)",
+      "entregables": [
+        "Diagnóstico inicial gratis (1 hora) para mapear tu proceso actual",
+        "Diseño visual del flujo antes de programar (tú apruebas)",
+        "Implementación + pruebas con casos reales",
+        "Capacitación a ti o tu equipo (1 a 2 horas)",
+        "Documentación clara de cada paso del flujo",
+        "2 semanas de soporte post-entrega sin costo",
+        "Garantía: 30 días sin costo si algo falla por nuestra culpa"
+      ],
+      "casos_uso": [
+        "Pedidos por WhatsApp se crean solos en tu sistema de facturación",
+        "Cotización aprobada → contrato firmado + agenda inicio + notifica equipo",
+        "Tienda virtual conectada con tu inventario y tu contabilidad",
+        "Citas médicas/consultorio con confirmación automática + recordatorio + encuesta",
+        "Reportes mensuales a clientes que se generan solos",
+        "Alertas inmediatas cuando un equipo o sistema falla"
+      ],
+      "prerequisitos": [
+        "1 hora para diagnóstico inicial donde nos cuentas el proceso",
+        "Acceso a las herramientas que vas a conectar",
+        "Una persona de tu equipo que conozca bien el proceso actual"
+      ]
+    }
+  ]
+}

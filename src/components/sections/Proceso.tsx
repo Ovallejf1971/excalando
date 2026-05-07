@@ -6,7 +6,7 @@ import { Section, SectionHeader } from "./_atoms";
 export const Proceso = () => (
   <Section alt id="proceso">
     <SectionHeader
-      n="04"
+      n="08"
       eyebrow="Cómo trabajamos"
       title={
         <>

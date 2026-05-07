@@ -5,49 +5,176 @@ export const SERVICIOS = [
     n: "01",
     nombre: "Score Digital",
     icon: "search",
-    desc: "Diagnóstico completo de tu presencia digital. Te decimos qué está fallando y qué arreglar primero.",
+    desc: "Diagnóstico gratis de tu presencia digital en 5 minutos. Score 0-100 y plan de acción priorizado.",
     precio: "Gratis",
-    precioNota: "Sin tarjeta. 15 min.",
-    bullets: ["Análisis web + SEO", "Auditoría redes", "Plan priorizado"],
+    precioNota: "5 min · sin tarjeta",
+    bullets: [
+      "Score 0-100 al instante",
+      "Desglose por 6 frentes",
+      "Top 3-5 acciones priorizadas",
+    ],
     destacado: true,
   },
   {
     n: "02",
     nombre: "Presencia Digital",
     icon: "globe",
-    desc: "Sitio web que convierte, SEO técnico, redes sociales con dirección. Tu carta de presentación, en serio.",
-    precio: "Desde $2.5M",
-    precioNota: "+ $500K/mes",
-    bullets: ["Sitio web a la medida", "SEO local", "Gestión de redes"],
+    desc: "Página web + ficha de Google + empleados digitales que cuidan tu reputación.",
+    precio: "Desde $290K/mes",
+    precioNota: "3 niveles · setup incluido",
+    bullets: [
+      "Página web rápida y responsive",
+      "Tu ficha de Google optimizada",
+      "Hasta 5 empleados digitales",
+    ],
   },
   {
     n: "03",
     nombre: "Asistentes IA",
     icon: "bot",
-    desc: "WhatsApp y web atendidos 24/7 con IA que entiende a tus clientes. Stack propio, sin lock-in.",
-    precio: "Desde $4M",
-    precioNota: "+ $800K/mes",
-    bullets: ["WhatsApp + Chatwoot", "IA con tu contexto", "Hand-off humano"],
+    desc: "Tus empleados digitales 24/7. Trabajan sin descanso, contrátalos sueltos o juntos con descuento.",
+    precio: "Desde $180K/mes",
+    precioNota: "5 agentes · combinables",
+    bullets: [
+      "Recepcionista WhatsApp",
+      "Vigilante de reseñas",
+      "Community manager + 2 más",
+    ],
   },
   {
     n: "04",
-    nombre: "Automatización",
+    nombre: "Automatización a Medida",
     icon: "workflow",
-    desc: "Procesos manuales que se ejecutan solos. Conectamos tus sistemas con n8n y automatizamos lo aburrido.",
-    precio: "Desde $3M",
-    precioNota: "Por flujo",
-    bullets: ["Integraciones n8n", "ERP/CRM/Email", "Reportes auto"],
+    desc: "Conectamos las herramientas que ya usas para que trabajen solas y se hablen entre sí.",
+    precio: "Desde $800K",
+    precioNota: "Por proyecto · 3 niveles",
+    bullets: [
+      "Pedidos automáticos en tu sistema",
+      "Cotización → contrato + agenda",
+      "Mantenimiento opcional",
+    ],
   },
   {
     n: "05",
     nombre: "Paquetes Integrales",
     icon: "package",
-    desc: "Combo mensual: presencia + asistente + automatizaciones + soporte. Un solo punto de contacto.",
-    precio: "Desde $2M/mes",
-    precioNota: "Recurrente",
-    bullets: ["Todo en uno", "Soporte continuo", "Optimización mensual"],
+    desc: "Combos con descuento hasta 21%. Web + agentes + automatización en un precio mensual.",
+    precio: "Desde $490K/mes",
+    precioNota: "4 paquetes · ahorras hasta $6.4M",
+    bullets: [
+      "🌱 Despegue · 🚀 Crecimiento",
+      "💎 Ventas Pro · 👑 Transformación",
+      "Sin penalidad · cancelación libre",
+    ],
   },
 ] as const;
+
+type CeldaValor = boolean | string;
+
+export type NivelPresencia = {
+  id: "basico" | "intermedio" | "profesional";
+  emoji: string;
+  nombre: string;
+  precio: string;
+  destacado?: boolean;
+};
+
+export type FilaPresencia = {
+  feature: string;
+  basico: CeldaValor;
+  intermedio: CeldaValor;
+  profesional: CeldaValor;
+  esResaltado?: boolean;
+};
+
+export const PRESENCIA_DIGITAL: { filas: FilaPresencia[]; niveles: NivelPresencia[] } = {
+  niveles: [
+    { id: "basico", emoji: "🟢", nombre: "Básico", precio: "$290.000/mes" },
+    { id: "intermedio", emoji: "🔵", nombre: "Intermedio", precio: "$790.000/mes", destacado: true },
+    { id: "profesional", emoji: "🟣", nombre: "Profesional", precio: "$1.590.000/mes" },
+  ],
+  filas: [
+    { feature: "Setup inicial (única vez)", basico: "$1.500.000", intermedio: "$1.500.000", profesional: "$1.500.000", esResaltado: true },
+    { feature: "Compromiso", basico: "Mes a mes", intermedio: "Mes a mes", profesional: "Mes a mes" },
+    { feature: "Página web profesional", basico: true, intermedio: true, profesional: true },
+    { feature: "Tu ficha de Google optimizada", basico: true, intermedio: true, profesional: true },
+    { feature: "📊 Tu analista digital", basico: true, intermedio: true, profesional: true },
+    { feature: "👁️ Tu vigilante de reputación", basico: false, intermedio: true, profesional: true },
+    { feature: "✍️ Tu community manager", basico: false, intermedio: true, profesional: true },
+    { feature: "💌 Tu vendedor de fidelización", basico: false, intermedio: true, profesional: true },
+    { feature: "💬 Tu recepcionista WhatsApp 24/7", basico: false, intermedio: false, profesional: true },
+    { feature: "Reunión Zoom mensual contigo", basico: false, intermedio: false, profesional: true },
+    { feature: "Actualizaciones de contenido", basico: "—", intermedio: "2/mes", profesional: "4/mes" },
+    { feature: "Soporte por chat (IA + humano si es crítico)", basico: true, intermedio: true, profesional: true },
+    { feature: "Soporte humano dedicado (lun-vie 8h)", basico: false, intermedio: false, profesional: true },
+  ],
+};
+
+export type EmpleadoDigital = {
+  emoji: string;
+  rol: string;
+  nombre: string;
+  descripcion: string;
+  precio: string;
+  tiempoTuyo: string;
+  setup: string;
+  paraQuien: string;
+  destacado?: boolean;
+};
+
+export const EMPLEADOS_DIGITALES: EmpleadoDigital[] = [
+  {
+    emoji: "📊",
+    rol: "Tu analista digital",
+    nombre: "Tu Reporte Semanal",
+    descripcion: "Cada lunes te llega un mensaje con cómo te fue la semana: visitas, llamadas, búsquedas. Si pasa algo raro, te alerta de inmediato.",
+    precio: "180.000",
+    tiempoTuyo: "~0",
+    setup: "3-5 días",
+    paraQuien: "Quien invierte en marketing y quiere saber si funciona",
+  },
+  {
+    emoji: "👁️",
+    rol: "Tu vigilante de reputación",
+    nombre: "Guardián de Reseñas",
+    descripcion: "Vigila 24/7 tus reseñas en Google, Facebook y TripAdvisor. Responde solo las buenas, te avisa de las malas en menos de 5 minutos.",
+    precio: "250.000",
+    tiempoTuyo: "30 min",
+    setup: "5-7 días",
+    paraQuien: "Restaurantes, hoteles, clínicas, peluquerías",
+  },
+  {
+    emoji: "✍️",
+    rol: "Tu community manager",
+    nombre: "Creador de Contenido",
+    descripcion: "Cada lunes te entrega 3 publicaciones listas para esa semana. Tú apruebas con un clic y se publican solas en Instagram y Facebook.",
+    precio: "480.000",
+    tiempoTuyo: "1 h",
+    setup: "7-10 días",
+    paraQuien: "Negocios que tienen que publicar y no lo hacen",
+  },
+  {
+    emoji: "💌",
+    rol: "Tu vendedor de fidelización",
+    nombre: "Recuperador de Clientes",
+    descripcion: "Detecta clientes que no te compran hace 60-180 días y arma campañas personalizadas por WhatsApp o correo para reactivarlos.",
+    precio: "420.000",
+    tiempoTuyo: "1 h",
+    setup: "10-14 días",
+    paraQuien: "Servicios recurrentes con base de clientes",
+  },
+  {
+    emoji: "💬",
+    rol: "Tu recepcionista digital",
+    nombre: "Asistente WhatsApp",
+    descripcion: "Contesta tu WhatsApp 24/7. Responde preguntas, agenda citas, te avisa solo cuando hay que entrar tú (queja o venta caliente).",
+    precio: "750.000",
+    tiempoTuyo: "1.5 h",
+    setup: "14-21 días",
+    paraQuien: "Negocios que pierden ventas por no contestar a tiempo",
+    destacado: true,
+  },
+];
 
 export const DOLORES = [
   {

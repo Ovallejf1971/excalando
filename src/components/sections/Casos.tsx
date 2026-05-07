@@ -6,12 +6,12 @@ const VENTAJAS_EARLY = [
   {
     n: "01",
     titulo: "Precio fundador",
-    desc: "Tarifa de lanzamiento por los primeros 12 meses. Bloqueás precio aunque después suba.",
+    desc: "Tarifa de lanzamiento por los primeros 12 meses. Bloqueas precio aunque después suba.",
   },
   {
     n: "02",
     titulo: "Acompañamiento directo",
-    desc: "Trabajás directo con el equipo fundador. Sin intermediarios, sin junior trasnochando tu cuenta.",
+    desc: "Trabajas directo con el equipo fundador. Sin intermediarios, sin junior trasnochando tu cuenta.",
   },
   {
     n: "03",
@@ -21,21 +21,21 @@ const VENTAJAS_EARLY = [
   {
     n: "04",
     titulo: "Caso de éxito co-construido",
-    desc: "Si los resultados son buenos, lo documentamos juntos. Vos ganás visibilidad, nosotros prueba social.",
+    desc: "Si los resultados son buenos, lo documentamos juntos. Tú ganas visibilidad, nosotros prueba social.",
   },
 ];
 
 export const Casos = () => (
   <Section alt id="casos">
     <SectionHeader
-      n="06"
+      n="10"
       eyebrow="Sé de los primeros"
       title={
         <>
           Estamos eligiendo los <span className="text-accent">primeros 5 clientes.</span>
         </>
       }
-      lead="No te vamos a mostrar testimonios genéricos ni logos prestados. Recién arrancamos. Si te gusta lo que ves, podés ser uno de los casos que documentamos juntos."
+      lead="No te vamos a mostrar testimonios genéricos ni logos prestados. Recién arrancamos. Si te gusta lo que ves, puedes ser uno de los casos que documentamos juntos."
     />
     <div className="grid sm:grid-cols-2 gap-4 sm:gap-5 mb-12 md:mb-15">
       {VENTAJAS_EARLY.map((v, i) => (

@@ -16,12 +16,12 @@ export const Cta = () => (
     />
     <div className="relative text-center max-w-4xl mx-auto">
       <div className="flex justify-center">
-        <Eyebrow n="08">Empieza hoy</Eyebrow>
+        <Eyebrow n="12">Empieza hoy</Eyebrow>
       </div>
       <h2 className="text-[40px] sm:text-5xl md:text-7xl lg:text-[88px] font-bold leading-[1] tracking-[-0.03em] mt-5 md:mt-6 mb-6 md:mb-8 text-ink text-balance">
         Tu Score Digital,
         <br />
-        <span className="text-accent italic font-normal">gratis y en 15 minutos.</span>
+        <span className="text-accent italic font-normal">gratis y en 5 minutos.</span>
       </h2>
       <p className="text-base sm:text-lg leading-relaxed text-ink-2 max-w-2xl mx-auto mb-10 md:mb-12 text-pretty">
         Sin tarjeta, sin compromiso, sin la jerga inflada de siempre. Solo un mapa claro de qué arreglar primero.
