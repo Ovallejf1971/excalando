@@ -1,0 +1,151 @@
+{
+  "name": "Agent · KB Loader (carga catalogo con embeddings)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Disparador manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://raw.githubusercontent.com/Ovallejf1971/picard-ia/main/integrations/n8n/kb-content.json",
+        "options": {}
+      },
+      "id": "http-fetch-content",
+      "name": "Fetch kb-content.json desde GitHub",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 300],
+      "notes": "Si el repo es privado, agregar header Authorization: Bearer <github_pat>. Si prefieres no depender de GitHub, reemplaza este nodo por un Code node que retorne el JSON inline."
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "servicios",
+        "options": {}
+      },
+      "id": "split-items",
+      "name": "Iterar servicios",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Construye el texto que sera embebido (concatena los campos relevantes)\nconst item = $input.item.json;\nconst entregables = (item.entregables || []).join('. ');\nconst casos = (item.casos_uso || []).join('. ');\nconst prereqs = (item.prerequisitos || []).join('. ');\n\nconst textoEmbedding = [\n  item.nombre,\n  item.descripcion_corta,\n  item.descripcion_larga,\n  `Precio setup: ${item.precio_setup || 'no aplica'}`,\n  `Precio recurrente: ${item.precio_recurrente || 'no aplica'}`,\n  `Tiempo entrega: ${item.tiempo_entrega || 'no aplica'}`,\n  `Entregables: ${entregables}`,\n  `Casos de uso: ${casos}`,\n  `Prerequisitos: ${prereqs}`\n].filter(Boolean).join('\\n');\n\nreturn {\n  ...item,\n  texto_embedding: textoEmbedding\n};"
+      },
+      "id": "code-build-text",
+      "name": "Construir texto a embedear",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {{ JSON.stringify($json.texto_embedding) }},\n  \"model\": \"text-embedding-3-small\"\n}",
+        "options": {}
+      },
+      "id": "http-openai-embedding",
+      "name": "OpenAI: generar embedding",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1200, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "PLACEHOLDER_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI - Picard-IA"
+        }
+      },
+      "notes": "Usa la credencial OpenAI - Picard-IA. text-embedding-3-small produce vectores de 1536 dimensiones."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Combina datos del servicio con el embedding generado\nconst servicio = $('Construir texto a embedear').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error(`No se obtuvo embedding para ${servicio.slug}`);\n}\n\nreturn {\n  slug: servicio.slug,\n  categoria: servicio.categoria,\n  nombre: servicio.nombre,\n  descripcion_corta: servicio.descripcion_corta || null,\n  descripcion_larga: servicio.descripcion_larga || null,\n  precio_setup: servicio.precio_setup || null,\n  precio_recurrente: servicio.precio_recurrente || null,\n  tiempo_entrega: servicio.tiempo_entrega || null,\n  entregables: servicio.entregables || [],\n  casos_uso: servicio.casos_uso || [],\n  prerequisitos: servicio.prerequisitos || [],\n  embedding: '[' + embedding.join(',') + ']'\n};"
+      },
+      "id": "code-merge-embedding",
+      "name": "Combinar servicio + embedding",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1440, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO kb_servicios (slug, categoria, nombre, descripcion_corta, descripcion_larga, precio_setup, precio_recurrente, tiempo_entrega, entregables, casos_uso, prerequisitos, embedding, updated_at)\nVALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12::vector, NOW())\nON CONFLICT (slug) DO UPDATE SET\n  categoria = EXCLUDED.categoria,\n  nombre = EXCLUDED.nombre,\n  descripcion_corta = EXCLUDED.descripcion_corta,\n  descripcion_larga = EXCLUDED.descripcion_larga,\n  precio_setup = EXCLUDED.precio_setup,\n  precio_recurrente = EXCLUDED.precio_recurrente,\n  tiempo_entrega = EXCLUDED.tiempo_entrega,\n  entregables = EXCLUDED.entregables,\n  casos_uso = EXCLUDED.casos_uso,\n  prerequisitos = EXCLUDED.prerequisitos,\n  embedding = EXCLUDED.embedding,\n  updated_at = NOW()\nRETURNING id, slug, nombre;",
+        "options": {
+          "queryReplacement": "={{ $json.slug }},{{ $json.categoria }},{{ $json.nombre }},{{ $json.descripcion_corta }},{{ $json.descripcion_larga }},{{ $json.precio_setup }},{{ $json.precio_recurrente }},{{ $json.tiempo_entrega }},{{ JSON.stringify($json.entregables) }},{{ JSON.stringify($json.casos_uso) }},{{ JSON.stringify($json.prerequisitos) }},{{ $json.embedding }}"
+        }
+      },
+      "id": "postgres-upsert-servicio",
+      "name": "Postgres: UPSERT kb_servicios",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1680, 300],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "agencia digital"
+        }
+      },
+      "notes": "ON CONFLICT (slug) hace UPDATE: el workflow es idempotente, se puede correr cuantas veces quieras."
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            { "fieldToAggregate": "id" },
+            { "fieldToAggregate": "slug" },
+            { "fieldToAggregate": "nombre" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "aggregate-results",
+      "name": "Agregar resultados",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [1920, 300]
+    }
+  ],
+  "connections": {
+    "Disparador manual": {
+      "main": [[{ "node": "Fetch kb-content.json desde GitHub", "type": "main", "index": 0 }]]
+    },
+    "Fetch kb-content.json desde GitHub": {
+      "main": [[{ "node": "Iterar servicios", "type": "main", "index": 0 }]]
+    },
+    "Iterar servicios": {
+      "main": [[{ "node": "Construir texto a embedear", "type": "main", "index": 0 }]]
+    },
+    "Construir texto a embedear": {
+      "main": [[{ "node": "OpenAI: generar embedding", "type": "main", "index": 0 }]]
+    },
+    "OpenAI: generar embedding": {
+      "main": [[{ "node": "Combinar servicio + embedding", "type": "main", "index": 0 }]]
+    },
+    "Combinar servicio + embedding": {
+      "main": [[{ "node": "Postgres: UPSERT kb_servicios", "type": "main", "index": 0 }]]
+    },
+    "Postgres: UPSERT kb_servicios": {
+      "main": [[{ "node": "Agregar resultados", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "picard-ia" },
+    { "name": "kb" },
+    { "name": "loader" }
+  ]
+}

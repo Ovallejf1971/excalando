@@ -1,0 +1,167 @@
+{
+  "name": "Agent · Knowledge RAG (busqueda semantica del catalogo)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-rag",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "webhook-rag",
+      "name": "Webhook (POST /agent-rag)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "agent-rag-picard-ia"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Valida y normaliza la query entrante\nconst body = $input.item.json.body || $input.item.json;\nconst query = (body.query || '').trim();\nconst topK = body.top_k || 3;\nconst categoria = body.categoria || null; // opcional: filtrar por 'presencia', 'empleado', etc.\n\nif (!query) {\n  throw new Error('El campo \"query\" es obligatorio');\n}\n\nreturn { query, top_k: topK, categoria };"
+      },
+      "id": "code-validate-query",
+      "name": "Validar query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {{ JSON.stringify($json.query) }},\n  \"model\": \"text-embedding-3-small\"\n}",
+        "options": {}
+      },
+      "id": "http-embed-query",
+      "name": "OpenAI: embedding de la query",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "PLACEHOLDER_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI - Picard-IA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepara el embedding y los parametros para Postgres\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nreturn {\n  query: params.query,\n  top_k: params.top_k,\n  categoria: params.categoria,\n  embedding_str: '[' + embedding.join(',') + ']'\n};"
+      },
+      "id": "code-prepare-search",
+      "name": "Preparar busqueda",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT\n  id,\n  slug,\n  categoria,\n  nombre,\n  descripcion_corta,\n  descripcion_larga,\n  precio_setup,\n  precio_recurrente,\n  tiempo_entrega,\n  entregables,\n  casos_uso,\n  prerequisitos,\n  1 - (embedding <=> $1::vector) AS similarity\nFROM kb_servicios\nWHERE ($2::text IS NULL OR categoria = $2)\nORDER BY embedding <=> $1::vector\nLIMIT $3;",
+        "options": {
+          "queryReplacement": "={{ $json.embedding_str }},{{ $json.categoria }},{{ $json.top_k }}"
+        }
+      },
+      "id": "postgres-semantic-search",
+      "name": "Postgres: busqueda semantica",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1200, 300],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "agencia digital"
+        }
+      },
+      "notes": "El operador <=> en pgvector calcula cosine distance (0 = identico, 2 = opuesto). 1 - distance = similarity (1 = perfecto match). Filtra opcionalmente por categoria."
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            { "fieldToAggregate": "id" },
+            { "fieldToAggregate": "slug" },
+            { "fieldToAggregate": "categoria" },
+            { "fieldToAggregate": "nombre" },
+            { "fieldToAggregate": "descripcion_corta" },
+            { "fieldToAggregate": "descripcion_larga" },
+            { "fieldToAggregate": "precio_setup" },
+            { "fieldToAggregate": "precio_recurrente" },
+            { "fieldToAggregate": "tiempo_entrega" },
+            { "fieldToAggregate": "entregables" },
+            { "fieldToAggregate": "casos_uso" },
+            { "fieldToAggregate": "prerequisitos" },
+            { "fieldToAggregate": "similarity" }
+          ]
+        },
+        "options": {
+          "mergeLists": true
+        }
+      },
+      "id": "aggregate-results",
+      "name": "Agregar resultados",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [1440, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Reformatea la respuesta como array de objetos para mejor lectura\nconst arr = $input.item.json;\nconst keys = ['id', 'slug', 'categoria', 'nombre', 'descripcion_corta', 'descripcion_larga', 'precio_setup', 'precio_recurrente', 'tiempo_entrega', 'entregables', 'casos_uso', 'prerequisitos', 'similarity'];\nconst length = (arr.id || []).length;\n\nconst resultados = [];\nfor (let i = 0; i < length; i++) {\n  const r = {};\n  keys.forEach(k => { r[k] = arr[k]?.[i]; });\n  resultados.push(r);\n}\n\nconst query = $('Validar query').item.json.query;\n\nreturn {\n  ok: true,\n  query,\n  total: resultados.length,\n  resultados\n};"
+      },
+      "id": "code-format-response",
+      "name": "Formatear respuesta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}"
+      },
+      "id": "respond-success",
+      "name": "Responder JSON",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1920, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /agent-rag)": {
+      "main": [[{ "node": "Validar query", "type": "main", "index": 0 }]]
+    },
+    "Validar query": {
+      "main": [[{ "node": "OpenAI: embedding de la query", "type": "main", "index": 0 }]]
+    },
+    "OpenAI: embedding de la query": {
+      "main": [[{ "node": "Preparar busqueda", "type": "main", "index": 0 }]]
+    },
+    "Preparar busqueda": {
+      "main": [[{ "node": "Postgres: busqueda semantica", "type": "main", "index": 0 }]]
+    },
+    "Postgres: busqueda semantica": {
+      "main": [[{ "node": "Agregar resultados", "type": "main", "index": 0 }]]
+    },
+    "Agregar resultados": {
+      "main": [[{ "node": "Formatear respuesta", "type": "main", "index": 0 }]]
+    },
+    "Formatear respuesta": {
+      "main": [[{ "node": "Responder JSON", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "picard-ia" },
+    { "name": "kb" },
+    { "name": "rag" }
+  ]
+}

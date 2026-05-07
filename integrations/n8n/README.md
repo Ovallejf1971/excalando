@@ -7,7 +7,89 @@ Workflows de n8n que orquestan la captura y notificacion de leads del Score Digi
 | Archivo | Trigger | Que hace | Estado |
 |---|---|---|---|
 | `score-webhook.json` | POST a `https://n8n.lithv.net/webhook/score-digital` | Inserta lead en Postgres `agencia_digital.leads` y envia email transaccional al lead via Gmail OAuth | ✅ Productivo |
-| `agent-analyzer.json` | POST a `https://n8n.lithv.net/webhook/agent-analyzer` | Clasifica un mensaje (sentiment, intent, topics, flags, scores) usando OpenAI GPT-4o-mini y guarda en `mensajes_analisis` | ⏳ Importar y configurar |
+| `agent-analyzer.json` | POST a `https://n8n.lithv.net/webhook/agent-analyzer` | Clasifica un mensaje (sentiment, intent, topics, flags, scores) usando OpenAI GPT-4o-mini y guarda en `mensajes_analisis` | ✅ Productivo |
+| `agent-alerts.json` | POST a `https://n8n.lithv.net/webhook/agent-alerts` | Router de alertas por severidad: inserta en `alertas` y notifica Telegram si severidad != baja | ✅ Productivo |
+| `agent-kb-loader.json` | Manual trigger | Lee `kb-content.json` desde GitHub raw, genera embeddings con OpenAI text-embedding-3-small y hace UPSERT a `kb_servicios` | ⏳ Importar y configurar |
+| `agent-knowledge-rag.json` | POST a `https://n8n.lithv.net/webhook/agent-rag` | Busqueda semantica del catalogo: recibe `{query}`, genera embedding, retorna top 3 servicios mas relevantes con `similarity` score | ⏳ Importar y configurar |
+
+## Knowledge Base (KB)
+
+| Archivo | Que es | Cuando usar |
+|---|---|---|
+| `kb-schema.sql` | DDL de las 4 tablas KB (`kb_servicios`, `kb_faq`, `kb_politicas`, `kb_casos`) con indices HNSW | Aplicar **una vez** en `agencia_digital` antes de cargar |
+| `kb-content.json` | Contenido estructurado del catalogo (10 entradas: Score + 3 niveles Presencia + 5 empleados + Automatizacion) | Fuente de verdad. Editas aca, push a main, corres `agent-kb-loader` |
+
+---
+
+## Deploy del Camino A (KB + RAG) — paso a paso
+
+### Paso 1 — Aplicar schema en Postgres (una vez)
+
+```bash
+# Desde el VPS, dentro del contenedor de Postgres o via psql:
+psql -h shared_postgres -U postgres -d agencia_digital -f kb-schema.sql
+
+# O abrir pgAdmin y pegar el contenido de kb-schema.sql
+```
+
+Verificar:
+```sql
+SELECT tablename FROM pg_tables WHERE tablename LIKE 'kb_%';
+-- Debe listar: kb_servicios, kb_faq, kb_politicas, kb_casos
+```
+
+### Paso 2 — Importar `agent-kb-loader.json` en n8n
+
+1. n8n → Workflows → Import from File → seleccionar `agent-kb-loader.json`
+2. Click nodo `OpenAI: generar embedding` → seleccionar credencial **OpenAI - Picard-IA**
+3. Click nodo `Postgres: UPSERT kb_servicios` → seleccionar credencial **agencia digital**
+4. Click **Execute Workflow** (boton play arriba)
+5. Verificar: cada nodo muestra item count = 10
+6. Confirmar en Postgres:
+
+```sql
+SELECT id, slug, nombre, categoria FROM kb_servicios ORDER BY id;
+-- Debe listar 10 entradas
+```
+
+### Paso 3 — Importar `agent-knowledge-rag.json` en n8n
+
+1. Import from File → `agent-knowledge-rag.json`
+2. Configurar mismas 2 credenciales (OpenAI + Postgres)
+3. **Publish** (toggle ON arriba a la derecha)
+4. La URL del webhook queda lista en `https://n8n.lithv.net/webhook/agent-rag`
+
+### Paso 4 — Probar el RAG
+
+```bash
+# Test 1: pregunta por chatbot WhatsApp
+curl -X POST https://n8n.lithv.net/webhook/agent-rag \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"quiero un asistente que conteste WhatsApp 24 horas","top_k":3}'
+
+# Esperado: el primer resultado debe ser empleado-recepcionista-whatsapp con similarity > 0.5
+
+# Test 2: pregunta por solo presencia
+curl -X POST https://n8n.lithv.net/webhook/agent-rag \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"solo quiero pagina web sin agentes","top_k":3}'
+
+# Esperado: presencia-digital-basico debe estar en top resultados
+
+# Test 3: filtrar por categoria
+curl -X POST https://n8n.lithv.net/webhook/agent-rag \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"empleado para reseñas","top_k":2,"categoria":"empleado"}'
+
+# Esperado: solo retorna entradas de categoria "empleado"
+```
+
+### Como actualizar el catalogo (re-cargar)
+
+1. Editar `integrations/n8n/kb-content.json` localmente
+2. `git push` a main
+3. Esperar ~30 seg (raw GitHub propaga)
+4. Volver a ejecutar `agent-kb-loader` en n8n (es idempotente, hace UPSERT)
 
 ---
 
