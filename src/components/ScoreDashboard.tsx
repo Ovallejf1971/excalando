@@ -47,7 +47,7 @@ export const ScoreDashboard = () => {
             <div className="w-2.5 h-2.5 rounded-full bg-warn/70" />
             <div className="w-2.5 h-2.5 rounded-full bg-success/70" />
           </div>
-          <div className="text-[10px] sm:text-[11px] text-ink-3 tracking-wider truncate">score.picard-ia.co/marca-real</div>
+          <div className="text-[10px] sm:text-[11px] text-ink-3 tracking-wider truncate">score.excalando.com/marca-real</div>
           <div className="text-[11px] text-accent flex items-center gap-1.5 shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" style={{ boxShadow: "0 0 8px #00D4FF" }} />
             LIVE

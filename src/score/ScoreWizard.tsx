@@ -8,7 +8,7 @@ import type { ScoreAnswers, ScoreReport } from "./types";
 import { calcScore } from "./scoring";
 import { ScoreReportView } from "./ScoreReport";
 
-const STORAGE_KEY = "picard-ia.score.answers";
+const STORAGE_KEY = "excalando.score.answers";
 
 export const ScoreWizard = () => {
   const [step, setStep] = useState(0);

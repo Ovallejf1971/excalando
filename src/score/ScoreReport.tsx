@@ -23,7 +23,7 @@ export const ScoreReportView = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `score-digital-${(answers.empresa || "picard").replace(/\W+/g, "-").toLowerCase()}.json`;
+    a.download = `score-digital-${(answers.empresa || "excalando").replace(/\W+/g, "-").toLowerCase()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };

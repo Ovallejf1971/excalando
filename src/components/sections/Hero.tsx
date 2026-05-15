@@ -23,7 +23,7 @@ export const Nav = () => {
           <circle cx="18" cy="18" r="2.5" fill="#00D4FF" />
         </svg>
         <div className="font-bold text-base tracking-tight text-ink">
-          Picard<span className="text-accent">-IA</span>
+          e<span className="text-accent">X</span>calando
         </div>
         <div className="hidden sm:block ml-2 font-mono text-[10px] tracking-[0.15em] text-ink-3 px-2 py-1 border border-line-2">v.2026</div>
       </div>
@@ -90,7 +90,7 @@ export const Hero = () => (
 
     <div className="relative grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-        <Eyebrow n="00 / Picard-IA">Capacidades digitales con IA · Colombia</Eyebrow>
+        <Eyebrow n="00 / eXcalando">Capacidades digitales con IA · Colombia</Eyebrow>
         <h1 className="mt-6 mb-6 md:mt-8 md:mb-8 text-[40px] sm:text-5xl md:text-6xl lg:text-[88px] font-bold leading-[1] md:leading-[0.98] tracking-[-0.03em] md:tracking-[-0.035em] text-ink text-balance">
           Tu PyME está perdiendo plata.{" "}
           <span className="text-accent italic font-normal">Te decimos dónde,</span> gratis.

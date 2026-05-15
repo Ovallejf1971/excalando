@@ -6,7 +6,7 @@ export const Manifiesto = () => (
   <Section>
     <SectionHeader
       n="09"
-      eyebrow="Por qué Picard-IA"
+      eyebrow="Por qué eXcalando"
       title={
         <>
           No somos una agencia más. <span className="text-accent">Esto es lo que nos diferencia.</span>
