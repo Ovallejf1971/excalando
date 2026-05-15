@@ -3,7 +3,7 @@
     "version": "v1",
     "fecha_actualizacion": "2026-05-06",
     "total_entradas": 10,
-    "descripcion": "Contenido estructurado del catálogo Picard-IA para cargar a kb_servicios (Postgres + pgvector). Cada entrada se transforma en embedding via OpenAI text-embedding-3-small (1536 dims) y se inserta en la tabla. El RAG agente consulta este catálogo para responder consultas de clientes con información real."
+    "descripcion": "Contenido estructurado del catálogo eXcalando para cargar a kb_servicios (Postgres + pgvector). Cada entrada se transforma en embedding via OpenAI text-embedding-3-small (1536 dims) y se inserta en la tabla. El RAG agente consulta este catálogo para responder consultas de clientes con información real."
   },
   "servicios": [
     {
@@ -11,7 +11,7 @@
       "categoria": "diagnostico",
       "nombre": "Score Digital",
       "descripcion_corta": "Diagnóstico gratis de tu presencia digital en 5 minutos. Score 0-100 y plan de acción priorizado.",
-      "descripcion_larga": "El Score Digital es la puerta de entrada de Picard-IA. Un asistente web evalúa 6 frentes de tu negocio (presencia web, ficha de Google, redes sociales, atención al cliente, automatización y reputación online). En menos de 5 minutos recibes un reporte personalizado con tu score total, el detalle por frente, y las 3 a 5 acciones de mayor impacto ordenadas por esfuerzo. Es 100% gratis, no necesitas tarjeta. El reporte llega por correo con el remitente Diagnóstico Digital y queda guardado para hacer seguimiento.",
+      "descripcion_larga": "El Score Digital es la puerta de entrada de eXcalando. Un asistente web evalúa 6 frentes de tu negocio (presencia web, ficha de Google, redes sociales, atención al cliente, automatización y reputación online). En menos de 5 minutos recibes un reporte personalizado con tu score total, el detalle por frente, y las 3 a 5 acciones de mayor impacto ordenadas por esfuerzo. Es 100% gratis, no necesitas tarjeta. El reporte llega por correo con el remitente Diagnóstico Digital y queda guardado para hacer seguimiento.",
       "precio_setup": "Gratis",
       "precio_recurrente": null,
       "tiempo_entrega": "5 minutos, sin agendar nada",

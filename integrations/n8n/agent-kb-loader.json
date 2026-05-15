@@ -12,7 +12,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "https://raw.githubusercontent.com/Ovallejf1971/picard-ia/main/integrations/n8n/kb-content.json",
+        "url": "https://raw.githubusercontent.com/Ovallejf1971/excalando/main/integrations/n8n/kb-content.json",
         "options": {}
       },
       "id": "http-fetch-content",
@@ -61,10 +61,10 @@
       "credentials": {
         "openAiApi": {
           "id": "PLACEHOLDER_OPENAI_CREDENTIAL_ID",
-          "name": "OpenAI - Picard-IA"
+          "name": "OpenAI - eXcalando"
         }
       },
-      "notes": "Usa la credencial OpenAI - Picard-IA. text-embedding-3-small produce vectores de 1536 dimensiones."
+      "notes": "Usa la credencial OpenAI - eXcalando. text-embedding-3-small produce vectores de 1536 dimensiones."
     },
     {
       "parameters": {
@@ -141,7 +141,7 @@
     "executionOrder": "v1"
   },
   "tags": [
-    { "name": "picard-ia" },
+    { "name": "excalando" },
     { "name": "kb" },
     { "name": "loader" }
   ]

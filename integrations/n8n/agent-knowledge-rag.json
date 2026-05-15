@@ -15,7 +15,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [240, 300],
-      "webhookId": "agent-rag-picard-ia"
+      "webhookId": "agent-rag-excalando"
     },
     {
       "parameters": {
@@ -46,7 +46,7 @@
       "credentials": {
         "openAiApi": {
           "id": "PLACEHOLDER_OPENAI_CREDENTIAL_ID",
-          "name": "OpenAI - Picard-IA"
+          "name": "OpenAI - eXcalando"
         }
       }
     },
@@ -126,7 +126,7 @@
     "executionOrder": "v1"
   },
   "tags": [
-    { "name": "picard-ia" },
+    { "name": "excalando" },
     { "name": "kb" },
     { "name": "rag" }
   ]

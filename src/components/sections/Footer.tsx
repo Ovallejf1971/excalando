@@ -39,7 +39,7 @@ export const Footer = () => (
       </div>
     </div>
     <div className="border-t border-line pt-6 flex justify-between items-center flex-wrap gap-4 text-xs text-ink-3 font-mono">
-      <div>© 2026 PICARD-IA · NIT 901.XXX.XXX-X · Colombia</div>
+      <div>© 2026 EXCALANDO · NIT 901.XXX.XXX-X · Colombia</div>
       <div className="flex gap-6">
         <span>Términos</span>
         <span>Privacidad</span>

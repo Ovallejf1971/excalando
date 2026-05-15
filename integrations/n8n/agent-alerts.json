@@ -15,7 +15,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [240, 300],
-      "webhookId": "agent-alerts-picard-ia"
+      "webhookId": "agent-alerts-excalando"
     },
     {
       "parameters": {
@@ -103,7 +103,7 @@
       "credentials": {
         "telegramApi": {
           "id": "PLACEHOLDER_TELEGRAM_CREDENTIAL_ID",
-          "name": "Telegram - Picard-IA Alerts"
+          "name": "Telegram - eXcalando Alerts"
         }
       }
     },
@@ -144,7 +144,7 @@
     "executionOrder": "v1"
   },
   "tags": [
-    { "name": "picard-ia" },
+    { "name": "excalando" },
     { "name": "agent" },
     { "name": "alerts" },
     { "name": "v1" }

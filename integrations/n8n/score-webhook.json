@@ -1,5 +1,5 @@
 {
-  "name": "Score Digital — Captura de leads (Picard-IA)",
+  "name": "Score Digital — Captura de leads (eXcalando)",
   "nodes": [
     {
       "parameters": {
@@ -15,7 +15,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [240, 300],
-      "webhookId": "score-digital-picard-ia"
+      "webhookId": "score-digital-excalando"
     },
     {
       "parameters": {
@@ -145,7 +145,7 @@
     "errorWorkflow": ""
   },
   "tags": [
-    { "name": "picard-ia" },
+    { "name": "excalando" },
     { "name": "lead-capture" }
   ]
 }

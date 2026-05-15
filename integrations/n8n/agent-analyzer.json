@@ -15,7 +15,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [240, 300],
-      "webhookId": "agent-analyzer-picard-ia"
+      "webhookId": "agent-analyzer-excalando"
     },
     {
       "parameters": {
@@ -28,7 +28,7 @@
           "values": [
             {
               "role": "system",
-              "content": "=Sos el analizador de mensajes de WhatsApp para Picard-IA. Cada mensaje del cliente lo analizás y devolvés JSON estricto. Solo JSON. Nada más.\n\nOUTPUT JSON (todos los campos obligatorios):\n{\n  \"sentiment\": <number entre -1 y 1>,\n  \"emotion\": [<lista, ej: \"frustrado\", \"urgente\", \"curioso\", \"decidido\", \"escéptico\">],\n  \"intent\": <una de: \"pregunta_general\", \"pregunta_precio\", \"queja\", \"agendar_reunion\", \"comprar\", \"cancelar\", \"soporte\", \"comparar_competencia\", \"saludo\", \"otro\">,\n  \"topics\": [<servicios o temas mencionados, ej: \"chatbot\", \"web\", \"automatizacion\">],\n  \"flags\": [<lista, ej: \"bad_language\", \"escalation_request\", \"urgency\", \"high_value_signal\", \"competitor_mention\", \"legal_mention\">],\n  \"opportunity_score\": <0 a 1>,\n  \"risk_score\": <0 a 1>,\n  \"summary_es\": <una oración resumiendo el mensaje del cliente>\n}\n\nREGLAS DE DETECCIÓN\n- bad_language: groserías en español colombiano (marica, hijueputa, malparido, gonorrea, etc.) o amenazas\n- escalation_request: cliente escribe \"humano\", \"persona\", \"alguien real\", \"tu jefe\", \"el dueño\"\n- legal_mention: \"demanda\", \"denuncia\", \"estafa\", \"fraude\", \"abogado\", \"tutela\"\n- competitor_mention: nombres de otras agencias o \"su competencia\"\n- high_value_signal: menciones de presupuesto, \"necesito esto urgente\", empresa grande, \"queremos contratar\"\n- urgency: \"hoy\", \"ya\", \"urgente\", \"ahora mismo\"\n\nSCORING\n- opportunity_score alto (>0.7): pregunta precio + agenda reunión + menciona presupuesto\n- opportunity_score medio (0.4-0.7): muestra interés genuino pero sin compromiso\n- opportunity_score bajo (<0.4): consulta general, primera curiosidad\n- risk_score alto (>0.7): bad_language, sentiment muy negativo, legal_mention\n- risk_score medio: queja sin escalación, frustración detectable\n- risk_score bajo: tono normal o positivo\n\nIMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicación."
+              "content": "=Sos el analizador de mensajes de WhatsApp para eXcalando. Cada mensaje del cliente lo analizás y devolvés JSON estricto. Solo JSON. Nada más.\n\nOUTPUT JSON (todos los campos obligatorios):\n{\n  \"sentiment\": <number entre -1 y 1>,\n  \"emotion\": [<lista, ej: \"frustrado\", \"urgente\", \"curioso\", \"decidido\", \"escéptico\">],\n  \"intent\": <una de: \"pregunta_general\", \"pregunta_precio\", \"queja\", \"agendar_reunion\", \"comprar\", \"cancelar\", \"soporte\", \"comparar_competencia\", \"saludo\", \"otro\">,\n  \"topics\": [<servicios o temas mencionados, ej: \"chatbot\", \"web\", \"automatizacion\">],\n  \"flags\": [<lista, ej: \"bad_language\", \"escalation_request\", \"urgency\", \"high_value_signal\", \"competitor_mention\", \"legal_mention\">],\n  \"opportunity_score\": <0 a 1>,\n  \"risk_score\": <0 a 1>,\n  \"summary_es\": <una oración resumiendo el mensaje del cliente>\n}\n\nREGLAS DE DETECCIÓN\n- bad_language: groserías en español colombiano (marica, hijueputa, malparido, gonorrea, etc.) o amenazas\n- escalation_request: cliente escribe \"humano\", \"persona\", \"alguien real\", \"tu jefe\", \"el dueño\"\n- legal_mention: \"demanda\", \"denuncia\", \"estafa\", \"fraude\", \"abogado\", \"tutela\"\n- competitor_mention: nombres de otras agencias o \"su competencia\"\n- high_value_signal: menciones de presupuesto, \"necesito esto urgente\", empresa grande, \"queremos contratar\"\n- urgency: \"hoy\", \"ya\", \"urgente\", \"ahora mismo\"\n\nSCORING\n- opportunity_score alto (>0.7): pregunta precio + agenda reunión + menciona presupuesto\n- opportunity_score medio (0.4-0.7): muestra interés genuino pero sin compromiso\n- opportunity_score bajo (<0.4): consulta general, primera curiosidad\n- risk_score alto (>0.7): bad_language, sentiment muy negativo, legal_mention\n- risk_score medio: queja sin escalación, frustración detectable\n- risk_score bajo: tono normal o positivo\n\nIMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicación."
             },
             {
               "role": "user",
@@ -49,7 +49,7 @@
       "credentials": {
         "openAiApi": {
           "id": "PLACEHOLDER_OPENAI_CREDENTIAL_ID",
-          "name": "OpenAI - Picard-IA"
+          "name": "OpenAI - eXcalando"
         }
       },
       "notes": "Modelo: gpt-4o-mini (más barato y suficiente para clasificación). Si OpenAI falla, considerar workflow de fallback con Anthropic."
@@ -118,7 +118,7 @@
     "executionOrder": "v1"
   },
   "tags": [
-    { "name": "picard-ia" },
+    { "name": "excalando" },
     { "name": "agent" },
     { "name": "v1" }
   ]

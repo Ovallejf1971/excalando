@@ -1,5 +1,5 @@
 -- ====================================================================
--- Picard-IA · Knowledge Base Schema
+-- eXcalando · Knowledge Base Schema
 -- ====================================================================
 -- Base: agencia_digital
 -- Pre-requisito: extension pgvector instalada (verificar con `\dx`)

@@ -1,4 +1,4 @@
-# Integraciones n8n — Picard-IA
+# Integraciones n8n — eXcalando
 
 Workflows de n8n que orquestan la captura y notificacion de leads del Score Digital.
 
@@ -41,7 +41,7 @@ SELECT tablename FROM pg_tables WHERE tablename LIKE 'kb_%';
 ### Paso 2 — Importar `agent-kb-loader.json` en n8n
 
 1. n8n → Workflows → Import from File → seleccionar `agent-kb-loader.json`
-2. Click nodo `OpenAI: generar embedding` → seleccionar credencial **OpenAI - Picard-IA**
+2. Click nodo `OpenAI: generar embedding` → seleccionar credencial **OpenAI - eXcalando**
 3. Click nodo `Postgres: UPSERT kb_servicios` → seleccionar credencial **agencia digital**
 4. Click **Execute Workflow** (boton play arriba)
 5. Verificar: cada nodo muestra item count = 10
@@ -103,7 +103,7 @@ curl -X POST https://n8n.lithv.net/webhook/agent-rag \
 
 #### Nodo OpenAI: clasificar mensaje
 - Click el nodo
-- En **Credential to connect with**: seleccionar **`OpenAI - Picard-IA`**
+- En **Credential to connect with**: seleccionar **`OpenAI - eXcalando`**
 
 #### Nodo Postgres → INSERT mensajes_analisis
 - Click el nodo
@@ -217,7 +217,7 @@ Ir a [https://n8n.lithv.net](https://n8n.lithv.net) y loguearse.
 
 ## Probar el flujo end-to-end
 
-1. Ir a [https://picard-ia.lithv.net](https://picard-ia.lithv.net)
+1. Ir a [https://excalando.lithv.net](https://excalando.lithv.net)
 2. Hacer scroll hasta la seccion **Score Digital**
 3. Completar el wizard con datos de prueba (incluir un email real para verificar el envio)
 4. Click **Calcular mi Score**
