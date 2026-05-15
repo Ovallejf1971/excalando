@@ -1,6 +1,6 @@
-# Picard-IA · Landing — guía para Claude Code
+# eXcalando · Landing — guía para Claude Code
 
-Este repo es la landing one-page de **Picard-IA**, una agencia colombiana de capacidades digitales con IA para PyMEs (5–50 empleados). El producto principal es el **Score Digital** — un diagnóstico gratuito que funciona como lead magnet.
+Este repo es la landing one-page de **eXcalando**, una agencia colombiana de capacidades digitales con IA para PyMEs (5–50 empleados). El producto principal es el **Score Digital** — un diagnóstico gratuito que funciona como lead magnet.
 
 ## Stack
 

@@ -1,6 +1,6 @@
-# Picard-IA · Landing One-Page
+# eXcalando · Landing One-Page
 
-Landing page de Picard-IA, lista para producción. React + TypeScript + Tailwind + shadcn/ui + framer-motion.
+Landing page de eXcalando, lista para producción. React + TypeScript + Tailwind + shadcn/ui + framer-motion.
 
 ## Stack
 

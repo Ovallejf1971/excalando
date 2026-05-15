@@ -1,9 +1,9 @@
-# Roles y organización — Picard-IA
+# Roles y organización — eXcalando
 
 **Última actualización:** 2026-05-05
 **Owner:** Francisco Ovalle
 
-> Picard-IA opera con un modelo híbrido: **2 humanos part-time + 10 agentes IA**.
+> eXcalando opera con un modelo híbrido: **2 humanos part-time + 10 agentes IA**.
 > Cada función crítica está cubierta por un agente. Los humanos toman decisiones,
 > cierran ventas, deciden estrategia, y supervisan el trabajo de los agentes.
 > Los agentes ejecutan trabajo repetitivo, escalan a humanos cuando hace falta.

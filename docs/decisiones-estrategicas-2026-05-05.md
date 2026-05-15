@@ -94,7 +94,7 @@ para regionalización futura. CTAs de WhatsApp con código país +57 por ahora.
 
 - **Decisión:** **ambos en paralelo**
 - **Francisco** como founder content (LinkedIn personal, Twitter/X, posts de visión)
-- **Picard-IA** como producto/marca (Instagram, web, casos)
+- **eXcalando** como producto/marca (Instagram, web, casos)
 - **Implicación:** dos calendarios de contenido distintos pero coordinados. El
   agente de contenido IA debe poder generar drafts para ambos perfiles.
 
@@ -102,8 +102,8 @@ para regionalización futura. CTAs de WhatsApp con código país +57 por ahora.
 
 - **Decisión:** **solo orgánico los primeros 3 meses**
 - **Canales orgánicos prioritarios:**
-  - LinkedIn (Francisco personal + página Picard-IA)
-  - Instagram (página Picard-IA)
+  - LinkedIn (Francisco personal + página eXcalando)
+  - Instagram (página eXcalando)
   - Referidos (empuje activo a la red personal)
   - SEO de blog/contenido a futuro
 - **Pauta paga:** $0 inicial. **Trigger de evaluación:** si al mes 1 los números
@@ -112,70 +112,21 @@ para regionalización futura. CTAs de WhatsApp con código país +57 por ahora.
 
 ---
 
-## 🏷️ Marca: nombre "Picard-IA"
+## 🏷️ Marca: nombre
 
-### 11. Estado del nombre
+> **Resolución (2026-05-13):** El nombre fue lockeado en **eXcalando · Agencia Digital**.
+> El razonamiento histórico de "Picard-IA" que vivía en esta sección quedó obsoleto y se removió.
+> Detalles del nombre nuevo + handles + decisiones de marca en
+> `docs/estrategia-agencia-digital-ia.md` sección 0 y en `.agents/product-marketing-context.md`.
 
-- **Decisión:** **pausa estratégica de 1-2 semanas** antes de lockear
-- **Mientras tanto:** seguimos usando "Picard-IA" como nombre de trabajo en todo
-  (sitio, repo, dominio temporal, comunicaciones)
-- **Trigger de revisión:** propuesta consciente de seguir con Picard-IA o pivotar
+### Historial de descarte (corto)
 
-### Mi feeling objetivo sobre "Picard-IA" (lo pediste)
-
-**Pros:**
-- ✅ Pronunciable, memorable
-- ✅ "IA" cuelga claro del nombre — comunica el dominio
-- ✅ Tiene personalidad (referencia a Captain Picard de Star Trek = innovación, futuro)
-- ✅ Único — no hay 50 agencias con nombre similar
-
-**Contras:**
-- ⚠️ Para PyMEs colombianas no técnicas, "Picard" puede sonar **importado**, raro,
-  no local. La generación dueña de PyME (35-55 años) puede asociarlo con Star Trek
-  y no entender la conexión con IA.
-- ⚠️ El **guion** (`Picard-IA`) es problemático en branding: dificulta leerlo
-  hablado, complica logos, separa visualmente.
-- ⚠️ No dice **qué hacés** — alguien que escucha "Picard-IA" no sabe si es una
-  agencia, un producto SaaS, una consultora.
-- ⚠️ Pronunciación inconsistente: ¿"pikard-ia", "pikar-día", "picárd-ai"?
-
-**¿Será tomado en serio?**
-
-Honestamente: **sí, pero no destaca.** No es un nombre que rompa, ni te abre puertas
-solo. Tampoco te las cierra. Para tu modelo (consultivo B2B, PyME), el nombre
-importa menos que:
-1. La fortaleza de la marca personal de Francisco
-2. La calidad de las conversaciones (que la IA + vos manejen bien)
-3. Los primeros casos de éxito
-
-**¿Qué le falta?**
-
-Si seguís con "Picard-IA":
-- **Tagline fuerte y siempre visible:** "Picard-IA — Capacidades digitales con IA
-  para PyMEs". Sin el tagline, el nombre solo no comunica.
-- **Logo limpio sin guion:** considerar "PicardIA" o "PICARD/IA" en branding visual
-- **Historia de origen:** un párrafo en "Sobre nosotros" que explique por qué se
-  llama así (no para defenderlo, para conectar con lo que representa)
-
-**Alternativas a considerar (si querés explorar antes de lockear):**
-
-Pienso en estas direcciones — no son propuestas finales, son **señales** de hacia
-dónde podrías ir:
-
-- **Algo que diga lo que hacés:** "Capacidad", "Operación", "Vector"
-- **Algo en español que suene local:** "Norte", "Brújula", "Compás"
-- **Algo que marque agencia tech moderna:** "Ovalle Labs" (te apropiás vos),
-  "Stack-IA", "Cero-IA", "Mira-IA"
-
-**Mi recomendación final:**
-
-1. **Dejá "Picard-IA" como nombre de trabajo** — no bloquees por esto
-2. **Agendá 30 min en 1 semana para revisar 5-7 alternativas** (yo te las propongo)
-3. **Validá con 3 personas de tu público objetivo** ("¿qué te transmite este nombre?")
-4. **Decidís con datos**, no con sensaciones
-
-Si después de eso "Picard-IA" sigue siendo el preferido, lo lockeás con confianza.
-Si aparece algo claramente mejor, pivotás (cuesta ~30-45 min de cambios técnicos).
+| Nombre | Razón de descarte | Fecha |
+|---|---|---|
+| Picard-IA | Asociación a IA + guion problemático + suena importado para PyME LATAM | 2026-05-10 |
+| Kinetia | Colisión con `getkinetia.com` (misma estilización "KinetIA") | 2026-05-13 |
+| KinetiK | `kinetik.com` es empresa NYSE listed (gas/oil); todos los TLDs tomados | 2026-05-13 |
+| BeKinetic, GenKinetic | 100% inglés, rompían filtro "español, pronunciable LATAM no anglo" | 2026-05-13 |
 
 ---
 
@@ -229,7 +180,7 @@ La IA **siempre** escala a humano (sin importar la fase) en estos casos:
 
 Estas están listadas para que no se nos olviden:
 
-1. **Confirmar nombre "Picard-IA"** o pivotar (decisión en 1-2 semanas)
+1. **Confirmar nombre "eXcalando"** o pivotar (decisión en 1-2 semanas)
 2. **Comprar dominio definitivo** (depende de #1)
 3. **Crear handles sociales reales** (depende de #1 y #2)
 4. **Definir paquetes de precios públicos** (3 tiers por servicio) — irá en `modelo-financiero.md`

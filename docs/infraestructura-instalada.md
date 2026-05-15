@@ -1,9 +1,9 @@
-# Infraestructura instalada — Picard-IA
+# Infraestructura instalada — eXcalando
 
 **Última actualización:** 2026-05-05
 **Owner técnico:** Harol Mauricio Valencia + Francisco Ovalle
 
-Estado de la infraestructura del proyecto Picard-IA en el VPS Hostinger.
+Estado de la infraestructura del proyecto eXcalando en el VPS Hostinger.
 
 ---
 
@@ -65,8 +65,8 @@ Todas con índice HNSW para `cosine_ops` sobre embeddings.
 | `evolution-api` | (interno) | Gateway WhatsApp |
 | **`metabase`** | **3002** (localhost) | **Dashboards de leads + HITL** ⭐ nuevo |
 | **`calcom`** | **3003** (localhost) | **Calendario para agendar reuniones** ⭐ nuevo |
-| `angel-verde-admin-api` | 8001 | (otro proyecto, no Picard-IA) |
-| `georeferenciacion-api` | (otro proyecto) | (otro proyecto, no Picard-IA) |
+| `angel-verde-admin-api` | 8001 | (otro proyecto, no eXcalando) |
+| `georeferenciacion-api` | (otro proyecto) | (otro proyecto, no eXcalando) |
 
 ---
 
@@ -74,7 +74,7 @@ Todas con índice HNSW para `cosine_ops` sobre embeddings.
 
 | URL | Servicio | Estado |
 |---|---|---|
-| https://picard-ia.lithv.net | Landing + Score Digital | ✅ live |
+| https://excalando.lithv.net | Landing + Score Digital | ✅ live |
 | https://n8n.lithv.net | n8n UI | ✅ live |
 | https://chat.lithv.net | Chatwoot UI | ✅ live |
 | https://db.lithv.net | pgAdmin UI | ✅ live |
@@ -161,7 +161,7 @@ context / {
 | **Infraestructura** | VPS Hostinger 62.72.27.80 | ✅ corriendo |
 | **Panel** | CyberPanel + OpenLiteSpeed | ✅ |
 | **DB** | Postgres 15.14 + pgvector 0.8.1 + Redis | ✅ |
-| **Frontend** | Vite + React + Tailwind (`picard-ia.lithv.net`) | ✅ live |
+| **Frontend** | Vite + React + Tailwind (`excalando.lithv.net`) | ✅ live |
 | **Orquestación** | n8n | ✅ |
 | **Chat omnichannel** | Chatwoot | ✅ |
 | **WhatsApp gateway** | Evolution API | ✅ |

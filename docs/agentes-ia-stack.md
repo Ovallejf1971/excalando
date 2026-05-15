@@ -1,9 +1,9 @@
-# Stack de agentes IA — Picard-IA
+# Stack de agentes IA — eXcalando
 
 **Última actualización:** 2026-05-05
 **Owner:** Francisco Ovalle (estrategia) + Harol Valencia (técnica)
 
-> Detalle técnico de los 10 agentes IA que componen la operación de Picard-IA.
+> Detalle técnico de los 10 agentes IA que componen la operación de eXcalando.
 > Para visión organizacional ver [`roles-y-organizacion.md`](./roles-y-organizacion.md).
 > Para el agente de WhatsApp en detalle ver [`whatsapp-ai-agent.md`](./whatsapp-ai-agent.md).
 
@@ -48,7 +48,7 @@ Todos los agentes comparten esta estructura:
 
 - Workflows en n8n: `agent-<nombre>` (ej: `agent-conversational`)
 - Tablas de logs: `<nombre>_logs` cuando aplique
-- Credentials en n8n: `OpenAI - Picard-IA`, `Anthropic - Picard-IA`
+- Credentials en n8n: `OpenAI - eXcalando`, `Anthropic - eXcalando`
 
 ---
 
@@ -259,7 +259,7 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 - Cap mensual: 50 reactivaciones
 
 **Ejemplo de mensaje generado:**
-> Hola María, te escribo del equipo de Picard-IA. Hace ~3 semanas hiciste el
+> Hola María, te escribo del equipo de eXcalando. Hace ~3 semanas hiciste el
 > Score Digital y tu mayor oportunidad estaba en SEO local. Lanzamos un nuevo
 > proceso para PyMEs que arranca por ahí. ¿Querés conversar 15 min y ver si
 > aplica? Sin compromiso, prometido.
@@ -270,13 +270,13 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 
 ### Agente 7 — Content Generator
 
-**Propósito:** Genera drafts de posts de LinkedIn (Francisco) y Instagram (marca Picard-IA).
+**Propósito:** Genera drafts de posts de LinkedIn (Francisco) y Instagram (marca eXcalando).
 
 | Atributo | Valor |
 |---|---|
 | **Trigger** | Cron 3x/semana (lunes, miércoles, viernes 8 AM) |
 | **Inputs** | Pillars de contenido, tendencias del sector, conversaciones cerradas (insights) |
-| **Outputs** | 2 drafts: 1 para Francisco (LinkedIn), 1 para Picard-IA (Instagram caption) |
+| **Outputs** | 2 drafts: 1 para Francisco (LinkedIn), 1 para eXcalando (Instagram caption) |
 | **Tools** | `consultar_pillars`, `analizar_conversaciones_recientes`, `generar_imagen` (futuro) |
 | **Modelo** | GPT-4o |
 | **Costo** | ~$0.15 por par de drafts |

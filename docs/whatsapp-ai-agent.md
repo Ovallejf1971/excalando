@@ -1,4 +1,4 @@
-# WhatsApp AI Agent — Picard-IA
+# WhatsApp AI Agent — eXcalando
 
 **Documento de diseño técnico y operacional**
 Última actualización: 2026-05-05 (post decisiones estratégicas)
@@ -12,7 +12,7 @@ Owner: Francisco Ovalle
 
 ## 1. Visión
 
-El agente de WhatsApp de Picard-IA tiene tres roles simultáneos:
+El agente de WhatsApp de eXcalando tiene tres roles simultáneos:
 
 1. **Comercial** — califica leads, responde preguntas, empuja a agendar
 2. **Soporte** — atiende clientes existentes con dudas operativas
@@ -109,8 +109,8 @@ El agente de WhatsApp de Picard-IA tiene tres roles simultáneos:
 
 ### Identidad
 
-- Se presenta como "el asistente de Picard-IA" (NO como "Francisco" o como humano).
-- Si pregunta directamente "¿sos un bot?" → responde con honestidad: *"Sí, soy un asistente IA del equipo de Picard-IA. Pero detrás hay personas reales que intervienen cuando hace falta. ¿En qué te puedo ayudar?"*
+- Se presenta como "el asistente de eXcalando" (NO como "Francisco" o como humano).
+- Si pregunta directamente "¿sos un bot?" → responde con honestidad: *"Sí, soy un asistente IA del equipo de eXcalando. Pero detrás hay personas reales que intervienen cuando hace falta. ¿En qué te puedo ayudar?"*
 
 ---
 
@@ -250,11 +250,11 @@ CREATE TABLE kb_casos (
 ### Agente Conversacional (system prompt)
 
 ```
-Sos el asistente de Picard-IA, una agencia de capacidades digitales con IA en Colombia.
+Sos el asistente de eXcalando, una agencia de capacidades digitales con IA en Colombia.
 Atendés WhatsApp de PyMEs (5-50 empleados, dueños 35-55 años, no técnicos).
 
 IDENTIDAD
-- Te presentás como "el asistente de Picard-IA".
+- Te presentás como "el asistente de eXcalando".
 - Si preguntan "¿sos un bot?": "Sí, soy un asistente IA del equipo. Detrás hay personas
   reales que intervienen cuando hace falta. ¿En qué te puedo ayudar?"
 
@@ -280,7 +280,7 @@ OBJETIVO POR CONVERSACIÓN (en este orden)
 QUÉ HACER (sin pedir permiso)
 - Responder del catálogo usando consultar_servicios y consultar_faq
 - Calificar (sector, tamaño empresa, necesidad puntual)
-- Mandar link al Score: https://picard-ia.lithv.net
+- Mandar link al Score: https://excalando.lithv.net
 - Agendar reuniones via agendar_reunion()
 - Registrar oportunidades via registrar_oportunidad()
 
@@ -310,7 +310,7 @@ HISTORIAL: tenés los últimos 10 mensajes de la conversación.
 ### Agente Analizador (system prompt)
 
 ```
-Sos el analizador de mensajes de WhatsApp para Picard-IA. Cada mensaje del cliente
+Sos el analizador de mensajes de WhatsApp para eXcalando. Cada mensaje del cliente
 lo analizás y devolvés JSON estricto. Solo JSON. Nada más.
 
 OUTPUT JSON (todos los campos obligatorios):
@@ -357,7 +357,7 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
 ```
 [14:30] Cliente: "Hola"
 [14:30] IA (analiza: intent=saludo, opp=0.2):
-        "¡Hola! Soy el asistente de Picard-IA. Ayudamos a PyMEs a crecer
+        "¡Hola! Soy el asistente de eXcalando. Ayudamos a PyMEs a crecer
         con IA y automatización. ¿Te cuento cómo o tenés algo puntual en mente?"
 
 [14:32] Cliente: "Que hacen"
@@ -367,7 +367,7 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
         gratuito que te muestra dónde mejorar 👇
 
         ¿Querés probar el Score (gratis, 15 min)? Te tira un plan personalizado.
-        picard-ia.lithv.net"
+        excalando.lithv.net"
 ```
 
 ### Flow 2 — Lead caliente con intención
@@ -489,7 +489,7 @@ Mapa de severidad → canal de notificación a Francisco:
 - [ ] Conseguir API key de Claude (Anthropic console)
 - [ ] Instalar pgvector en `shared_postgres`
 - [ ] Instalar Metabase en VPS (Docker compose)
-- [ ] Crear base `kb_picard` en Postgres con tablas de KB
+- [ ] Crear base `kb_excalando` en Postgres con tablas de KB
 - [ ] Cargar contenido inicial de KB (5 servicios, 30 FAQs, 5 políticas)
 - [ ] Generar embeddings iniciales (OpenAI ada-002 o text-embedding-3-small)
 
@@ -549,7 +549,7 @@ Esto deja margen dentro del presupuesto inicial de <$100 USD/mes para extras
 ### Comparación
 
 - Una persona contestando WhatsApp full-time: ~$1,200,000 COP/mes ($300 USD)
-- Picard-IA con AI: ~$200,000 COP/mes
+- eXcalando con AI: ~$200,000 COP/mes
 - **Ahorro:** ~83% por conversación atendida, escalable a infinito
 
 ---
@@ -598,7 +598,7 @@ Cuando retomemos:
 4. **Instalar pgvector** en `shared_postgres` (1 comando)
 5. **Instalar Metabase** en el VPS (Docker compose, 30 min)
 6. **Instalar Cal.com self-hosted** (Docker compose, 1 hora)
-7. **Crear base `kb_picard`** + tablas + índices
+7. **Crear base `kb_excalando`** + tablas + índices
 8. **Cargar contenido inicial** a la KB (5 servicios + 30 FAQs + 5 políticas)
 9. **Workflow #1 en n8n:** Agente Analizador (clasifica cada mensaje en background)
 10. **Workflow #2 en n8n:** Agente Conversacional (responde, con tools y fallback)

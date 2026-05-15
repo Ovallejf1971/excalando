@@ -1,23 +1,22 @@
-# ESTRATEGIA INTEGRAL: Picard-IA — Agencia de Capacidades Digitales con IA
+# ESTRATEGIA INTEGRAL: eXcalando — Agencia de Capacidades Digitales con IA
 
 ---
 
 ## 0. NOMBRE DE LA AGENCIA
 
-### Nombre elegido: **Picard-IA**
+### Nombre elegido: **eXcalando** (lockeado 2026-05-13)
 
-> *"Inteligencia con picardía"*
+> *"Capacidades digitales con IA · Agencia Digital"*
 
-- **Concepto**: Fusión de picardía (astucia, ingenio, irreverencia) + IA (inteligencia artificial)
-- **Tono**: Irreverente, desafiante, memorable, colombiano
-- **Taglines candidatos**:
-  - "Inteligencia con picardía"
-  - "La IA con actitud"
-  - "Tu negocio necesita más picardía digital"
-  - "Con toda la picardía: transformamos tu negocio"
-- **Dominios a verificar**: picard-ia.com, picardia.co, picard-ia.co
-- **Handles redes**: @picardia.digital, @picard.ia, @picardiaagencia
-- **Estado**: Provisional (en evaluación)
+- **Concepto**: Movimiento ascendente — escalar el negocio digital de la PyME. La **X** mayúscula intencional aporta diferenciación visual y toque tech sin caer en clichés tipo "Tech" o "AI Agency".
+- **Tono**: Directo, irreverente contra lo viejo del sector, cálido con el cliente. Detalles en `.agents/product-marketing-context.md` (arquetipo Rebelde Liberador).
+- **Estilización**: **eXcalando** (e minúscula, X mayúscula). En URL/código/slugs: `excalando` todo minúscula.
+- **Dominio**: `excalando.com` (principal)
+- **Handles**:
+  - LinkedIn `/company/excalando`, X `@excalando`, TikTok `@excalando`, GitHub Org `excalando`
+  - YouTube `@excalando` (✅ reservado)
+  - Instagram `@excalando.co` (✅ reservado — el `@excalando` lo tenía una cuenta de escalada)
+- **Historial**: descartados Picard-IA (asociación AI no buscada, guion problemático), Kinetia (colisión con `getkinetia.com`), KinetiK (empresa NYSE listed), BeKinetic y GenKinetic (rompían filtro español).
 
 ---
 

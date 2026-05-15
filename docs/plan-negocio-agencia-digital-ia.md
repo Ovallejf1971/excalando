@@ -1,5 +1,5 @@
-# Plan de Negocio: Picard-IA — Agencia de Capacidades Digitales con IA
-## "Inteligencia con picardía" (nombre provisional)
+# Plan de Negocio: eXcalando — Agencia de Capacidades Digitales con IA
+## "Capacidades digitales con IA · Agencia Digital" (nombre lockeado 2026-05-13)
 
 ---
 
