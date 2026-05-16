@@ -1,0 +1,149 @@
+{
+  "name": "Agent · Conversational (cerebro del WhatsApp Agent — Fase 1)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-conversational",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "webhook-conv",
+      "name": "Webhook (POST /agent-conversational)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "agent-conversational-excalando"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Valida y normaliza el input. Espera:\n// {\n//   \"message\": \"texto del cliente\",\n//   \"history\": [{ role: 'user'|'assistant', content: '...' }, ...] (opcional, max 10)\n//   \"contact_name\": \"opcional\",\n//   \"contact_phone\": \"opcional\"\n// }\n\nconst body = $input.item.json.body || $input.item.json;\nconst message = (body.message || '').trim();\nconst history = Array.isArray(body.history) ? body.history.slice(-10) : [];\nconst contactName = body.contact_name || null;\nconst contactPhone = body.contact_phone || null;\n\nif (!message) {\n  throw new Error('El campo \"message\" es obligatorio');\n}\n\nreturn {\n  json: { message, history, contact_name: contactName, contact_phone: contactPhone }\n};"
+      },
+      "id": "code-validate-input",
+      "name": "Validar input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n.lithv.net/webhook/agent-rag",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": {{ JSON.stringify($json.message) }},\n  \"top_k\": 3\n}",
+        "options": {}
+      },
+      "id": "http-call-rag",
+      "name": "Consultar RAG (catalogo)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 300],
+      "notes": "Llama al workflow Knowledge RAG (que ya esta funcional) para traer el contexto de servicios relevantes a la query del cliente."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Construye el contexto de la KB a inyectar en el system prompt\nconst ragResp = $input.item.json;\nconst input = $('Validar input').item.json;\nconst resultados = ragResp.resultados || [];\n\n// Filtra solo los resultados con similarity > 0.3 (umbral de relevancia)\nconst relevantes = resultados.filter(r => r.similarity > 0.3);\n\nlet kbContext = '';\nif (relevantes.length === 0) {\n  kbContext = 'No se encontraron servicios relevantes en el catalogo para esta consulta. Si el cliente pregunta por un servicio especifico, escala a humano.';\n} else {\n  kbContext = 'SERVICIOS DEL CATALOGO RELEVANTES A LA CONSULTA (ordenados por relevancia):\\n\\n';\n  relevantes.forEach((r, i) => {\n    kbContext += `[${i + 1}] ${r.nombre} (slug: ${r.slug}, similarity: ${r.similarity.toFixed(2)})\\n`;\n    kbContext += `   - ${r.descripcion_corta}\\n`;\n    if (r.precio_setup) kbContext += `   - Precio setup: ${r.precio_setup}\\n`;\n    if (r.precio_recurrente) kbContext += `   - Precio recurrente: ${r.precio_recurrente}\\n`;\n    if (r.tiempo_entrega) kbContext += `   - Tiempo entrega: ${r.tiempo_entrega}\\n`;\n    if (r.entregables && r.entregables.length) {\n      kbContext += `   - Entregables principales: ${r.entregables.slice(0, 3).join('; ')}\\n`;\n    }\n    kbContext += '\\n';\n  });\n}\n\nreturn {\n  json: {\n    message: input.message,\n    history: input.history,\n    contact_name: input.contact_name,\n    contact_phone: input.contact_phone,\n    kb_context: kbContext,\n    rag_results: relevantes\n  }\n};"
+      },
+      "id": "code-build-context",
+      "name": "Construir contexto KB",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Construye los mensajes para OpenAI Chat Completions\n// system + (history) + user (mensaje actual)\n\nconst input = $input.item.json;\n\nconst systemPrompt = `Sos el asistente de eXcalando, una agencia de capacidades digitales con IA en Colombia. Atendes WhatsApp de PyMEs (5-50 empleados, duenos 35-55 anos, no tecnicos).\n\nIDENTIDAD\n- Te presentas como \"el asistente de eXcalando\".\n- Si preguntan \"sos un bot?\": \"Si, soy un asistente IA del equipo. Detras hay personas reales que intervienen cuando hace falta. En que te puedo ayudar?\"\n\nPERSONALIDAD\n- Profesional pero cercano. Tutea estricto (tu, NUNCA vos, NUNCA usted).\n- Directo. Sin jerga inflada.\n- Honesto. Si no sabes algo, lo decis y escalas.\n- Si detectas frustracion, validas primero (\"Entiendo la molestia, dejame revisar\") antes de proponer solucion.\n\nFORMATO\n- WhatsApp friendly. 3-4 lineas max por mensaje.\n- Si la respuesta es larga, partila en 2-3 mensajes con saltos.\n- Emojis con moderacion (1-2 max por respuesta).\n- Saltos de linea para legibilidad.\n\nOBJETIVO POR CONVERSACION (en este orden)\n1. Entender que busca el cliente (1-2 preguntas)\n2. Mostrarle el match con un servicio nuestro (1 mensaje)\n3. Empujar al siguiente paso: Score Digital o agendar 30min\n4. Si la conversacion se enfria, no insistir mas de 2 veces\n\nQUE HACER (sin pedir permiso)\n- Responder con base en los servicios del catalogo que te paso abajo\n- Calificar (sector, tamano empresa, necesidad puntual)\n- Mandar link al Score: https://excalando.com\n\nQUE NO HACER (escala a humano si pasa)\n- Negociar precios fuera del catalogo\n- Comprometer fechas exactas (siempre \"X dias aprox\")\n- Comparar con competencia (\"preferimos no comentar otras empresas\")\n- Inventar info no presente en KB\n- Cerrar ventas > $5M COP solo\n- Discutir legal / contratos / NDAs\n\nESCALACION INMEDIATA si:\n- Cliente escribe \"humano\", \"persona\", \"alguien real\", \"tu jefe\", \"el dueno\"\n- Detectas lenguaje agresivo\n- Menciona: \"demanda\", \"denuncia\", \"estafa\", \"fraude\", \"abogado\"\n- Preguntas legales/contractuales\n\nEn esta FASE 1 todavia no tenes herramientas de escalar/agendar/registrar. Si toca escalar, dile al cliente: \"Esto lo veo con un colega del equipo y te confirmo en un toque\" y deja claro en tu respuesta que se necesita intervencion humana.\n\n---\n\n${input.kb_context}\n\n---\n\nReglas finales:\n- Responde SOLO con la respuesta al cliente, sin meta-comentarios.\n- Si el cliente saluda primero (\"hola\", \"buenos dias\"), responde corto y pregunta en que puedes ayudar.\n- Cuando muestres un servicio del catalogo, menciona el precio si esta en la KB y un beneficio concreto (no la descripcion completa).`;\n\nconst messages = [{ role: 'system', content: systemPrompt }];\n\n// Agregar historial si existe\nif (Array.isArray(input.history) && input.history.length > 0) {\n  input.history.forEach(h => {\n    if (h.role && h.content) {\n      messages.push({ role: h.role, content: h.content });\n    }\n  });\n}\n\n// Mensaje actual del cliente\nmessages.push({ role: 'user', content: input.message });\n\nreturn {\n  json: {\n    messages,\n    contact_name: input.contact_name,\n    contact_phone: input.contact_phone,\n    rag_results: input.rag_results\n  }\n};"
+      },
+      "id": "code-build-prompt",
+      "name": "Construir prompt OpenAI",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4o\",\n  \"messages\": {{ JSON.stringify($json.messages) }},\n  \"temperature\": 0.4,\n  \"max_tokens\": 500\n}",
+        "options": {}
+      },
+      "id": "http-openai-chat",
+      "name": "OpenAI: GPT-4o respuesta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1440, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "PLACEHOLDER_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI - eXcalando"
+        }
+      },
+      "notes": "temperature 0.4 = balance entre creativo y consistente. max_tokens 500 = mensaje largo permitido pero contenido."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parsea la respuesta de OpenAI y construye la respuesta final\nconst openaiResp = $input.item.json;\nconst originalInput = $('Construir contexto KB').item.json;\nconst promptData = $('Construir prompt OpenAI').item.json;\n\nconst respuesta = openaiResp.choices?.[0]?.message?.content?.trim() || '';\nconst tokensUsed = openaiResp.usage?.total_tokens || 0;\nconst costEstimateUsd = (openaiResp.usage?.prompt_tokens || 0) * 0.0000025 + (openaiResp.usage?.completion_tokens || 0) * 0.00001;\n\nif (!respuesta) {\n  throw new Error('OpenAI no devolvio respuesta');\n}\n\n// Heuristica simple para detectar si la respuesta sugiere escalacion\nconst escalationKeywords = ['lo veo con un colega', 'colega del equipo', 'humano', 'intervencion humana', 'lo confirmo'];\nconst needsHumanReview = escalationKeywords.some(k => respuesta.toLowerCase().includes(k));\n\nreturn {\n  json: {\n    ok: true,\n    respuesta,\n    metadata: {\n      contact_name: originalInput.contact_name,\n      contact_phone: originalInput.contact_phone,\n      query_original: originalInput.message,\n      servicios_consultados: (promptData.rag_results || []).map(r => ({ slug: r.slug, similarity: r.similarity })),\n      needs_human_review: needsHumanReview,\n      tokens_used: tokensUsed,\n      cost_estimate_usd: parseFloat(costEstimateUsd.toFixed(6))\n    }\n  }\n};"
+      },
+      "id": "code-parse-response",
+      "name": "Parsear respuesta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}"
+      },
+      "id": "respond-success",
+      "name": "Responder JSON",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1920, 300]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /agent-conversational)": {
+      "main": [[{ "node": "Validar input", "type": "main", "index": 0 }]]
+    },
+    "Validar input": {
+      "main": [[{ "node": "Consultar RAG (catalogo)", "type": "main", "index": 0 }]]
+    },
+    "Consultar RAG (catalogo)": {
+      "main": [[{ "node": "Construir contexto KB", "type": "main", "index": 0 }]]
+    },
+    "Construir contexto KB": {
+      "main": [[{ "node": "Construir prompt OpenAI", "type": "main", "index": 0 }]]
+    },
+    "Construir prompt OpenAI": {
+      "main": [[{ "node": "OpenAI: GPT-4o respuesta", "type": "main", "index": 0 }]]
+    },
+    "OpenAI: GPT-4o respuesta": {
+      "main": [[{ "node": "Parsear respuesta", "type": "main", "index": 0 }]]
+    },
+    "Parsear respuesta": {
+      "main": [[{ "node": "Responder JSON", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "excalando" },
+    { "name": "agente" },
+    { "name": "conversational" },
+    { "name": "fase-1" }
+  ]
+}
