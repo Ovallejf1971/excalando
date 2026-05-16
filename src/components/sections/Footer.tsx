@@ -26,7 +26,7 @@ export const Footer = () => (
       <div>
         <div className="font-mono text-[11px] text-ink-3 tracking-[0.15em] mb-4">CONTACTO</div>
         <div className="text-sm text-ink-2 py-1.5">hola@excalando.com</div>
-        <div className="text-sm text-ink-2 py-1.5">+57 300 000 0000</div>
+        <div className="text-sm text-ink-2 py-1.5">+57 321 471 0437</div>
         <div className="text-sm text-ink-2 py-1.5">WhatsApp 24/7</div>
       </div>
       <div>
