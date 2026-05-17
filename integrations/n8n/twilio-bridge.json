@@ -1,0 +1,339 @@
+{
+  "name": "Twilio Bridge (Twilio WhatsApp -> Conversational -> Twilio) Fase 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "twilio-incoming",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "webhook-twilio-in",
+      "name": "Webhook (POST /twilio-incoming)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "twilio-incoming-excalando",
+      "notes": "Endpoint que Twilio llama cuando entra un mensaje WhatsApp. Twilio manda form-urlencoded (n8n lo parsea a body.X). Campos clave: Body, From, To, ProfileName, WaId, MessageSid."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Twilio manda form-urlencoded, n8n lo parsea como body o directamente en $json\n// Campos clave del webhook de Twilio WhatsApp:\n// - Body: texto del mensaje\n// - From: 'whatsapp:+57XXXXXXXXX' (sender)\n// - To: 'whatsapp:+16164056029' (nuestro Twilio sender)\n// - ProfileName: nombre del contacto\n// - WaId: phone sin '+' (ej. '57321XXXXXX')\n// - MessageSid: ID unico del mensaje\n// - NumMedia: '0' si es solo texto, '>0' si trae adjuntos\n\nconst body = $input.item.json.body || $input.item.json;\n\nconst messageText = (body.Body || '').trim();\nconst from = body.From || '';\nconst to = body.To || '';\nconst pushName = body.ProfileName || null;\nconst waId = body.WaId || '';\nconst messageId = body.MessageSid || body.SmsMessageSid || '';\nconst numMedia = parseInt(body.NumMedia || '0', 10);\n\nif (!messageText && numMedia === 0) {\n  return { json: { skip: true, reason: 'Mensaje vacio o no es texto' } };\n}\n\nif (numMedia > 0 && !messageText) {\n  return { json: { skip: true, reason: 'Mensaje multimedia sin caption (ignorado en Fase 2)' } };\n}\n\nif (!from.startsWith('whatsapp:')) {\n  return { json: { skip: true, reason: `From inesperado: ${from}` } };\n}\n\n// Extraer telefono limpio (sin 'whatsapp:+')\nconst phone = from.replace('whatsapp:+', '').replace('whatsapp:', '');\n\nreturn {\n  json: {\n    skip: false,\n    message: messageText,\n    contact_phone: phone,\n    contact_name: pushName,\n    from,\n    to,\n    waId,\n    messageId\n  }\n};"
+      },
+      "id": "code-filter",
+      "name": "Filtrar y normalizar Twilio",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "skip-check",
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-should-process",
+      "name": "¿Procesar este mensaje?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// UPSERT conversaciones por whatsapp_number\nconst i = $input.item.json;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sql = `INSERT INTO conversaciones (whatsapp_number, customer_name, status, first_message_at, last_message_at)\nVALUES (${esc(i.contact_phone)}, ${esc(i.contact_name)}, 'active', NOW(), NOW())\nON CONFLICT (whatsapp_number) DO UPDATE SET\n  customer_name = COALESCE(EXCLUDED.customer_name, conversaciones.customer_name),\n  last_message_at = NOW(),\n  status = CASE WHEN conversaciones.status = 'resolved' THEN 'active' ELSE conversaciones.status END\nRETURNING id;`;\n\nreturn { json: { sql, ...i } };"
+      },
+      "id": "code-build-upsert-sql",
+      "name": "Construir SQL UPSERT conv",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $json.sql }}",
+        "options": {}
+      },
+      "id": "postgres-upsert-conv",
+      "name": "Postgres: UPSERT conv",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1200, 220],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const pgResult = $input.item.json;\nconst original = $('Filtrar y normalizar Twilio').item.json;\nconst conversacionId = pgResult.id;\n\nif (!conversacionId) {\n  throw new Error('Postgres UPSERT no devolvio conversacion_id');\n}\n\nreturn {\n  json: {\n    ...original,\n    conversacion_id: conversacionId\n  }\n};"
+      },
+      "id": "code-extract-conv-id",
+      "name": "Extraer conversacion_id",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1440, 220]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// INSERT mensaje entrante\nconst i = $input.item.json;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sql = `INSERT INTO mensajes_analisis (conversacion_id, message_id, direction, text, sentiment, emotion, intent, topics, flags, opportunity_score, risk_score, summary_es, created_at)\nVALUES (${i.conversacion_id}, ${esc(i.messageId)}, ${esc('in')}, ${esc(i.message)}, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW());`;\n\nreturn { json: { sql, ...i } };"
+      },
+      "id": "code-build-msg-sql",
+      "name": "Construir SQL mensaje",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $json.sql }}",
+        "options": {}
+      },
+      "id": "postgres-insert-msg",
+      "name": "Postgres: INSERT mensaje",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1920, 220],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n.lithv.net/webhook/agent-conversational",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": {{ JSON.stringify($('Extraer conversacion_id').item.json.message) }},\n  \"contact_name\": {{ JSON.stringify($('Extraer conversacion_id').item.json.contact_name) }},\n  \"contact_phone\": {{ JSON.stringify($('Extraer conversacion_id').item.json.contact_phone) }},\n  \"conversacion_id\": {{ $('Extraer conversacion_id').item.json.conversacion_id }}\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "http-call-conversational",
+      "name": "Llamar Agent Conversational",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2160, 220]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Toma respuesta del Conversational + prepara payloads para SQLs y para Twilio\nconst convResp = $input.item.json;\nconst original = $('Extraer conversacion_id').item.json;\nconst meta = convResp.metadata || {};\nconst convId = original.conversacion_id;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sqlUpdateConv = `UPDATE conversaciones SET ai_handled_count = ai_handled_count + 1, last_message_at = NOW() WHERE id = ${convId};`;\n\nlet sqlInsertAlerta = null;\nif (meta.tool_called === 'escalar_a_humano' || meta.needs_human_review === true) {\n  const motivo = meta.tool_args?.motivo || 'Escalacion automatica detectada';\n  const urgencia = meta.tool_args?.urgencia || 'media';\n  const severity = (urgencia === 'alta') ? 'alta' : 'media';\n  sqlInsertAlerta = `INSERT INTO alertas (conversacion_id, tipo, severity, message, notified_via, reviewed) VALUES (${convId}, ${esc('escalation_request')}, ${esc(severity)}, ${esc(motivo)}, ARRAY['log']::text[], false);`;\n}\n\nreturn {\n  json: {\n    // Para Twilio (whatsapp: prefix)\n    twilio_to: 'whatsapp:+' + original.contact_phone,\n    twilio_from: original.to, // El \"To\" del mensaje entrante es nuestro sender Twilio\n    twilio_body: convResp.respuesta || '(no respuesta)',\n    // Para Postgres\n    sql_update_conv: sqlUpdateConv,\n    sql_insert_alerta: sqlInsertAlerta,\n    needs_alerta: !!sqlInsertAlerta,\n    metadata: meta,\n    contact_name: original.contact_name\n  }\n};"
+      },
+      "id": "code-process-response",
+      "name": "Procesar respuesta + preparar SQLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2400, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $json.sql_update_conv }}",
+        "options": {}
+      },
+      "id": "postgres-update-conv",
+      "name": "Postgres: UPDATE conv counter",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [2640, 220],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "alerta-check",
+              "leftValue": "={{ $('Procesar respuesta + preparar SQLs').item.json.needs_alerta }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-needs-alerta",
+      "name": "¿Insertar alerta?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [2880, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $('Procesar respuesta + preparar SQLs').item.json.sql_insert_alerta }}",
+        "options": {}
+      },
+      "id": "postgres-insert-alerta",
+      "name": "Postgres: INSERT alerta",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [3120, 140],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "sms",
+        "operation": "send",
+        "from": "={{ $('Procesar respuesta + preparar SQLs').item.json.twilio_from.replace('whatsapp:', '') }}",
+        "to": "={{ $('Procesar respuesta + preparar SQLs').item.json.twilio_to.replace('whatsapp:', '') }}",
+        "toWhatsapp": true,
+        "message": "={{ $('Procesar respuesta + preparar SQLs').item.json.twilio_body }}",
+        "options": {}
+      },
+      "id": "twilio-send",
+      "name": "Twilio: enviar respuesta WhatsApp",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [3360, 220],
+      "credentials": {
+        "twilioApi": {
+          "id": "PLACEHOLDER_TWILIO_CREDENTIAL_ID",
+          "name": "Twilio eXcalando"
+        }
+      },
+      "notes": "El nodo Twilio nativo de n8n. Usa operation=send con toWhatsapp=true para que prefije el numero con 'whatsapp:'. La credencial Twilio se crea en n8n con Account SID + Auth Token."
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-ok",
+      "name": "Responder 200 a Twilio",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [3600, 220],
+      "notes": "Twilio espera HTTP 200 vacio (no necesita TwiML, ya mandamos el mensaje via API)."
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-skip",
+      "name": "Responder 200 (skip)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 460]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /twilio-incoming)": {
+      "main": [[{ "node": "Filtrar y normalizar Twilio", "type": "main", "index": 0 }]]
+    },
+    "Filtrar y normalizar Twilio": {
+      "main": [[{ "node": "¿Procesar este mensaje?", "type": "main", "index": 0 }]]
+    },
+    "¿Procesar este mensaje?": {
+      "main": [
+        [{ "node": "Construir SQL UPSERT conv", "type": "main", "index": 0 }],
+        [{ "node": "Responder 200 (skip)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Construir SQL UPSERT conv": {
+      "main": [[{ "node": "Postgres: UPSERT conv", "type": "main", "index": 0 }]]
+    },
+    "Postgres: UPSERT conv": {
+      "main": [[{ "node": "Extraer conversacion_id", "type": "main", "index": 0 }]]
+    },
+    "Extraer conversacion_id": {
+      "main": [[{ "node": "Construir SQL mensaje", "type": "main", "index": 0 }]]
+    },
+    "Construir SQL mensaje": {
+      "main": [[{ "node": "Postgres: INSERT mensaje", "type": "main", "index": 0 }]]
+    },
+    "Postgres: INSERT mensaje": {
+      "main": [[{ "node": "Llamar Agent Conversational", "type": "main", "index": 0 }]]
+    },
+    "Llamar Agent Conversational": {
+      "main": [[{ "node": "Procesar respuesta + preparar SQLs", "type": "main", "index": 0 }]]
+    },
+    "Procesar respuesta + preparar SQLs": {
+      "main": [[{ "node": "Postgres: UPDATE conv counter", "type": "main", "index": 0 }]]
+    },
+    "Postgres: UPDATE conv counter": {
+      "main": [[{ "node": "¿Insertar alerta?", "type": "main", "index": 0 }]]
+    },
+    "¿Insertar alerta?": {
+      "main": [
+        [{ "node": "Postgres: INSERT alerta", "type": "main", "index": 0 }],
+        [{ "node": "Twilio: enviar respuesta WhatsApp", "type": "main", "index": 0 }]
+      ]
+    },
+    "Postgres: INSERT alerta": {
+      "main": [[{ "node": "Twilio: enviar respuesta WhatsApp", "type": "main", "index": 0 }]]
+    },
+    "Twilio: enviar respuesta WhatsApp": {
+      "main": [[{ "node": "Responder 200 a Twilio", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "excalando" },
+    { "name": "whatsapp" },
+    { "name": "twilio" },
+    { "name": "bridge" }
+  ]
+}
