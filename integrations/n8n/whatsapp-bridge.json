@@ -1,0 +1,177 @@
+{
+  "name": "WhatsApp Bridge (Evolution -> Conversational -> Evolution)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-incoming",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "webhook-evolution-in",
+      "name": "Webhook (POST /whatsapp-incoming)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "whatsapp-incoming-excalando",
+      "notes": "Endpoint que Evolution API llama cuando entra un mensaje. Evolution envia muchos eventos (messages.upsert, status.update, etc) - filtramos solo los relevantes."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Filtra y normaliza el evento de Evolution\n// Solo procesa: messages.upsert + fromMe=false + texto (conversation o extendedTextMessage)\n\nconst body = $input.item.json.body || $input.item.json;\nconst event = body.event;\nconst data = body.data;\n\n// Solo procesar mensajes nuevos entrantes\nif (event !== 'messages.upsert') {\n  return { json: { skip: true, reason: `Evento ignorado: ${event}` } };\n}\n\nif (!data) {\n  return { json: { skip: true, reason: 'Sin data' } };\n}\n\n// Ignorar mensajes propios (fromMe = true)\nif (data.key?.fromMe === true) {\n  return { json: { skip: true, reason: 'Mensaje propio (fromMe)' } };\n}\n\n// Extraer texto del mensaje (puede venir en varios formatos)\nconst msg = data.message || {};\nconst messageText = msg.conversation\n  || msg.extendedTextMessage?.text\n  || msg.imageMessage?.caption\n  || msg.videoMessage?.caption\n  || '';\n\nif (!messageText.trim()) {\n  return { json: { skip: true, reason: 'Mensaje no es texto (imagen/audio/sticker/etc)' } };\n}\n\n// Extraer datos del contacto\nconst remoteJid = data.key?.remoteJid || '';\nconst phone = remoteJid.replace('@s.whatsapp.net', '').replace('@c.us', '');\nconst pushName = data.pushName || null;\n\n// Ignorar grupos por ahora (terminan en @g.us)\nif (remoteJid.includes('@g.us')) {\n  return { json: { skip: true, reason: 'Mensaje de grupo (ignorados en Fase 1)' } };\n}\n\nreturn {\n  json: {\n    skip: false,\n    message: messageText,\n    contact_phone: phone,\n    contact_name: pushName,\n    remoteJid,\n    instance: body.instance || 'excalando',\n    messageId: data.key?.id\n  }\n};"
+      },
+      "id": "code-filter",
+      "name": "Filtrar y normalizar evento",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "skip-check",
+              "leftValue": "={{ $json.skip }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-should-process",
+      "name": "¿Procesar este mensaje?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n.lithv.net/webhook/agent-conversational",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": {{ JSON.stringify($json.message) }},\n  \"contact_name\": {{ JSON.stringify($json.contact_name) }},\n  \"contact_phone\": {{ JSON.stringify($json.contact_phone) }}\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "http-call-conversational",
+      "name": "Llamar Agent Conversational",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [960, 220],
+      "notes": "Llama al workflow Agent Conversational que ya esta publicado y funcional. Devuelve respuesta de GPT-4o lista para enviar."
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Toma la respuesta del Conversational y construye el payload para Evolution\nconst convResp = $input.item.json;\nconst original = $('Filtrar y normalizar evento').item.json;\n\nconst respuesta = convResp.respuesta || '(no respuesta)';\n\nreturn {\n  json: {\n    number: original.contact_phone,\n    text: respuesta,\n    respuesta_metadata: convResp.metadata || {},\n    original_message: original.message,\n    contact_name: original.contact_name\n  }\n};"
+      },
+      "id": "code-build-reply",
+      "name": "Construir payload Evolution",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 220]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://evolution-api:8080/message/sendText/excalando",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "355000deec5b9eef7c0c7b570c102f33469896d9355204ec6696f90d9eac5640"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"number\": {{ JSON.stringify($json.number) }},\n  \"text\": {{ JSON.stringify($json.text) }}\n}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "http-evolution-send",
+      "name": "Evolution: enviar respuesta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1440, 220],
+      "notes": "URL interna usa nombre de contenedor (evolution-api:8080) - n8n y evolution-api estan en la misma red shared-network. El puerto interno del contenedor es 8080 (no 8085 que es el del host)."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, processed: true, replied_to: $json.contact_name || $json.number, length: ($json.text || '').length }) }}"
+      },
+      "id": "respond-ok",
+      "name": "Responder OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1680, 220]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, skipped: true, reason: $json.reason }) }}"
+      },
+      "id": "respond-skip",
+      "name": "Responder Skip",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 400]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /whatsapp-incoming)": {
+      "main": [[{ "node": "Filtrar y normalizar evento", "type": "main", "index": 0 }]]
+    },
+    "Filtrar y normalizar evento": {
+      "main": [[{ "node": "¿Procesar este mensaje?", "type": "main", "index": 0 }]]
+    },
+    "¿Procesar este mensaje?": {
+      "main": [
+        [{ "node": "Llamar Agent Conversational", "type": "main", "index": 0 }],
+        [{ "node": "Responder Skip", "type": "main", "index": 0 }]
+      ]
+    },
+    "Llamar Agent Conversational": {
+      "main": [[{ "node": "Construir payload Evolution", "type": "main", "index": 0 }]]
+    },
+    "Construir payload Evolution": {
+      "main": [[{ "node": "Evolution: enviar respuesta", "type": "main", "index": 0 }]]
+    },
+    "Evolution: enviar respuesta": {
+      "main": [[{ "node": "Responder OK", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    { "name": "excalando" },
+    { "name": "whatsapp" },
+    { "name": "evolution" },
+    { "name": "bridge" }
+  ]
+}
