@@ -1,5 +1,5 @@
 {
-  "name": "WhatsApp Bridge (Evolution -> Conversational -> Evolution)",
+  "name": "WhatsApp Bridge (Evolution -> Persist -> Conversational -> Evolution) Fase 2",
   "nodes": [
     {
       "parameters": {
@@ -15,13 +15,12 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [240, 300],
-      "webhookId": "whatsapp-incoming-excalando",
-      "notes": "Endpoint que Evolution API llama cuando entra un mensaje. Evolution envia muchos eventos (messages.upsert, status.update, etc) - filtramos solo los relevantes."
+      "webhookId": "whatsapp-incoming-excalando"
     },
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Filtra y normaliza el evento de Evolution\n// Solo procesa: messages.upsert + fromMe=false + texto (conversation o extendedTextMessage)\n\nconst body = $input.item.json.body || $input.item.json;\nconst event = body.event;\nconst data = body.data;\n\n// Solo procesar mensajes nuevos entrantes\nif (event !== 'messages.upsert') {\n  return { json: { skip: true, reason: `Evento ignorado: ${event}` } };\n}\n\nif (!data) {\n  return { json: { skip: true, reason: 'Sin data' } };\n}\n\n// Ignorar mensajes propios (fromMe = true)\nif (data.key?.fromMe === true) {\n  return { json: { skip: true, reason: 'Mensaje propio (fromMe)' } };\n}\n\n// Extraer texto del mensaje (puede venir en varios formatos)\nconst msg = data.message || {};\nconst messageText = msg.conversation\n  || msg.extendedTextMessage?.text\n  || msg.imageMessage?.caption\n  || msg.videoMessage?.caption\n  || '';\n\nif (!messageText.trim()) {\n  return { json: { skip: true, reason: 'Mensaje no es texto (imagen/audio/sticker/etc)' } };\n}\n\n// Extraer datos del contacto\nconst remoteJid = data.key?.remoteJid || '';\nconst phone = remoteJid.replace('@s.whatsapp.net', '').replace('@c.us', '');\nconst pushName = data.pushName || null;\n\n// Ignorar grupos por ahora (terminan en @g.us)\nif (remoteJid.includes('@g.us')) {\n  return { json: { skip: true, reason: 'Mensaje de grupo (ignorados en Fase 1)' } };\n}\n\nreturn {\n  json: {\n    skip: false,\n    message: messageText,\n    contact_phone: phone,\n    contact_name: pushName,\n    remoteJid,\n    instance: body.instance || 'excalando',\n    messageId: data.key?.id\n  }\n};"
+        "jsCode": "// Filtra y normaliza el evento de Evolution\nconst body = $input.item.json.body || $input.item.json;\nconst event = body.event;\nconst data = body.data;\n\nif (event !== 'messages.upsert') {\n  return { json: { skip: true, reason: `Evento ignorado: ${event}` } };\n}\n\nif (!data) {\n  return { json: { skip: true, reason: 'Sin data' } };\n}\n\nif (data.key?.fromMe === true) {\n  return { json: { skip: true, reason: 'Mensaje propio (fromMe)' } };\n}\n\nconst msg = data.message || {};\nconst messageText = msg.conversation\n  || msg.extendedTextMessage?.text\n  || msg.imageMessage?.caption\n  || msg.videoMessage?.caption\n  || '';\n\nif (!messageText.trim()) {\n  return { json: { skip: true, reason: 'Mensaje no es texto' } };\n}\n\nconst remoteJid = data.key?.remoteJid || '';\nconst phone = remoteJid.replace('@s.whatsapp.net', '').replace('@c.us', '');\nconst pushName = data.pushName || null;\n\nif (remoteJid.includes('@g.us')) {\n  return { json: { skip: true, reason: 'Mensaje de grupo (ignorados en Fase 2)' } };\n}\n\nreturn {\n  json: {\n    skip: false,\n    message: messageText,\n    contact_phone: phone,\n    contact_name: pushName,\n    remoteJid,\n    instance: body.instance || 'excalando',\n    messageId: data.key?.id\n  }\n};"
       },
       "id": "code-filter",
       "name": "Filtrar y normalizar evento",
@@ -60,11 +59,81 @@
     },
     {
       "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Construye SQL UPSERT en conversaciones por whatsapp_number\nconst i = $input.item.json;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sql = `INSERT INTO conversaciones (whatsapp_number, customer_name, status, first_message_at, last_message_at)\nVALUES (${esc(i.contact_phone)}, ${esc(i.contact_name)}, 'active', NOW(), NOW())\nON CONFLICT (whatsapp_number) DO UPDATE SET\n  customer_name = COALESCE(EXCLUDED.customer_name, conversaciones.customer_name),\n  last_message_at = NOW(),\n  status = CASE WHEN conversaciones.status = 'resolved' THEN 'active' ELSE conversaciones.status END\nRETURNING id;`;\n\nreturn { json: { sql, ...i } };"
+      },
+      "id": "code-build-upsert-sql",
+      "name": "Construir SQL UPSERT conversacion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $json.sql }}",
+        "options": {}
+      },
+      "id": "postgres-upsert-conv",
+      "name": "Postgres: UPSERT conversacion",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1200, 220],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Toma el conversacion_id devuelto y enriquece el contexto\nconst pgResult = $input.item.json;\nconst original = $('Filtrar y normalizar evento').item.json;\nconst conversacionId = pgResult.id;\n\nif (!conversacionId) {\n  throw new Error('Postgres UPSERT no devolvio conversacion_id');\n}\n\nreturn {\n  json: {\n    ...original,\n    conversacion_id: conversacionId\n  }\n};"
+      },
+      "id": "code-extract-conv-id",
+      "name": "Extraer conversacion_id",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1440, 220]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// INSERT mensaje del cliente en mensajes_analisis (sin analisis IA aun, eso lo hace el Analyzer aparte)\nconst i = $input.item.json;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sql = `INSERT INTO mensajes_analisis (conversacion_id, message_id, direction, text, sentiment, emotion, intent, topics, flags, opportunity_score, risk_score, summary_es, created_at)\nVALUES (${i.conversacion_id}, ${esc(i.messageId)}, ${esc('in')}, ${esc(i.message)}, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW());`;\n\nreturn { json: { sql, ...i } };"
+      },
+      "id": "code-build-msg-sql",
+      "name": "Construir SQL mensaje",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1680, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $json.sql }}",
+        "options": {}
+      },
+      "id": "postgres-insert-msg",
+      "name": "Postgres: INSERT mensaje",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [1920, 220],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
         "method": "POST",
         "url": "https://n8n.lithv.net/webhook/agent-conversational",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"message\": {{ JSON.stringify($json.message) }},\n  \"contact_name\": {{ JSON.stringify($json.contact_name) }},\n  \"contact_phone\": {{ JSON.stringify($json.contact_phone) }}\n}",
+        "jsonBody": "={\n  \"message\": {{ JSON.stringify($('Extraer conversacion_id').item.json.message) }},\n  \"contact_name\": {{ JSON.stringify($('Extraer conversacion_id').item.json.contact_name) }},\n  \"contact_phone\": {{ JSON.stringify($('Extraer conversacion_id').item.json.contact_phone) }},\n  \"conversacion_id\": {{ $('Extraer conversacion_id').item.json.conversacion_id }}\n}",
         "options": {
           "timeout": 60000
         }
@@ -73,19 +142,85 @@
       "name": "Llamar Agent Conversational",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [960, 220],
-      "notes": "Llama al workflow Agent Conversational que ya esta publicado y funcional. Devuelve respuesta de GPT-4o lista para enviar."
+      "position": [2160, 220]
     },
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Toma la respuesta del Conversational y construye el payload para Evolution\nconst convResp = $input.item.json;\nconst original = $('Filtrar y normalizar evento').item.json;\n\nconst respuesta = convResp.respuesta || '(no respuesta)';\n\nreturn {\n  json: {\n    number: original.contact_phone,\n    text: respuesta,\n    respuesta_metadata: convResp.metadata || {},\n    original_message: original.message,\n    contact_name: original.contact_name\n  }\n};"
+        "jsCode": "// Toma respuesta del Conversational + datos originales y prepara:\n// 1. Payload Evolution para enviar respuesta\n// 2. SQLs para registrar lo que paso (UPDATE conversacion + opcional INSERT alerta)\n\nconst convResp = $input.item.json;\nconst original = $('Extraer conversacion_id').item.json;\nconst meta = convResp.metadata || {};\nconst convId = original.conversacion_id;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sqlUpdateConv = `UPDATE conversaciones SET ai_handled_count = ai_handled_count + 1, last_message_at = NOW() WHERE id = ${convId};`;\n\nlet sqlInsertAlerta = null;\nif (meta.tool_called === 'escalar_a_humano' || meta.needs_human_review === true) {\n  const motivo = meta.tool_args?.motivo || 'Escalacion automatica detectada';\n  const urgencia = meta.tool_args?.urgencia || 'media';\n  const severityMap = { alta: 'alta', media: 'media' };\n  const severity = severityMap[urgencia] || 'media';\n  \n  sqlInsertAlerta = `INSERT INTO alertas (conversacion_id, tipo, severity, message, notified_via, reviewed) VALUES (${convId}, ${esc('escalation_request')}, ${esc(severity)}, ${esc(motivo)}, ARRAY['log']::text[], false);`;\n}\n\nreturn {\n  json: {\n    evolution_number: original.contact_phone,\n    evolution_text: convResp.respuesta || '(no respuesta)',\n    sql_update_conv: sqlUpdateConv,\n    sql_insert_alerta: sqlInsertAlerta,\n    needs_alerta: !!sqlInsertAlerta,\n    metadata: meta,\n    contact_name: original.contact_name,\n    original_message: original.message\n  }\n};"
       },
-      "id": "code-build-reply",
-      "name": "Construir payload Evolution",
+      "id": "code-process-response",
+      "name": "Procesar respuesta + preparar SQLs",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1200, 220]
+      "position": [2400, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $json.sql_update_conv }}",
+        "options": {}
+      },
+      "id": "postgres-update-conv",
+      "name": "Postgres: UPDATE conv counter",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [2640, 220],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "alerta-check",
+              "leftValue": "={{ $('Procesar respuesta + preparar SQLs').item.json.needs_alerta }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if-needs-alerta",
+      "name": "¿Insertar alerta?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [2880, 220]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "={{ $('Procesar respuesta + preparar SQLs').item.json.sql_insert_alerta }}",
+        "options": {}
+      },
+      "id": "postgres-insert-alerta",
+      "name": "Postgres: INSERT alerta",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [3120, 140],
+      "credentials": {
+        "postgres": {
+          "id": "PLACEHOLDER_POSTGRES_CREDENTIAL_ID",
+          "name": "Postgres eXcalando"
+        }
+      },
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -106,7 +241,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"number\": {{ JSON.stringify($json.number) }},\n  \"text\": {{ JSON.stringify($json.text) }}\n}",
+        "jsonBody": "={\n  \"number\": {{ JSON.stringify($('Procesar respuesta + preparar SQLs').item.json.evolution_number) }},\n  \"text\": {{ JSON.stringify($('Procesar respuesta + preparar SQLs').item.json.evolution_text) }}\n}",
         "options": {
           "timeout": 30000
         }
@@ -115,19 +250,18 @@
       "name": "Evolution: enviar respuesta",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1440, 220],
-      "notes": "URL interna usa nombre de contenedor (evolution-api:8080) - n8n y evolution-api estan en la misma red shared-network. El puerto interno del contenedor es 8080 (no 8085 que es el del host)."
+      "position": [3360, 220]
     },
     {
       "parameters": {
         "respondWith": "json",
-        "responseBody": "={{ JSON.stringify({ ok: true, processed: true, replied_to: $json.contact_name || $json.number, length: ($json.text || '').length }) }}"
+        "responseBody": "={{ JSON.stringify({ ok: true, processed: true, conversacion_id: $('Extraer conversacion_id').item.json.conversacion_id, escalada: $('Procesar respuesta + preparar SQLs').item.json.needs_alerta, respuesta: $('Procesar respuesta + preparar SQLs').item.json.evolution_text }) }}"
       },
       "id": "respond-ok",
       "name": "Responder OK",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [1680, 220]
+      "position": [3600, 220]
     },
     {
       "parameters": {
@@ -138,7 +272,7 @@
       "name": "Responder Skip",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
-      "position": [960, 400]
+      "position": [960, 460]
     }
   ],
   "connections": {
@@ -150,14 +284,41 @@
     },
     "¿Procesar este mensaje?": {
       "main": [
-        [{ "node": "Llamar Agent Conversational", "type": "main", "index": 0 }],
+        [{ "node": "Construir SQL UPSERT conversacion", "type": "main", "index": 0 }],
         [{ "node": "Responder Skip", "type": "main", "index": 0 }]
       ]
     },
-    "Llamar Agent Conversational": {
-      "main": [[{ "node": "Construir payload Evolution", "type": "main", "index": 0 }]]
+    "Construir SQL UPSERT conversacion": {
+      "main": [[{ "node": "Postgres: UPSERT conversacion", "type": "main", "index": 0 }]]
     },
-    "Construir payload Evolution": {
+    "Postgres: UPSERT conversacion": {
+      "main": [[{ "node": "Extraer conversacion_id", "type": "main", "index": 0 }]]
+    },
+    "Extraer conversacion_id": {
+      "main": [[{ "node": "Construir SQL mensaje", "type": "main", "index": 0 }]]
+    },
+    "Construir SQL mensaje": {
+      "main": [[{ "node": "Postgres: INSERT mensaje", "type": "main", "index": 0 }]]
+    },
+    "Postgres: INSERT mensaje": {
+      "main": [[{ "node": "Llamar Agent Conversational", "type": "main", "index": 0 }]]
+    },
+    "Llamar Agent Conversational": {
+      "main": [[{ "node": "Procesar respuesta + preparar SQLs", "type": "main", "index": 0 }]]
+    },
+    "Procesar respuesta + preparar SQLs": {
+      "main": [[{ "node": "Postgres: UPDATE conv counter", "type": "main", "index": 0 }]]
+    },
+    "Postgres: UPDATE conv counter": {
+      "main": [[{ "node": "¿Insertar alerta?", "type": "main", "index": 0 }]]
+    },
+    "¿Insertar alerta?": {
+      "main": [
+        [{ "node": "Postgres: INSERT alerta", "type": "main", "index": 0 }],
+        [{ "node": "Evolution: enviar respuesta", "type": "main", "index": 0 }]
+      ]
+    },
+    "Postgres: INSERT alerta": {
       "main": [[{ "node": "Evolution: enviar respuesta", "type": "main", "index": 0 }]]
     },
     "Evolution: enviar respuesta": {
@@ -172,6 +333,7 @@
     { "name": "excalando" },
     { "name": "whatsapp" },
     { "name": "evolution" },
-    { "name": "bridge" }
+    { "name": "bridge" },
+    { "name": "fase-2" }
   ]
 }
