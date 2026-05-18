@@ -5,11 +5,35 @@
 
 ---
 
+## El porqué — fundación de la marca (firmado 2026-05-18)
+
+**Misión:** ayudar a las PyMEs latinoamericanas a **escalar sus negocios** con capacidades digitales que antes eran exclusivas de empresas grandes.
+
+**Origen del nombre eXcalando:**
+
+> *"Creando puentes donde los demás hacen muros."*
+
+eXcalando viene de **"escalar"** (crecer, subir de nivel). Pero la **X mayúscula** simboliza algo más profundo: una **conexión**, un **puente**, un **cruce**. Mientras la mayoría del sector pone muros (precios altos, jerga inflada, contratos largos, dependencia técnica), nosotros construimos puentes — entre la PyME y lo que la IA puede hacer hoy por su negocio.
+
+**Cómo aparece esto en el lenguaje:**
+
+- En la comunicación: usar la metáfora de "puentes vs muros" cuando se hable de diferenciación frente al sector
+- En el manifiesto: complementa la idea actual de "Confía en el proceso"
+- En el copy de objeciones: "Otros te ponen muros (lock-in, jerga, contratos). Nosotros construimos puentes."
+- En propuestas: explicar que cada servicio es un puente entre la PyME y una capacidad nueva
+
+**Frases derivadas que se pueden usar en copy/branding:**
+
+- "Construimos puentes hacia tu próximo nivel."
+- "Donde los demás hacen muros, nosotros tendemos puentes."
+- "Capacidades digitales sin muros."
+- "Tu negocio escalando, sin atajos ni paredes."
+
 ## Product Overview
 
-**One-liner:** La capacidad digital completa que tu PYME necesita para ser sostenible — entregada lista para operar.
+**One-liner:** La capacidad digital completa que tu PYME necesita para escalar — entregada lista para operar, sin muros ni lock-in.
 
-**Qué hace:** Equipamos a PYMEs latinoamericanas con cuatro capacidades digitales operativas — presencia digital, asistentes IA, automatización y datos para decidir — usando IA y stack self-hosted para entregar más rápido y a fracción del costo de las agencias tradicionales.
+**Qué hace:** Equipamos a PYMEs latinoamericanas con tres capas de capacidades digitales — Frente (cómo te ven), Medio (cómo te hablan), Fondo (cómo trabajas) — usando IA y stack self-hosted para entregar más rápido y a fracción del costo de las agencias tradicionales.
 
 **Categoría:** Agencia digital con IA / Agencia de capacidades digitales para PYMES.
 

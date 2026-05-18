@@ -26,7 +26,39 @@ Esto implica:
 
 ---
 
-## Diagrama de arquitectura
+## Diagrama de alto nivel · vista de 30 segundos
+
+Para entender el sistema en una mirada — 5 bloques, 4 flechas.
+
+```mermaid
+flowchart LR
+    A["👥 CLIENTES<br/><br/>WhatsApp · Web"]
+    B["🔀 BRIDGES<br/><br/>Adapta el canal<br/>al formato del cerebro"]
+    C["🧠 CEREBRO IA<br/><br/>Conversa · Decide<br/>Escala cuando hace falta"]
+    D[("🗃️ DATOS<br/><br/>Postgres · Redis<br/>Estado + KB")]
+    E["👤 HUMANOS<br/><br/>Francisco · Harol<br/>Solo para escalaciones<br/>y decisiones estratégicas"]
+
+    A -->|"mensaje"| B
+    B <-->|"persistencia"| D
+    B -->|"query"| C
+    C -->|"respuesta"| B
+    B -.->|"si IA escala"| E
+    E -.->|"aprueba/edita"| C
+
+    style A fill:#cfe6f5,stroke:#4ba3d4,color:#000
+    style B fill:#d4f4dd,stroke:#5fe0a3,color:#000
+    style C fill:#fff3b0,stroke:#d4a04b,color:#000
+    style D fill:#f5cfe6,stroke:#d44b9b,color:#000
+    style E fill:#e8e1f7,stroke:#9b8ed4,color:#000
+```
+
+**Lectura en una frase:** los clientes entran por un canal (WhatsApp, Web), un bridge lo adapta y persiste el estado, el cerebro IA decide qué responder consultando datos, y los humanos solo intervienen cuando la IA explícitamente escala.
+
+---
+
+## Diagrama detallado · vista completa
+
+Para entender cada componente, integraciones externas y workflows específicos.
 
 ```mermaid
 flowchart TB
@@ -67,13 +99,12 @@ flowchart TB
         CHATWOOT[Chatwoot<br/>omnichannel UI]
         METABASE["Metabase<br/>dashboards<br/>⏳ pending subdomain"]
         CALCOM["Cal.com<br/>agendamiento<br/>⏳ pending subdomain"]
-        GOTENBERG[Gotenberg<br/>PDF + screenshots]
         TG["Telegram bot<br/>alertas push<br/>⏳ pending"]
     end
 
     subgraph HUMANOS["👤 INTERVENCIÓN HUMANA"]
         FRA["Francisco · Founder<br/>estrategia, ventas, decisiones,<br/>aprobaciones, escalaciones"]
-        HAR["Harol · Socio técnico<br/>infra, deploys, troubleshooting"]
+        HAR["Harol · Co-Founder<br/>infra, deploys, troubleshooting"]
         COMM["⏳ Equipo comercial futuro<br/>solo leads calientes post-escalación"]
     end
 
@@ -122,9 +153,6 @@ flowchart TB
     HAR -->|"despliega workflows"| CEREBRO
     COMM -.->|"futuro: toma<br/>leads calientes"| CHATWOOT
 
-    %% Generación de PDFs
-    GOTENBERG -.->|"genera reportes<br/>mensuales para clientes"| FRA
-
     %% Cache
     CONV -.->|"cache respuestas"| REDIS
 
@@ -133,7 +161,7 @@ flowchart TB
     classDef human fill:#e8e1f7,stroke:#9b8ed4,color:#000
     classDef data fill:#cfe6f5,stroke:#4ba3d4,color:#000
 
-    class T_BRIDGE,CONV,RAG,LOADER,TWILIO,EVO,OPENAI,ANTHROPIC,CHATWOOT,GOTENBERG,WEB live
+    class T_BRIDGE,CONV,RAG,LOADER,TWILIO,EVO,OPENAI,ANTHROPIC,CHATWOOT,WEB live
     class E_BRIDGE,ANALYZER,META,METABASE,CALCOM,TG,COMM pending
     class FRA,HAR human
     class KB,OPS,LEADS,REDIS data
@@ -253,8 +281,7 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 | Chatwoot | Ver hilos de WhatsApp, intervenir manualmente, asignar a humano | ✅ |
 | Metabase | Dashboards de leads, conversaciones, alertas, ROI | ⏳ falta subdomain |
 | Cal.com | Agendamiento de reuniones con prospectos | ⏳ falta subdomain |
-| Gotenberg | Generar PDFs de reportes mensuales para clientes | ✅ |
-| Bot Telegram | Push notification a Francisco cuando hay alerta crítica | ⏳ pendiente |
+| Bot Telegram | Push notification a fundadores cuando hay alerta crítica | ⏳ pendiente |
 
 ---
 
@@ -262,8 +289,8 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 
 | Rol | Quién hoy | Responsabilidades | Cuándo crece esto |
 |---|---|---|---|
-| **Founder / Estrategia** | Francisco | Decisiones de negocio, ventas, vocería, aprobaciones, primera revisión de alertas | Permanente |
-| **Tech / Infra** | Harol | VPS, despliegues, debugging, escalado técnico, nuevos workflows | Permanente |
+| **Co-Founder · Estrategia y comercial** | Francisco Ovalle | Decisiones de negocio, ventas, vocería, aprobaciones, primera revisión de alertas, marca personal | Permanente |
+| **Co-Founder · Tech y operación** | Harol Valencia | VPS, despliegues, debugging, escalado técnico, nuevos workflows, infraestructura | Permanente |
 | **Comercial junior** | — (futuro) | Atender SOLO leads calientes post-escalación, agendar y cerrar | Mes 4-6 según volumen |
 | **Copywriter / Content** | — (futuro) | Editar drafts del Agente Content Generator (cuando exista) | Mes 6+ |
 | **Diseñador** | — (futuro) | Custom design para clientes que lo paguen | Cuando aparezca demanda |
@@ -390,4 +417,5 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 
 ---
 
-**Cualquier duda sobre este documento → Francisco** (`ovallejf@gmail.com` · WhatsApp interno equipo).
+**Cualquier duda sobre este documento → Francisco u Harol** (`ovallejf@gmail.com` · WhatsApp interno equipo).
+
