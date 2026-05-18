@@ -37,7 +37,7 @@ export const ScoreDashboard = () => {
       className="relative p-1 rounded-lg shadow-card"
       style={{
         background:
-          "linear-gradient(135deg, rgba(0,212,255,0.35), transparent 50%, rgba(0,212,255,0.35))",
+          "linear-gradient(135deg, rgba(0,102,255,0.35), transparent 50%, rgba(0,102,255,0.35))",
       }}
     >
       <div className="bg-bg-2 border border-line-2 rounded-md p-4 sm:p-6 md:p-7 font-mono">
@@ -49,7 +49,7 @@ export const ScoreDashboard = () => {
           </div>
           <div className="text-[10px] sm:text-[11px] text-ink-3 tracking-wider truncate">score.excalando.com/marca-real</div>
           <div className="text-[11px] text-accent flex items-center gap-1.5 shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent" style={{ boxShadow: "0 0 8px #00D4FF" }} />
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" style={{ boxShadow: "0 0 8px #0066FF" }} />
             LIVE
           </div>
         </div>
@@ -68,8 +68,8 @@ export const ScoreDashboard = () => {
               Hay mucho por hacer
             </div>
             <svg viewBox="0 0 100 60" className="w-full h-[50px] sm:h-[60px] mt-4 block" preserveAspectRatio="none">
-              <path d={sparkPath} stroke="#00D4FF" strokeWidth={1} fill="none" />
-              <path d={sparkPath + " L100,60 L0,60 Z"} fill="rgba(0,212,255,0.12)" />
+              <path d={sparkPath} stroke="#0066FF" strokeWidth={1} fill="none" />
+              <path d={sparkPath + " L100,60 L0,60 Z"} fill="rgba(0,102,255,0.12)" />
             </svg>
             <div className="flex justify-between text-[9px] text-ink-3 mt-1">
               <span>HACE 30D</span>

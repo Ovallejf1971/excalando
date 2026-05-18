@@ -1,14 +1,188 @@
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es-CO">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>eXcalando · Capacidades digitales con IA para PyMEs</title>
-    <meta name="description" content="Diagnóstico, implementación y resultados medibles en 30–90 días. Stack propio, self-hosted, cero lock-in. Score Digital gratis." />
+    <meta name="theme-color" content="#0066FF" />
+
+    <!-- Indexación -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://excalando.com/" />
+
+    <!-- Identidad básica SEO -->
+    <title>eXcalando · Agencia de IA para PyMEs en Colombia y LATAM</title>
+    <meta name="description" content="Implementamos inteligencia artificial, agentes de WhatsApp y automatización con n8n para PyMEs en Colombia. Diagnóstico digital gratis. Stack self-hosted, sin lock-in, resultados en 30–90 días." />
+    <meta name="keywords" content="agencia de inteligencia artificial Colombia, agencia de IA para PyMEs, automatización con IA, agente de WhatsApp con IA, consultoría inteligencia artificial empresas, transformación digital PyME LATAM, n8n Colombia, Evolution API, Score Digital" />
+    <meta name="author" content="eXcalando" />
+    <meta name="publisher" content="eXcalando" />
+    <meta name="geo.region" content="CO" />
+    <meta name="geo.placename" content="Bogotá, Colombia" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="eXcalando" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:url" content="https://excalando.com/" />
+    <meta property="og:title" content="eXcalando · Agencia de IA para PyMEs en Colombia y LATAM" />
+    <meta property="og:description" content="Delega, automatiza y orquesta tu operación con agentes de IA, WhatsApp inteligente y n8n. Diagnóstico digital gratis. Stack self-hosted, sin lock-in." />
+    <!-- TODO antes de lanzamiento: convertir /og-image.svg y /apple-touch-icon.svg a PNG (FB/WA/iOS no aceptan SVG) -->
+    <meta property="og:image" content="https://excalando.com/og-image.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="eXcalando — Agencia de IA para PyMEs" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="eXcalando · Agencia de IA para PyMEs en Colombia y LATAM" />
+    <meta name="twitter:description" content="Delega, automatiza y orquesta tu operación con agentes de IA. Diagnóstico digital gratis." />
+    <meta name="twitter:image" content="https://excalando.com/og-image.svg" />
+    <meta name="twitter:image:alt" content="eXcalando — Agencia de IA para PyMEs" />
+
+    <!-- Favicons + manifest -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Fuentes (Geist display + Geist Mono — Mona Sans se autohostea en fase posterior) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "eXcalando",
+      "alternateName": "eXcalando Agencia Digital",
+      "url": "https://excalando.com",
+      "logo": "https://excalando.com/logo.png",
+      "description": "Agencia colombiana de capacidades digitales con IA para PyMEs (5–50 empleados). Implementamos agentes conversacionales, automatización con n8n, WhatsApp inteligente y transformación digital con stack self-hosted.",
+      "foundingDate": "2026",
+      "founders": [
+        { "@type": "Person", "name": "Francisco Ovalle" }
+      ],
+      "areaServed": [
+        { "@type": "Country", "name": "Colombia" },
+        { "@type": "Place", "name": "América Latina" }
+      ],
+      "knowsAbout": [
+        "Inteligencia Artificial",
+        "Automatización de procesos",
+        "Agentes conversacionales",
+        "WhatsApp Business API",
+        "n8n",
+        "Evolution API",
+        "Transformación digital PyME",
+        "Chatbots con IA"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/company/excalando",
+        "https://www.instagram.com/excalando"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: LocalBusiness / ProfessionalService -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "eXcalando",
+      "image": "https://excalando.com/og-image.png",
+      "url": "https://excalando.com",
+      "priceRange": "$$",
+      "areaServed": [
+        { "@type": "Country", "name": "Colombia" },
+        { "@type": "AdministrativeArea", "name": "LATAM" }
+      ],
+      "serviceType": [
+        "Consultoría en Inteligencia Artificial",
+        "Implementación de agentes de WhatsApp con IA",
+        "Automatización de procesos con n8n",
+        "Diagnóstico digital empresarial"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: Service (Score Digital gratis — lead magnet) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Score Digital",
+      "serviceType": "Diagnóstico de madurez digital para PyMEs",
+      "provider": { "@type": "Organization", "name": "eXcalando" },
+      "areaServed": { "@type": "Country", "name": "Colombia" },
+      "description": "Diagnóstico gratuito en 6 pasos que evalúa la madurez digital de tu PyME en 5 frentes: presencia web, SEO local, captación, atención al cliente y automatización. Entrega un plan priorizado con acciones concretas.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "COP",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage (AEO — preguntas que LLMs deben poder citar) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cuánto cuesta implementar inteligencia artificial en una PyME?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depende del alcance, pero un agente de WhatsApp con IA completamente self-hosted para una PyME colombiana arranca desde implementaciones de bajo costo mensual de infraestructura (~USD 30–60 en APIs y un VPS) más el trabajo de implementación. eXcalando ofrece un diagnóstico gratis para estimarlo según tu caso."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuál es la diferencia entre un chatbot y un agente conversacional con IA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Un chatbot tradicional responde con árboles de decisión predefinidos. Un agente conversacional con IA usa modelos de lenguaje (GPT, Claude) para entender contexto, ejecutar acciones (agendar, consultar bases de datos, escalar a humano) y aprender de cada interacción. La diferencia es como comparar un IVR con un asistente humano entrenado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Vale la pena automatizar WhatsApp con IA para una PyME?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, especialmente en sectores con alto volumen de mensajes repetitivos: clínicas, retail, transporte, servicios profesionales. Un agente bien implementado libera al equipo humano de responder preguntas frecuentes, agenda automáticamente, y escala a humano solo cuando hace falta. ROI típico: 3–6 meses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué herramientas self-hosted puedo usar para automatizar mi PyME?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El stack que eXcalando usa y recomienda incluye: n8n (orquestación), Evolution API (WhatsApp), Chatwoot (UI omnichannel), Postgres y Redis compartidos, Plausible (analytics), Metabase (dashboards), Cal.com (agendamiento). Todo corre en un VPS de bajo costo, sin lock-in y con cero suscripciones de SaaS por usuario."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Es mejor contratar una agencia de IA o desarrollar in-house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Para una PyME de 5–50 empleados sin equipo técnico, una agencia especializada implementa en semanas lo que in-house tomaría meses contratar y entrenar. La clave es elegir una agencia que no te encierre: eXcalando entrega todo self-hosted en tu propia infraestructura — si te vas, te llevás la operación funcionando."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo sé si mi empresa está lista para implementar IA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El Score Digital de eXcalando es un diagnóstico gratuito de 6 pasos que mide la madurez digital de tu PyME en 5 frentes (presencia web, SEO local, captación, atención y automatización) y entrega un plan priorizado de acciones concretas."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body class="bg-bg text-ink font-sans antialiased">
     <div id="root"></div>

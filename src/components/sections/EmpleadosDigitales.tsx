@@ -33,7 +33,7 @@ export const EmpleadosDigitales = () => {
 
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex items-center gap-3 px-5 py-3 border border-line hover:border-accent/60 rounded-sm bg-white/[0.04] transition-colors"
+        className="flex items-center gap-3 px-5 py-3 border border-line hover:border-accent/60 rounded-sm bg-bg-2 transition-colors"
       >
         <ChevronDown
           className={`h-5 w-5 text-accent transition-transform ${expanded ? "rotate-180" : ""}`}
@@ -61,7 +61,7 @@ export const EmpleadosDigitales = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.05 }}
                   className={`p-6 border rounded-sm flex flex-col ${
-                    emp.destacado ? "border-accent bg-accent/10" : "border-line bg-white/[0.04]"
+                    emp.destacado ? "border-accent bg-accent/10" : "border-line bg-bg-2"
                   }`}
                 >
                   <div className="flex items-center gap-3 mb-3">

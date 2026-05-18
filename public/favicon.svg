@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Fondo hueso con esquina redondeada -->
+  <rect width="64" height="64" rx="12" fill="#F4F1EC"/>
+  <!-- "X" estilizada magenta — diferenciador de marca eXcalando -->
+  <path d="M16 14 L32 30 L48 14 L52 18 L36 34 L52 50 L48 54 L32 38 L16 54 L12 50 L28 34 L12 18 Z"
+        fill="#0066FF"/>
+  <!-- Punto inferior derecho como acento técnico -->
+  <circle cx="50" cy="50" r="3" fill="#222222"/>
+</svg>

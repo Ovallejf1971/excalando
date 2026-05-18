@@ -1,0 +1,26 @@
+{
+  "name": "eXcalando · Agencia de IA para PyMEs",
+  "short_name": "eXcalando",
+  "description": "Agencia de IA, agentes de WhatsApp y automatización para PyMEs en Colombia y LATAM.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F4F1EC",
+  "theme_color": "#0066FF",
+  "lang": "es-CO",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

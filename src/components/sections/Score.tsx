@@ -9,10 +9,10 @@ const PASOS = [
 ];
 
 export const Score = () => (
-  <Section id="score" className="relative overflow-hidden">
+  <Section dark id="score" className="relative overflow-hidden">
     <div
       className="absolute -top-48 -right-48 w-[600px] h-[600px] rounded-full pointer-events-none"
-      style={{ background: "radial-gradient(circle, rgba(0,212,255,0.12), transparent 65%)" }}
+      style={{ background: "radial-gradient(circle, rgba(0,102,255,0.18), transparent 65%)" }}
       aria-hidden
     />
     <SectionHeader
@@ -33,7 +33,7 @@ export const Score = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: i * 0.1 }}
-          className="p-9 bg-white/[0.04] border border-line rounded-sm relative"
+          className="p-9 bg-bg-2 border border-line rounded-sm relative"
         >
           <div className="font-mono text-[64px] font-light text-accent leading-none mb-6 tracking-tight">{p.n}</div>
           <h3 className="text-[22px] font-semibold tracking-tight mb-3 text-ink">{p.t}</h3>

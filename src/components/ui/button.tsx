@@ -10,8 +10,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: "bg-accent text-bg hover:bg-accent-2 shadow-glow",
-        outline: "bg-transparent text-ink border border-line-2 hover:bg-white/5",
-        ghost: "bg-transparent text-ink hover:bg-white/5",
+        outline: "bg-transparent text-ink border border-line-2 hover:bg-ink/5",
+        ghost: "bg-transparent text-ink hover:bg-ink/5",
+        // Variantes para secciones oscuras (.section-dark)
+        "primary-on-dark": "bg-accent text-ink-on-dark hover:bg-accent-2 shadow-glow",
+        "outline-on-dark": "bg-transparent text-ink-on-dark border border-line-on-dark-2 hover:bg-ink-on-dark/10",
       },
       size: {
         sm: "h-9 px-4",

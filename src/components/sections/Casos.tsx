@@ -45,7 +45,7 @@ export const Casos = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: i * 0.08 }}
-          className="p-6 sm:p-7 border border-line rounded-sm bg-white/[0.04] flex flex-col gap-3 min-h-[160px]"
+          className="p-6 sm:p-7 border border-line rounded-sm bg-bg-2 flex flex-col gap-3 min-h-[160px]"
         >
           <div className="flex items-center gap-2.5">
             <Sparkles className="h-4 w-4 text-accent" />

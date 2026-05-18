@@ -21,7 +21,7 @@ export const Automatizacion = () => (
       lead="Conectamos las herramientas que ya usas para que trabajen solas y se hablen entre sí. Sin que tengas que copiar-pegar datos de un lado a otro nunca más."
     />
     <div className="max-w-3xl">
-      <div className="p-6 sm:p-8 border border-line rounded-sm bg-white/[0.04] flex flex-col gap-5">
+      <div className="p-6 sm:p-8 border border-line rounded-sm bg-bg-2 flex flex-col gap-5">
         <div className="flex items-start gap-3">
           <Workflow className="h-6 w-6 text-accent shrink-0 mt-0.5" />
           <div>

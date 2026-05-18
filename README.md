@@ -85,12 +85,16 @@ Búsquedas útiles para encontrar pendientes:
 
 ## Paleta y tipografía
 
-Definidas en `tailwind.config.ts`:
+Definidas en `tailwind.config.ts` (rediseño 2026-05-18):
 
-- **bg** `#0A1628` (navy) · **bg-2** `#0d1b30` · **bg-3** `#102441`
-- **accent** `#00D4FF` (cian eléctrico) · **accent-2** `#00b4dc`
-- **ink** `#e6ecf5` · **ink-2** `#9fb0c8` · **ink-3** `#5e708a`
-- Fuentes: **Inter** (display + cuerpo), **JetBrains Mono** (acentos técnicos)
+- **bg** `#F4F1EC` (hueso) · **bg-2** `#EDE8E0` · **bg-3** `#E4DED2`
+- **dark** `#0F0F0F` (secciones oscuras) · **dark-2** `#1A1A1A` · **dark-3** `#262626`
+- **accent** `#0066FF` (Electric Blue) · **accent-2** `#0052CC` · **accent-3** `#4D94FF`
+- **ink** `#222222` (texto sobre claro) · **ink-2** `#3a3a3a` · **ink-3** `#6b6b6b`
+- **ink-on-dark** `#F4F1EC` (texto sobre oscuro) · **ink-on-dark-2** `#C9C3B8` · **ink-on-dark-3** `#8A857C`
+- Fuentes: **Geist** display (700-900) + **Inter** body, **Geist Mono** para acentos técnicos
+
+**Alternancia claro/oscuro:** las secciones alternan `bg` (claro) y `.section-dark` (oscuro) como dispositivo narrativo. La clase `.section-dark` traduce automáticamente los tokens light→dark (text-ink, border-line, bg-bg-2) vía overrides en `src/index.css`.
 
 ## Próximos pasos
 

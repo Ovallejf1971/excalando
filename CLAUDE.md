@@ -32,13 +32,19 @@ src/
 ├── lib/
 │   └── utils.ts                 ← cn() (clsx + tailwind-merge), formatCOP()
 ├── components/
+│   ├── Logo.tsx                 ← LogoMark + Wordmark compartidos (marca)
 │   ├── ScoreDashboard.tsx       ← dashboard animado del hero (preview del Score)
+│   ├── HeroShowreel.tsx         ← showreel 3-escenas (web/chat/flow) en React+Framer
+│   ├── WhatsAppFloat.tsx        ← floating chat button con badge
 │   ├── ui/                      ← shadcn primitives (button, card, accordion)
 │   └── sections/                ← una sección por archivo
-│       ├── _atoms.tsx           ← Eyebrow, SectionHeader, Section (wrappers compartidos)
-│       ├── Hero.tsx             ← Nav (con menú móvil) + Hero
-│       ├── Problema.tsx, Servicios.tsx, Score.tsx, Proceso.tsx,
-│       ├── Manifiesto.tsx, Casos.tsx, Faq.tsx, Cta.tsx, Footer.tsx
+│       ├── _atoms.tsx           ← Eyebrow, SectionHeader, Section (con prop `dark`)
+│       ├── Hero.tsx             ← Nav + Hero (sobre hueso)
+│       ├── Showreel.tsx         ← sección oscura con HeroShowreel
+│       ├── Problema.tsx, Score.tsx (dark), Capas.tsx,
+│       ├── PresenciaDigital.tsx, EmpleadosDigitales.tsx, Automatizacion.tsx,
+│       ├── Proceso.tsx (dark), Manifiesto.tsx, Casos.tsx, Faq.tsx,
+│       └── Cta.tsx (dark), Footer.tsx (dark)
 └── score/                       ← Score Digital (lead magnet funcional)
     ├── types.ts                 ← ScoreAnswers, ScoreReport, FrenteScore, AccionPlan
     ├── questions.ts             ← definición declarativa de los 6 pasos del wizard
@@ -50,13 +56,17 @@ src/
 ## Convenciones del proyecto
 
 - **Estilos:** todo Tailwind inline. Si necesitas un valor que no está en el config, usa arbitrary values (`text-[88px]`, `tracking-[-0.035em]`). No crees archivos CSS nuevos salvo emergencia.
-- **Paleta** (definida en `tailwind.config.ts`):
-  - Fondos: `bg` `#0A1628` · `bg-2` `#0d1b30` · `bg-3` `#102441`
-  - Acento: `accent` `#00D4FF` (cian eléctrico) · `accent-2` `#00b4dc`
-  - Texto: `ink` `#e6ecf5` · `ink-2` `#9fb0c8` · `ink-3` `#5e708a`
-  - Líneas: `line` (sutil) · `line-2` (más visible)
-  - Estado: `danger` `#ff5577` · `warn` `#ffb547` · `success` `#5fe0a3`
-- **Tipografía:** Inter (display + cuerpo), JetBrains Mono (acentos técnicos: números, etiquetas, tracking wide).
+- **Paleta** (rediseño 2026-05-18, definida en `tailwind.config.ts`):
+  - Fondos claros: `bg` `#F4F1EC` (hueso) · `bg-2` `#EDE8E0` · `bg-3` `#E4DED2`
+  - Fondos oscuros: `dark` `#0F0F0F` · `dark-2` `#1A1A1A` · `dark-3` `#262626`
+  - Acento: `accent` `#0066FF` (Electric Blue) · `accent-2` `#0052CC` · `accent-3` `#4D94FF`
+  - Texto sobre claro: `ink` `#222` · `ink-2` `#3a3a3a` · `ink-3` `#6b6b6b`
+  - Texto sobre oscuro: `ink-on-dark` `#F4F1EC` · `ink-on-dark-2` `#C9C3B8` · `ink-on-dark-3` `#8A857C`
+  - Líneas: `line` (sobre claro) · `line-2` · `line-on-dark` (sobre oscuro) · `line-on-dark-2`
+  - Estado: `danger` `#C62828` · `warn` `#C77700` · `success` `#2E7D5B`
+- **Tipografía:** `font-display` Geist 700-900 (titulares, peso pesado), `font-sans` Inter (cuerpo), `font-mono` Geist Mono (acentos técnicos).
+- **Alternancia claro/oscuro:** secciones alternan via prop `dark` en `Section` helper. La clase `.section-dark` traduce automáticamente tokens light→dark (text-ink, border-line, bg-bg-2) vía overrides en `src/index.css`. Permite usar las mismas clases en componentes sin reescribir según el contexto.
+- **Marca visual:** la X estilizada en `e**X**calando` es el diferenciador. Componentes `LogoMark` y `Wordmark` en `src/components/Logo.tsx` — reutilizar siempre en lugar de redefinir SVGs.
 - **Tono de copy:** directo, colombiano-neutral, sin jerga inflada. "Tu PyME está perdiendo plata. Te decimos dónde, gratis."
 - **Numeración de secciones:** las secciones llevan eyebrow `00–08` (Hero=00, Problema=01, …, CTA=08). Si añades una sección, renumera consistentemente.
 - **Animaciones:** entrada del hero con `motion` initial/animate; secciones con `whileInView` + `viewport={{ once: true }}` y delays escalonados (`i * 0.1`).

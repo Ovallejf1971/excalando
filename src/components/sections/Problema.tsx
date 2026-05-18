@@ -23,7 +23,7 @@ export const Problema = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5, delay: i * 0.1 }}
-          className="p-7 sm:p-9 border border-line rounded-sm bg-white/[0.04] relative overflow-hidden"
+          className="p-7 sm:p-9 border border-line rounded-sm bg-bg-2 relative overflow-hidden"
         >
           <div className="font-mono text-[11px] text-ink-3 tracking-[0.15em]">DOLOR / {d.n}</div>
           <h3 className="text-xl sm:text-2xl font-semibold leading-tight tracking-tight mt-5 mb-4 text-ink text-balance">{d.titulo}</h3>

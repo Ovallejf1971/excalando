@@ -85,7 +85,7 @@ export const PresenciaDigital = () => (
       {PRESENCIA_DIGITAL.niveles.map((n) => (
         <div
           key={n.id}
-          className={`p-5 border rounded-sm ${n.destacado ? "border-accent bg-accent/10" : "border-line bg-white/[0.04]"}`}
+          className={`p-5 border rounded-sm ${n.destacado ? "border-accent bg-accent/10" : "border-line bg-bg-2"}`}
         >
           <div className="flex items-baseline gap-2 mb-1">
             <span className="text-2xl">{n.emoji}</span>

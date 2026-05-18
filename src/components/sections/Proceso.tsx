@@ -4,7 +4,7 @@ import { PROCESO } from "@/data/content";
 import { Section, SectionHeader } from "./_atoms";
 
 export const Proceso = () => (
-  <Section alt id="proceso">
+  <Section dark id="proceso">
     <SectionHeader
       n="08"
       eyebrow="Cómo trabajamos"
@@ -22,7 +22,7 @@ export const Proceso = () => (
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: i * 0.1 }}
-          className={`p-7 sm:p-9 bg-white/[0.04] relative ${i < 3 ? "lg:border-r border-line" : ""} ${i < PROCESO.length - 1 ? "border-b lg:border-b-0 border-line" : ""}`}
+          className={`p-7 sm:p-9 bg-bg-2 relative ${i < 3 ? "lg:border-r border-line" : ""} ${i < PROCESO.length - 1 ? "border-b lg:border-b-0 border-line" : ""}`}
         >
           <div className="font-mono text-[11px] text-ink-3 tracking-[0.15em] mb-4">FASE / {p.n}</div>
           <h3 className="text-[22px] sm:text-[26px] font-semibold tracking-tight mb-1.5 text-ink text-balance">{p.fase}</h3>

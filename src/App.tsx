@@ -1,4 +1,5 @@
 import { Nav, Hero } from "@/components/sections/Hero";
+import { Showreel } from "@/components/sections/Showreel";
 import { Problema } from "@/components/sections/Problema";
 import { Score } from "@/components/sections/Score";
 import { Capas } from "@/components/sections/Capas";
@@ -18,6 +19,7 @@ export default function App() {
     <div className="min-h-screen bg-bg text-ink">
       <Nav />
       <Hero />
+      <Showreel />
       <Problema />
       <Score />
       <Capas />

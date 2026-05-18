@@ -1,0 +1,55 @@
+<!-- TODO: convertir a og-image.png (1200x630) antes de lanzamiento.
+     Facebook/WhatsApp/Slack rechazan SVG en previews. LinkedIn/Twitter aceptan ambos.
+     Conversión sugerida: rsvg-convert og-image.svg -w 1200 -h 630 -o og-image.png -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <!-- Fondo hueso -->
+  <rect width="1200" height="630" fill="#F4F1EC"/>
+
+  <!-- Grid sutil -->
+  <g opacity="0.06" stroke="#222222" stroke-width="1">
+    <path d="M0 105 L1200 105 M0 210 L1200 210 M0 315 L1200 315 M0 420 L1200 420 M0 525 L1200 525"/>
+    <path d="M120 0 L120 630 M240 0 L240 630 M360 0 L360 630 M480 0 L480 630 M600 0 L600 630 M720 0 L720 630 M840 0 L840 630 M960 0 L960 630 M1080 0 L1080 630"/>
+  </g>
+
+  <!-- Acento magenta esquina superior derecha -->
+  <rect x="1050" y="0" width="150" height="8" fill="#0066FF"/>
+
+  <!-- Logo X grande en esquina superior izquierda -->
+  <g transform="translate(90, 90)">
+    <path d="M0 0 L40 40 L80 0 L92 12 L52 52 L92 92 L80 104 L40 64 L0 104 L-12 92 L28 52 L-12 12 Z"
+          fill="#0066FF"/>
+    <circle cx="86" cy="98" r="5" fill="#222222"/>
+  </g>
+
+  <!-- Marca -->
+  <text x="220" y="155" font-family="Geist, Inter, system-ui, sans-serif" font-size="42" font-weight="600" fill="#222222">
+    eXcalando
+  </text>
+
+  <!-- Titular principal -->
+  <text x="90" y="320" font-family="Geist, Inter, system-ui, sans-serif" font-size="78" font-weight="800" fill="#222222" letter-spacing="-2">
+    Delega. Automatiza.
+  </text>
+  <text x="90" y="410" font-family="Geist, Inter, system-ui, sans-serif" font-size="78" font-weight="800" fill="#222222" letter-spacing="-2">
+    <tspan>Orquesta tu </tspan><tspan fill="#0066FF">operación</tspan><tspan>.</tspan>
+  </text>
+
+  <!-- Subtítulo -->
+  <text x="90" y="490" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="400" fill="#3a3a3a">
+    Agencia de IA, agentes de WhatsApp y automatización para PyMEs.
+  </text>
+  <text x="90" y="528" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="400" fill="#3a3a3a">
+    Colombia y LATAM. Stack self-hosted. Sin lock-in.
+  </text>
+
+  <!-- Tag inferior -->
+  <g transform="translate(90, 570)">
+    <rect x="0" y="0" width="200" height="36" rx="18" fill="#0066FF"/>
+    <text x="100" y="24" font-family="Geist, Inter, system-ui, sans-serif" font-size="15" font-weight="600" fill="#F4F1EC" text-anchor="middle">
+      SCORE DIGITAL GRATIS
+    </text>
+  </g>
+  <text x="310" y="594" font-family="Geist Mono, ui-monospace, monospace" font-size="14" fill="#6b6b6b">
+    excalando.com
+  </text>
+</svg>

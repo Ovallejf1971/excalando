@@ -1,0 +1,8 @@
+<!-- TODO: convertir a apple-touch-icon.png (180x180). iOS no acepta SVG.
+     Conversión sugerida: rsvg-convert apple-touch-icon.svg -w 180 -h 180 -o apple-touch-icon.png -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
+  <rect width="180" height="180" rx="38" fill="#F4F1EC"/>
+  <path d="M48 42 L90 84 L132 42 L142 52 L100 94 L142 136 L132 146 L90 104 L48 146 L38 136 L80 94 L38 52 Z"
+        fill="#0066FF"/>
+  <circle cx="138" cy="138" r="8" fill="#222222"/>
+</svg>

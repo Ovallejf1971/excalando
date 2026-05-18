@@ -32,18 +32,24 @@ export const Section = ({
   id,
   className,
   alt,
+  dark,
   children,
 }: {
   id?: string;
   className?: string;
   alt?: boolean;
+  dark?: boolean;
   children: React.ReactNode;
 }) => (
   <section
     id={id}
     className={cn(
-      "border-t border-line px-5 sm:px-6 md:px-12 lg:px-20 py-16 md:py-24 lg:py-32",
-      alt ? "bg-bg-2" : "bg-bg",
+      "px-5 sm:px-6 md:px-12 lg:px-20 py-16 md:py-24 lg:py-32",
+      dark
+        ? "section-dark border-t border-line-on-dark"
+        : alt
+        ? "bg-bg-2 border-t border-line"
+        : "bg-bg border-t border-line",
       className,
     )}
   >

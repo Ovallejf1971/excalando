@@ -8,10 +8,10 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 )}`;
 
 export const Cta = () => (
-  <Section alt className="relative overflow-hidden py-20 md:py-32 lg:py-40">
+  <Section dark className="relative overflow-hidden py-20 md:py-32 lg:py-40">
     <div
       className="absolute inset-0 pointer-events-none"
-      style={{ background: "radial-gradient(ellipse at center, rgba(0,212,255,0.12), transparent 60%)" }}
+      style={{ background: "radial-gradient(ellipse at center, rgba(0,102,255,0.20), transparent 60%)" }}
       aria-hidden
     />
     <div className="relative text-center max-w-4xl mx-auto">
