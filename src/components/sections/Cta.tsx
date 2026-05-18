@@ -2,9 +2,9 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Eyebrow, Section } from "./_atoms";
 
-const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "573164728441";
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "16164056029";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Hola, quiero conversar sobre cómo Diagnóstico Digital puede ayudar a mi negocio.",
+  "Hola, vengo del sitio de eXcalando. Quiero saber cómo pueden ayudar a mi negocio.",
 )}`;
 
 export const Cta = () => (

@@ -11,6 +11,7 @@ import { Casos } from "@/components/sections/Casos";
 import { Faq } from "@/components/sections/Faq";
 import { Cta } from "@/components/sections/Cta";
 import { Footer } from "@/components/sections/Footer";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
       <Faq />
       <Cta />
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 }
