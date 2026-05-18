@@ -208,10 +208,93 @@ export const PROCESO = [
 ];
 
 export const MANIFIESTO = [
-  { n: "01", titulo: "No vendemos horas. Vendemos resultados.", desc: "El precio se ata a lo que mueve tu negocio, no a cuántas reuniones tuvimos. Si no movemos la aguja, no facturamos." },
-  { n: "02", titulo: "Stack propio. Cero lock-in.", desc: "Chatwoot, n8n, Evolution API, Claude/GPT — todo self-hosted bajo tu control. Te vas cuando quieras y te llevas todo." },
-  { n: "03", titulo: "30–90 días o nada.", desc: "Si no ves resultados medibles en máximo 90 días, algo está mal y lo arreglamos. Sin contratos eternos." },
-  { n: "04", titulo: "Hablamos como humanos, no como agencia.", desc: "Cero jerga inflada, cero reportes-relleno. Una llamada al mes con números reales y decisiones claras." },
+  { n: "01", titulo: "Puentes, no muros.", desc: "El sector pone muros: jerga, lock-in, contratos eternos, precios opacos, herramientas que no hablan entre sí. Nosotros construimos puentes — entre tu negocio y lo que la IA puede hacer hoy, entre tus canales, entre lo que vendes y cómo decides. La X de eXcalando es ese cruce." },
+  { n: "02", titulo: "No vendemos horas. Vendemos resultados.", desc: "El precio se ata a lo que mueve tu negocio, no a cuántas reuniones tuvimos. Si no movemos la aguja, no facturamos." },
+  { n: "03", titulo: "Stack propio. Cero lock-in.", desc: "Chatwoot, n8n, Evolution API, Claude/GPT — todo self-hosted bajo tu control. Te vas cuando quieras y te llevas todo." },
+  { n: "04", titulo: "30–90 días o nada.", desc: "Si no ves resultados medibles en máximo 90 días, algo está mal y lo arreglamos. Sin contratos eternos." },
+  { n: "05", titulo: "Hablamos como humanos, no como agencia.", desc: "Cero jerga inflada, cero reportes-relleno. Una llamada al mes con números reales y decisiones claras." },
+];
+
+export type Capa = {
+  id: "cara" | "voz" | "motor" | "inteligencia";
+  emoji: string;
+  nombre: string;
+  subtitulo: string;
+  desc: string;
+  servicios: string[];
+  href: string;
+  precio: string;
+  destacado?: boolean;
+  futuro?: boolean;
+};
+
+export const CAPAS: Capa[] = [
+  {
+    id: "cara",
+    emoji: "🌐",
+    nombre: "Cara",
+    subtitulo: "Cómo te ven",
+    desc: "Tu presencia pública. Lo que la gente ve cuando te busca en Google, te entra al sitio o lee tus reseñas. Sin esto, no te encuentran.",
+    servicios: [
+      "Página web profesional",
+      "Ficha de Google optimizada",
+      "Reportes semanales de tráfico",
+      "Vigilante de reseñas 24/7",
+      "Community manager IA (redes sociales)",
+    ],
+    precio: "Desde $290K/mes",
+    href: "#presencia-digital",
+    destacado: true,
+  },
+  {
+    id: "voz",
+    emoji: "💬",
+    nombre: "Voz",
+    subtitulo: "Cómo te hablan",
+    desc: "La conversación con quien te encontró. Tu WhatsApp atendido 24/7. Tu email respondido. Tus clientes inactivos reactivados. Sin esto, lo que te encuentra se enfría.",
+    servicios: [
+      "Recepcionista WhatsApp 24/7",
+      "Vendedor de fidelización",
+      "Asistentes IA conversacionales",
+      "Email automation (próximamente)",
+      "Multi-canal omnicanal (próximamente)",
+    ],
+    precio: "Desde $180K/mes",
+    href: "#empleados-digitales",
+  },
+  {
+    id: "motor",
+    emoji: "⚙️",
+    nombre: "Motor",
+    subtitulo: "Cómo trabajás",
+    desc: "Lo que pasa atrás. Tus herramientas conectadas para que la información viaje sola. Tareas repetitivas que dejan de existir. Sin esto, escalar te rompe.",
+    servicios: [
+      "Automatización a medida",
+      "Integración entre sistemas",
+      "Flujos de pedidos automáticos",
+      "Cotización → contrato sin tocar nada",
+      "Mantenimiento incluido (opcional)",
+    ],
+    precio: "Desde $800K por proyecto",
+    href: "#automatizacion",
+  },
+  {
+    id: "inteligencia",
+    emoji: "📊",
+    nombre: "Inteligencia",
+    subtitulo: "Cómo decidís",
+    desc: "El cerebro transversal. Dashboards que te dicen qué hacer. Datos que se vuelven decisiones. Esta capa cruza las otras tres y las hace crecer juntas.",
+    servicios: [
+      "Dashboards en tiempo real",
+      "Calificación automática de leads",
+      "Reportes mensuales automáticos",
+      "Alertas inteligentes por canal",
+      "Decisiones con datos, no a ojo",
+    ],
+    precio: "Incluido en Paquetes Integrales",
+    href: "#capas",
+    futuro: true,
+  },
 ];
 
 export const FAQS = [

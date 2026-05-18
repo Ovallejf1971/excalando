@@ -89,22 +89,28 @@ para tener:                    para tener:
 
 ---
 
-## Slide 5 · Nuestra propuesta
+## Slide 5 · Nuestra propuesta · las 4 capas
 
-**Visual:** título grande + 4 bullets visuales con íconos
+**Visual:** 4 tarjetas verticales con emoji + nombre + frase
 
 ```
-Te entregamos 4 capacidades digitales listas para operar.
-Sin paquetes inflados. Sin lock-in. Con resultados medibles.
+Tu negocio crece en 4 capas. Las cubrimos todas. Las conectamos entre sí.
 
-🌐 Presencia digital — que te encuentren, te elijan y te compren.
-🤖 Asistentes IA — que respondan por ti, día y noche.
-⚙️ Automatización — que las tareas repetitivas se hagan solas.
-📊 Decisiones con datos — que dejes de operar a ojo.
+🌐 CARA — Cómo te ven
+   Presencia digital · web · Google · reseñas · redes
+
+💬 VOZ — Cómo te hablan
+   WhatsApp 24/7 · email · fidelización · multi-canal
+
+⚙️ MOTOR — Cómo trabajás
+   Automatización a medida · integraciones · backoffice
+
+📊 INTELIGENCIA — Cómo decidís (transversal)
+   Dashboards · datos · lead qualification · alertas
 ```
 
 **Lo que decís:**
-> "No vendemos marketing suelto, ni desarrollo suelto, ni IA suelta. Vendemos capacidad integrada. Vos seguís haciendo lo que sabés hacer mejor: tu negocio. Nosotros nos ocupamos de las 4 capacidades digitales que tu PyME necesita."
+> "No vendemos marketing suelto, ni desarrollo suelto, ni IA suelta. Vendemos capacidad integrada en 4 capas que se hablan entre sí. La mayoría de PyMEs tiene muros entre estas capas — la web no habla con WhatsApp, WhatsApp no habla con el sistema. Nosotros construimos puentes. Por eso la X de eXcalando — es el cruce, la unión, el puente. Tu negocio sigue siendo tuyo. Nosotros nos ocupamos de las 4 capas y de que conversen."
 
 ---
 

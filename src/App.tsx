@@ -1,7 +1,7 @@
 import { Nav, Hero } from "@/components/sections/Hero";
 import { Problema } from "@/components/sections/Problema";
 import { Score } from "@/components/sections/Score";
-import { CatalogoIntro } from "@/components/sections/CatalogoIntro";
+import { Capas } from "@/components/sections/Capas";
 import { PresenciaDigital } from "@/components/sections/PresenciaDigital";
 import { EmpleadosDigitales } from "@/components/sections/EmpleadosDigitales";
 import { Automatizacion } from "@/components/sections/Automatizacion";
@@ -20,7 +20,7 @@ export default function App() {
       <Hero />
       <Problema />
       <Score />
-      <CatalogoIntro />
+      <Capas />
       <PresenciaDigital />
       <EmpleadosDigitales />
       <Automatizacion />

@@ -33,7 +33,7 @@ eXcalando viene de **"escalar"** (crecer, subir de nivel). Pero la **X mayúscul
 
 **One-liner:** La capacidad digital completa que tu PYME necesita para escalar — entregada lista para operar, sin muros ni lock-in.
 
-**Qué hace:** Equipamos a PYMEs latinoamericanas con tres capas de capacidades digitales — Frente (cómo te ven), Medio (cómo te hablan), Fondo (cómo trabajas) — usando IA y stack self-hosted para entregar más rápido y a fracción del costo de las agencias tradicionales.
+**Qué hace:** Equipamos a PYMEs latinoamericanas con cuatro capas de capacidades digitales — Cara (cómo te ven), Voz (cómo te hablan), Motor (cómo trabajás), Inteligencia (cómo decidís) — usando IA y stack self-hosted para entregar más rápido y a fracción del costo de las agencias tradicionales.
 
 **Categoría:** Agencia digital con IA / Agencia de capacidades digitales para PYMES.
 
