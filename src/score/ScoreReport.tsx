@@ -98,7 +98,7 @@ export const ScoreReportView = ({
           <div className="flex flex-col gap-2.5">
             <Button size="lg" asChild>
               <a
-                href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || "16164056029"}?text=${encodeURIComponent(
+                href={`https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || "16184056029"}?text=${encodeURIComponent(
                   `Hola, vengo del Score Digital. Mi puntaje fue ${report.total}/100 (${report.rango}) y quiero conversar sobre los próximos pasos.`,
                 )}`}
                 target="_blank"

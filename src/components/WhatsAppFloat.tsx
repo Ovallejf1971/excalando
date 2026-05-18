@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "16164056029";
+const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "16184056029";
 const WA_TEXT = encodeURIComponent(
   "Hola, vengo del sitio de eXcalando. Quiero saber cómo pueden ayudar a mi negocio.",
 );

@@ -27,7 +27,7 @@ export const Footer = () => (
         <div className="font-mono text-[11px] text-ink-3 tracking-[0.15em] mb-4">CONTACTO</div>
         <a href="mailto:hola@excalando.com" className="text-sm text-ink-2 hover:text-ink py-1.5 block transition-colors">hola@excalando.com</a>
         <a
-          href="https://wa.me/16164056029?text=Hola%2C%20vengo%20del%20sitio%20de%20eXcalando"
+          href="https://wa.me/16184056029?text=Hola%2C%20vengo%20del%20sitio%20de%20eXcalando"
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm text-ink-2 hover:text-ink py-1.5 block transition-colors"
