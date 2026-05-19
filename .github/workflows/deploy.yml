@@ -1,41 +1,70 @@
-name: Deploy to GitHub Pages
+name: Deploy to VPS (excalando.com)
+
+# Cada push a main hace build y despliega la landing al VPS Hostinger via SSH+rsync.
+# Self-hosted, sin GitHub Pages, sin servicios de terceros para hosting estatico.
+#
+# SECRETS REQUERIDOS (configurar en GitHub repo → Settings → Secrets → Actions):
+#   VPS_HOST       — IP o hostname del VPS (ej: 62.72.27.80)
+#   VPS_USER       — usuario SSH con permisos de escritura sobre el document root
+#                    (recomendado: usuario "deploy" dedicado, NO root)
+#   VPS_SSH_KEY    — clave SSH privada (id_ed25519 o id_rsa) en formato OpenSSH.
+#                    La clave publica correspondiente debe estar en ~/.ssh/authorized_keys
+#                    del VPS_USER en el VPS.
+#   VPS_PATH       — path absoluto al document root del sitio en el VPS
+#                    (ej: /home/excalando.com/public_html)
+#
+# Setup paso a paso en docs/infra-vps-deploy.md
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 concurrency:
-  group: pages
+  group: deploy-vps
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production
+        run: npm run build
+
+      - name: Deploy to VPS via rsync over SSH
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          # -a: archive (preserva permisos, tiempos, recursivo)
+          # -v: verbose
+          # -z: compresion en transito
+          # --delete: borra archivos en destino que ya no estan en dist/
+          # --exclude .well-known: no toca el dir de Let's Encrypt (lo administra CyberPanel)
+          switches: -avz --delete --exclude='.well-known'
+          path: dist/
+          remote_path: ${{ secrets.VPS_PATH }}
+          remote_host: ${{ secrets.VPS_HOST }}
+          remote_user: ${{ secrets.VPS_USER }}
+          remote_key: ${{ secrets.VPS_SSH_KEY }}
+
+      # Opcional: purgar cache de OpenLiteSpeed despues del deploy si hace falta.
+      # Descomentar y ajustar si LSCache esta cacheando HTML stale.
+      # - name: Purge OpenLiteSpeed cache
+      #   uses: appleboy/ssh-action@v1.0.3
+      #   with:
+      #     host: ${{ secrets.VPS_HOST }}
+      #     username: ${{ secrets.VPS_USER }}
+      #     key: ${{ secrets.VPS_SSH_KEY }}
+      #     script: |
+      #       /usr/local/lsws/bin/lswsctrl reload
