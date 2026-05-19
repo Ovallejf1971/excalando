@@ -7,6 +7,7 @@ import { STEPS, type FieldDef } from "./questions";
 import type { ScoreAnswers, ScoreReport } from "./types";
 import { calcScore } from "./scoring";
 import { ScoreReportView } from "./ScoreReport";
+import { EVENTS, track } from "@/lib/analytics";
 
 const STORAGE_KEY = "excalando.score.answers";
 
@@ -17,10 +18,19 @@ export const ScoreWizard = () => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch { return {}; }
   });
   const [report, setReport] = useState<ScoreReport | null>(null);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(answers)); } catch {}
   }, [answers]);
+
+  // Marca "Score Started" la primera vez que el usuario toca el wizard (cualquier interacción).
+  useEffect(() => {
+    if (!started && Object.keys(answers).length > 0) {
+      track(EVENTS.SCORE_STARTED, { from_step: step });
+      setStarted(true);
+    }
+  }, [answers, started, step]);
 
   const current = STEPS[step];
   const isLast = step === STEPS.length - 1;
@@ -34,6 +44,11 @@ export const ScoreWizard = () => {
   const submit = async () => {
     const r = calcScore(answers);
     setReport(r);
+    track(EVENTS.SCORE_COMPLETED, {
+      score: r.total,
+      rango: r.rango,
+      frente_top: r.frentes[0]?.key ?? "n/a",
+    });
 
     const webhookUrl = import.meta.env.VITE_SCORE_WEBHOOK_URL;
     if (!webhookUrl) return;
@@ -51,10 +66,17 @@ export const ScoreWizard = () => {
   };
 
   const reset = () => {
+    track(EVENTS.SCORE_RESTART);
     setReport(null);
     setStep(0);
     setAnswers({});
+    setStarted(false);
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
+  };
+
+  const goNext = () => {
+    track(EVENTS.SCORE_STEP_NEXT, { step: step + 1, step_id: current.id });
+    setStep((s) => s + 1);
   };
 
   if (report) return <ScoreReportView report={report} answers={answers} onReset={reset} />;
@@ -101,7 +123,7 @@ export const ScoreWizard = () => {
           <ArrowLeft className="h-4 w-4" /> Atrás
         </Button>
         {!isLast ? (
-          <Button size="md" onClick={() => setStep((s) => s + 1)}>
+          <Button size="md" onClick={goNext}>
             Siguiente <ArrowRight className="h-4 w-4" />
           </Button>
         ) : (

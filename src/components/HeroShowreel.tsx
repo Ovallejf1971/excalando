@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { EVENTS, track } from "@/lib/analytics";
 
 // Showreel del Hero: 3 escenas cicladas que muestran outputs reales de eXcalando.
 // Patrón Ueno aplicado a agencia: mostrar lo que se construye, no contarlo.
@@ -53,7 +54,10 @@ export const HeroShowreel = () => {
         {SCENES.map((s, i) => (
           <button
             key={s}
-            onClick={() => setIdx(i)}
+            onClick={() => {
+              track(EVENTS.SHOWREEL_SCENE_CLICK, { scene: s });
+              setIdx(i);
+            }}
             aria-label={`Ir a escena ${i + 1}`}
             className={`h-1 rounded-full transition-all ${
               i === idx ? "w-8 bg-accent" : "w-2 bg-ink-on-dark-3/40 hover:bg-ink-on-dark-3/70"

@@ -1,6 +1,7 @@
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Eyebrow, Section } from "./_atoms";
+import { EVENTS, track } from "@/lib/analytics";
 
 const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "16184056029";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
@@ -28,12 +29,17 @@ export const Cta = () => (
       </p>
       <div className="flex gap-3 justify-center flex-wrap">
         <Button size="lg" asChild>
-          <a href="#score">
+          <a href="#score" onClick={() => track(EVENTS.HERO_CTA_SCORE, { from: "cta-section" })}>
             Hacer mi Score Digital gratis <ArrowRight className="h-[18px] w-[18px]" />
           </a>
         </Button>
         <Button size="lg" variant="outline" asChild>
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track(EVENTS.WHATSAPP_CTA_CLICK, { from: "cta-section" })}
+          >
             <MessageCircle className="h-[18px] w-[18px]" /> Hablemos por WhatsApp
           </a>
         </Button>

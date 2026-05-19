@@ -10,6 +10,34 @@
     <meta name="googlebot" content="index, follow" />
     <link rel="canonical" href="https://excalando.com/" />
 
+    <!-- ========================================================================
+         VERIFICACIÓN DE BUSCADORES — reemplazar los CONTENT con tu código real
+         ========================================================================
+         Google Search Console: https://search.google.com/search-console
+           1. Add property → URL prefix → https://excalando.com
+           2. Verification method: HTML tag
+           3. Copiar el content="..." y pegarlo abajo
+         Bing Webmaster Tools: https://www.bing.com/webmasters
+           1. Add a site → https://excalando.com
+           2. Verification: Meta tag
+           3. Copiar el content="..." y pegarlo abajo
+         Yandex Webmaster (opcional, sirve para CIS): https://webmaster.yandex.com
+         ======================================================================== -->
+    <meta name="google-site-verification" content="TODO_REEMPLAZAR_CON_CODIGO_GOOGLE_SEARCH_CONSOLE" />
+    <meta name="msvalidate.01" content="TODO_REEMPLAZAR_CON_CODIGO_BING_WEBMASTER" />
+
+    <!-- ========================================================================
+         ANALYTICS — Plausible self-hosted en plausible.excalando.com
+         ========================================================================
+         Falla silently si el subdominio no existe todavía (Harol lo levanta).
+         Cuando Plausible esté arriba, no hay que cambiar nada: el script se carga
+         y empieza a registrar pageviews + eventos custom (ver src/lib/analytics.ts).
+         ======================================================================== -->
+    <script defer data-domain="excalando.com" src="https://plausible.excalando.com/js/script.outbound-links.js"></script>
+    <script>
+      window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+    </script>
+
     <!-- Identidad básica SEO -->
     <title>eXcalando · Agencia de IA para PyMEs en Colombia y LATAM</title>
     <meta name="description" content="Implementamos inteligencia artificial, agentes de WhatsApp y automatización con n8n para PyMEs en Colombia. Diagnóstico digital gratis. Stack self-hosted, sin lock-in, resultados en 30–90 días." />

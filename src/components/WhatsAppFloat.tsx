@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { EVENTS, track } from "@/lib/analytics";
 
 const WA_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "16184056029";
 const WA_TEXT = encodeURIComponent(
@@ -21,6 +22,7 @@ export const WhatsAppFloat = () => {
       href={WA_URL}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => track(EVENTS.WHATSAPP_FLOAT_CLICK, { scrolled_y: window.scrollY })}
       aria-label="Chatear por WhatsApp con el asistente de eXcalando"
       className={`fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex items-center gap-2.5 rounded-full bg-[#25D366] px-4 py-3 sm:px-5 sm:py-3.5 shadow-lg shadow-[#25D366]/40 transition-all duration-300 hover:scale-105 hover:shadow-xl ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"

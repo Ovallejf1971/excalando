@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Eyebrow } from "./_atoms";
 import { ScoreDashboard } from "../ScoreDashboard";
 import { LogoMark, Wordmark } from "../Logo";
+import { EVENTS, track } from "@/lib/analytics";
 
 const NAV_LINKS = [
   { href: "#servicios", label: "Servicios" },
@@ -34,7 +35,7 @@ export const Nav = () => {
       </div>
       <div className="hidden md:block">
         <Button size="sm" asChild>
-          <a href="#score">
+          <a href="#score" onClick={() => track(EVENTS.NAV_CTA_CLICK)}>
             Score gratis <ArrowRight className="h-3.5 w-3.5" />
           </a>
         </Button>
@@ -132,12 +133,12 @@ export const Hero = () => (
 
         <div className="flex flex-wrap gap-3 mb-7">
           <Button size="lg" asChild>
-            <a href="#score">
+            <a href="#score" onClick={() => track(EVENTS.HERO_CTA_SCORE)}>
               Arrancar Score Digital gratis <ArrowRight className="h-4 w-4" />
             </a>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <a href="#proceso">Ver cómo trabajamos</a>
+            <a href="#proceso" onClick={() => track(EVENTS.HERO_CTA_PROCESO)}>Ver cómo trabajamos</a>
           </Button>
         </div>
 
