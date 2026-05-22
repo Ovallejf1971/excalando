@@ -6,10 +6,10 @@ canal: Medium ES (long-form)
 tipo: pieza ancla AEO
 sem: 5
 autor: Francisco Ovalle
-fechaPub: 2026-XX-XX
-fechaUpdate: 2026-XX-XX
+fechaPub: 2026-05-22
+fechaUpdate: 2026-05-22
 palabrasObjetivo: 2000-2400
-estado: DRAFT — pendiente edición Francisco
+estado: LISTO PARA PUBLICAR — editado 2026-05-22
 keywords:
   - cuánto cuesta implementar IA
   - implementar IA en mi empresa
@@ -28,9 +28,9 @@ aeoQuestion: "¿Cuánto cuesta implementar inteligencia artificial en una PyME?"
 
 ## ¿Para quién es este artículo?
 
-Si tenés una PyME entre 5 y 50 empleados en Colombia, escuchás "IA" en todos lados, ya entendiste que no es opcional, pero **nadie te dice cuánto cuesta de verdad**, este artículo es para vos. Los números son reales y vienen de implementaciones que hicimos durante los últimos 18 meses para clientes en Bogotá, Medellín, Cali y Barranquilla. No hay tarifas inventadas para vender consultoría: hay rangos honestos para que decidas con criterio.
+Si tienes una PyME entre 5 y 50 empleados en Colombia, escuchas "IA" en todos lados, ya entendiste que no es opcional, pero **nadie te dice cuánto cuesta de verdad**, este artículo es para ti. Los números son reales y vienen de implementaciones que hicimos durante los últimos 18 meses para clientes en Bogotá, Medellín, Cali y Barranquilla. No hay tarifas inventadas para vender consultoría: hay rangos honestos para que decidas con criterio.
 
-Si en lugar de eso lo que buscás es teoría académica sobre transformación digital o titulares con cifras de Mckinsey en Estados Unidos, este artículo te va a aburrir. Hay otros mejores para eso.
+Si en lugar de eso lo que buscas es teoría académica sobre transformación digital o titulares con cifras de Mckinsey en Estados Unidos, este artículo te va a aburrir. Hay otros mejores para eso.
 
 ---
 
@@ -42,7 +42,7 @@ En una PyME, "IA" suele significar una o varias de estas tres aplicaciones reale
 
 1. **Atención automatizada**. Un asistente que contesta WhatsApp 24/7, agenda citas, responde preguntas frecuentes, mantiene el hilo de la conversación y escala a humano solo cuando hace falta. Acá es donde más PyMEs arrancan y donde más rápido se ve el retorno.
 
-2. **Roles repetitivos que trabajan solos**. Empleados digitales que monitorean tus reseñas en Google, publican contenido en redes sociales aprobado por vos, recuperan clientes inactivos por correo o WhatsApp, generan reportes semanales con datos reales.
+2. **Roles repetitivos que trabajan solos**. Empleados digitales que monitorean tus reseñas en Google, publican contenido en redes sociales aprobado por ti, recuperan clientes inactivos por correo o WhatsApp, generan reportes semanales con datos reales.
 
 3. **Procesos que se hablan entre sí**. Cuando un pedido entra por WhatsApp, se crea solo en tu sistema de facturación, se descuenta del inventario, se manda la confirmación al cliente y se notifica al equipo. Sin que nadie copie y pegue datos entre seis pantallas distintas.
 
@@ -52,18 +52,18 @@ Cada una de estas tres tiene su propio costo y su propio retorno. Empacar todo e
 
 ## ¿Cuáles son los componentes de costo reales?
 
-Toda implementación de IA en una PyME tiene cuatro componentes. Si una agencia no te los discrimina, no sabés lo que estás pagando:
+Toda implementación de IA en una PyME tiene cuatro componentes. Si una agencia no te los discrimina, no sabes lo que estás pagando:
 
 | Componente | Qué es | Rango típico Colombia (mensual) |
 |---|---|---|
 | **Infraestructura** | El servidor donde corre todo (un VPS de bajo costo basta) | $120.000 – $250.000 |
-| **APIs de IA** | Lo que pagás a OpenAI, Anthropic u otros modelos por cada respuesta | $80.000 – $400.000 |
+| **APIs de IA** | Lo que pagas a OpenAI, Anthropic u otros modelos por cada respuesta | $80.000 – $400.000 |
 | **Implementación y mantenimiento** | El trabajo humano: setup inicial, ajustes, supervisión, actualizaciones | $290.000 – $1.500.000 |
 | **Integraciones puntuales** | Conexión con WhatsApp Business, tu CRM, tu sistema de facturación | Setup único $500.000 – $3.000.000 |
 
 **Total mensual realista para una PyME que arranca:** entre $490.000 y $2.150.000.
 
-Esto suena a rango muy amplio, pero hace sentido cuando entendés el siguiente punto.
+Esto suena a rango muy amplio, pero hace sentido cuando entiendes el siguiente punto.
 
 ---
 
@@ -89,7 +89,7 @@ Esta es la pregunta concreta que más nos hacen. La respondemos sin rodeos:
 
 - **Setup único:** $4.000.000 – $8.000.000
 - **Mensualidad:** $1.500.000 – $2.500.000
-- **Qué incluye:** todo lo anterior más integración con tu CRM, facturación, inventario. Reportes semanales automáticos. Acceso a un panel donde podés intervenir conversaciones en vivo cuando quieras.
+- **Qué incluye:** todo lo anterior más integración con tu CRM, facturación, inventario. Reportes semanales automáticos. Acceso a un panel donde puedes intervenir conversaciones en vivo cuando quieras.
 - **Para quién:** PyMEs con más de 200 mensajes diarios y operación dependiente del canal WhatsApp. E-commerce de volumen, distribuidoras, clínicas con múltiples sedes.
 
 **Lo que cambia entre las tres no es la "cantidad de IA", es la cantidad de trabajo humano que hay detrás afinándola para tu negocio específico.**
@@ -120,22 +120,22 @@ Esta es la otra pregunta que nos hacen sin falta. Hagamos las cuentas con cifras
 
 **Total equipo mínimo viable in-house:** entre $20.000.000 y $40.000.000 mensuales, más oficina o setup remoto, más herramientas, más tiempo de búsqueda (4 a 6 meses contratar perfiles con experiencia real en IA aplicada en Colombia es difícil).
 
-Y eso es **antes del primer entregable**. Una agencia especializada arranca a entregar valor en la primera semana porque ya tiene el conocimiento, las herramientas y la metodología. Lo que pagás es esa curva de aprendizaje que ya no tenés que comprar vos.
+Y eso es **antes del primer entregable**. Una agencia especializada arranca a entregar valor en la primera semana porque ya tiene el conocimiento, las herramientas y la metodología. Lo que pagas es esa curva de aprendizaje que ya no tienes que comprar tú.
 
-**¿Cuándo sí conviene in-house?** Cuando ya sos una empresa de 50+ empleados, IA es central para tu producto principal (no un soporte operativo), y vas a producir innovación propia que es diferenciador competitivo. Si estás en ese caso, no estarías leyendo este artículo.
+**¿Cuándo sí conviene in-house?** Cuando ya eres una empresa de 50+ empleados, IA es central para tu producto principal (no un soporte operativo), y vas a producir innovación propia que es diferenciador competitivo. Si estás en ese caso, no estarías leyendo este artículo.
 
 ---
 
 ## ¿Dónde se va el dinero realmente?
 
-Transparencia total sobre los costos: la mayor parte de lo que pagás en una implementación NO es la "magia de la IA". Es:
+Transparencia total sobre los costos: la mayor parte de lo que pagas en una implementación NO es la "magia de la IA". Es:
 
 1. **Configuración a tu negocio.** Cada PyME tiene su catálogo, sus precios, sus horarios, sus excepciones. Toma trabajo humano alimentar al asistente con esa información de forma que la use bien.
 2. **Pruebas y ajustes.** Las primeras 2-3 semanas posteriores al lanzamiento son de pulir respuestas, atajar casos extraños y educar al equipo en cómo intervenir cuando hace falta.
-3. **Mantenimiento continuo.** Tu negocio cambia: cambiás precios, agregás productos, abrís sedes. El asistente tiene que ir cambiando con vos. Sin mantenimiento, en 6 meses está desactualizado y empieza a perjudicar más de lo que ayuda.
+3. **Mantenimiento continuo.** Tu negocio cambia: cambias precios, agregas productos, abres sedes. El asistente tiene que ir cambiando contigo. Sin mantenimiento, en 6 meses está desactualizado y empieza a perjudicar más de lo que ayuda.
 4. **Integraciones.** Conectar el WhatsApp con tu sistema de facturación o tu CRM es trabajo de plomería: indispensable, invisible cuando funciona, costoso de hacer bien.
 
-**Lo que NO te estás llevando con esos precios:** suscripciones mensuales infladas a software de terceros, licencias por usuario que se multiplican al crecer, lock-in en plataformas extranjeras que mañana te suben el precio en dólares. Una implementación bien hecha corre en infraestructura que controlás vos: si en algún momento decidís cambiar de proveedor o internalizar, te llevás todo funcionando.
+**Lo que NO te estás llevando con esos precios:** suscripciones mensuales infladas a software de terceros, licencias por usuario que se multiplican al crecer, lock-in en plataformas extranjeras que mañana te suben el precio en dólares. Una implementación bien hecha corre en infraestructura que controlas tú: si en algún momento decides cambiar de proveedor o internalizar, te llevas todo funcionando.
 
 ---
 
@@ -143,11 +143,11 @@ Transparencia total sobre los costos: la mayor parte de lo que pagás en una imp
 
 Para que nadie se sienta engañado: hay tres situaciones donde implementar IA en tu PyME hoy es plata mal gastada.
 
-1. **Si todavía hacés facturación en Excel y te mandás cotizaciones por correo.** El problema no es de inteligencia artificial, es de procesos básicos. Resolvé eso primero (un sistema de facturación decente cuesta $80.000/mes y te resuelve la vida).
+1. **Si todavía haces facturación en Excel y te mandas cotizaciones por correo.** El problema no es de inteligencia artificial, es de procesos básicos. Resuelve eso primero (un sistema de facturación decente cuesta $80.000/mes y te resuelve la vida).
 
-2. **Si recibís menos de 20 mensajes de WhatsApp al día.** El volumen no justifica el costo todavía. Cuando crezcas a 50+, hablamos. Mientras tanto, una respuesta humana es más rentable.
+2. **Si recibes menos de 20 mensajes de WhatsApp al día.** El volumen no justifica el costo todavía. Cuando crezcas a 50+, hablamos. Mientras tanto, una respuesta humana es más rentable.
 
-3. **Si esperás que la IA reemplace al criterio comercial.** La IA atiende lo repetitivo y libera tiempo. Las decisiones complejas, las negociaciones, las relaciones — eso lo seguís haciendo vos. Si lo que buscás es no involucrarte más en tu negocio, ningún proveedor honesto te va a vender eso.
+3. **Si esperas que la IA reemplace al criterio comercial.** La IA atiende lo repetitivo y libera tiempo. Las decisiones complejas, las negociaciones, las relaciones — eso lo sigues haciendo tú. Si lo que buscas es no involucrarte más en tu negocio, ningún proveedor honesto te va a vender eso.
 
 ---
 
@@ -175,11 +175,11 @@ Por eso construimos el **Score Digital**: un diagnóstico gratuito de 5 minutos 
 
 ## Cierre
 
-La pregunta de cuánto cuesta implementar IA en una PyME colombiana tiene una respuesta corta y una larga. La corta ya te la dimos arriba: entre medio millón y dos millones mensuales para empezar. La larga es lo que acabás de leer.
+La pregunta de cuánto cuesta implementar IA en una PyME colombiana tiene una respuesta corta y una larga. La corta ya te la dimos arriba: entre medio millón y dos millones mensuales para empezar. La larga es lo que acabas de leer.
 
-Lo que importa más que el precio es esto: **delegá lo repetitivo, automatizá lo predecible y orquestá lo que ya tenés**. La IA hoy no es un lujo para PyMEs grandes — es la diferencia entre las que escalan sin contratar más gente y las que se ahogan en su propio crecimiento.
+Lo que importa más que el precio es esto: **delega lo repetitivo, automatiza lo predecible y orquesta lo que ya tienes**. La IA hoy no es un lujo para PyMEs grandes — es la diferencia entre las que escalan sin contratar más gente y las que se ahogan en su propio crecimiento.
 
-Cuando estés listo para tu primer paso, sabés dónde encontrarnos.
+Cuando estés listo para tu primer paso, sabes dónde encontrarnos.
 
 ---
 
@@ -196,8 +196,8 @@ Cuando estés listo para tu primer paso, sabés dónde encontrarnos.
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "¿Cuánto cuesta implementar inteligencia artificial en una PyME colombiana? Guía 2026",
-  "datePublished": "2026-XX-XX",
-  "dateModified": "2026-XX-XX",
+  "datePublished": "2026-05-22",
+  "dateModified": "2026-05-22",
   "author": {
     "@type": "Person",
     "name": "Francisco Ovalle",
@@ -236,13 +236,13 @@ Publiqué hoy un artículo con los rangos reales, sin tarifas infladas para vend
 
 Tres razones por las que no le recomendaría a una PyME implementar IA hoy:
 
-1. Todavía facturás en Excel y mandás cotizaciones por correo. El problema no es de inteligencia artificial, es de procesos básicos.
+1. Todavía facturas en Excel y mandas cotizaciones por correo. El problema no es de inteligencia artificial, es de procesos básicos.
 
-2. Recibís menos de 20 mensajes de WhatsApp al día. El volumen no justifica el costo.
+2. Recibes menos de 20 mensajes de WhatsApp al día. El volumen no justifica el costo.
 
-3. Esperás que la IA reemplace al criterio comercial. No lo va a hacer. Atiende lo repetitivo y libera tu tiempo — eso es todo.
+3. Esperas que la IA reemplace al criterio comercial. No lo va a hacer. Atiende lo repetitivo y libera tu tiempo — eso es todo.
 
-Si te pasa alguna de las tres, gastá la plata en otra cosa. Cuando crezcas, hablamos.
+Si te pasa alguna de las tres, gasta la plata en otra cosa. Cuando crezcas, hablamos.
 -->
 
 <!-- LINKEDIN CARROUSEL (jueves 9am) — 8 slides
