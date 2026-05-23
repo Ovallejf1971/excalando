@@ -29,11 +29,25 @@ eXcalando viene de **"escalar"** (crecer, subir de nivel). Pero la **X mayúscul
 - "Capacidades digitales sin muros."
 - "Tu negocio escalando, sin atajos ni paredes."
 
+## Lema oficial (lockeado 2026-05-23)
+
+> **Construimos puentes donde los demás hacen muros. Capacidades digitales con IA.**
+
+77 caracteres. Es el lema canónico de la marca — usar este, no inventar variantes.
+
+**Usos confirmados:**
+- LinkedIn page tagline (eXcalando empresa)
+- LinkedIn headline personal Francisco (combinado con rol)
+- Página About de LinkedIn (primera línea)
+- Pendiente propagar a: footer del sitio, firma de email, materiales de venta
+
+La frase ancla operativa **"Delega. Automatiza. Orquesta."** sigue vigente como cierre opcional de copy (es un cierre rítmico, distinto del lema que es posicionamiento).
+
 ## Product Overview
 
 **One-liner:** La capacidad digital completa que tu PYME necesita para escalar — entregada lista para operar, sin muros ni lock-in.
 
-**Qué hace:** Equipamos a PYMEs latinoamericanas con cuatro capas de capacidades digitales — Cara (cómo te ven), Voz (cómo te hablan), Motor (cómo trabajás), Inteligencia (cómo decidís) — usando IA y stack self-hosted para entregar más rápido y a fracción del costo de las agencias tradicionales.
+**Qué hace:** Equipamos a PYMEs latinoamericanas con cuatro capas de capacidades digitales — Presencia Digital (cómo te ven), Canales Digitales (cómo te hablan), Operación (cómo trabajas), Inteligencia (cómo decides) — usando IA y stack self-hosted para entregar más rápido y a fracción del costo de las agencias tradicionales. *(Naming renombrado 2026-05-23; previo: Cara · Voz · Motor · Inteligencia.)*
 
 **Categoría:** Agencia digital con IA / Agencia de capacidades digitales para PYMES.
 

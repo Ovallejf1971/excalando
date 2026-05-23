@@ -2,6 +2,7 @@
 
 > Marco mental para que las PyMEs entiendan en 30 segundos qué hacemos y dónde encaja cada servicio.
 > **Cerrado 2026-05-18** por Francisco y Harol.
+> **Renombrado 2026-05-23** — versión vigente abajo. Naming previo (Cara · Voz · Motor · Inteligencia) archivado al final.
 
 ---
 
@@ -12,26 +13,26 @@ Las PyMEs no necesitan "marketing", "tecnología" o "automatización" como categ
 eXcalando organiza su catálogo en **4 capas** que cubren las 4 dimensiones donde una PyME crece o se estanca:
 
 ```
-   ┌────────────────────────────────────────────────────┐
-   │  🌐  CARA          Cómo te ven                     │
-   │      (Presencia digital — pública)                 │
-   ├────────────────────────────────────────────────────┤
-   │  💬  VOZ           Cómo te hablan                  │
-   │      (Atención y conversación — contacto)          │
-   ├────────────────────────────────────────────────────┤
-   │  ⚙️  MOTOR         Cómo trabajás                   │
-   │      (Operación y automatización — backstage)      │
-   ├────────────────────────────────────────────────────┤
-   │  📊  INTELIGENCIA  Cómo decidís                    │
-   │      (Datos, dashboards, calificación — transversal)│
-   └────────────────────────────────────────────────────┘
+   ┌─────────────────────────────────────────────────────────┐
+   │  PRESENCIA DIGITAL  Cómo te ven                         │
+   │                     (web, redes, identidad — público)   │
+   ├─────────────────────────────────────────────────────────┤
+   │  CANALES DIGITALES  Cómo te hablan                      │
+   │                     (WhatsApp, chat, email — contacto)  │
+   ├─────────────────────────────────────────────────────────┤
+   │  OPERACIÓN          Cómo trabajas                       │
+   │                     (procesos internos — backstage)     │
+   ├─────────────────────────────────────────────────────────┤
+   │  INTELIGENCIA       Cómo decides                        │
+   │                     (datos + IA — transversal)          │
+   └─────────────────────────────────────────────────────────┘
 ```
 
 **Por qué cada capa importa:**
-- **Cara:** sin esto no te encuentran. Es ser visible.
-- **Voz:** sin esto pierdes lo que te encuentra. Es responder bien.
-- **Motor:** sin esto se te cae la operación cuando crezcas. Es escalar sin romperte.
-- **Inteligencia:** sin esto trabajás a ciegas. Es decidir con datos en vez de a ojo. Y es **transversal** — cruza las otras tres y las hace crecer juntas.
+- **Presencia Digital:** sin esto no te encuentran. Es ser visible.
+- **Canales Digitales:** sin esto pierdes lo que te encuentra. Es responder bien.
+- **Operación:** sin esto se te cae el negocio cuando crezcas. Es escalar sin romperte.
+- **Inteligencia:** sin esto trabajas a ciegas. Es decidir con datos en vez de a ojo. Y es **transversal** — cruza las otras tres y las hace crecer juntas.
 
 **La metáfora con la marca:**
 - Una PyME típica tiene **muros** entre estas 4 capas (la web no habla con WhatsApp, WhatsApp no habla con el sistema de facturación, los datos viven en hojas separadas)
@@ -42,37 +43,37 @@ eXcalando organiza su catálogo en **4 capas** que cubren las 4 dimensiones dond
 
 ## Mapeo: dónde encaja cada servicio actual
 
-### 🌐 Capa CARA · Presencia Digital
+### Capa PRESENCIA DIGITAL
 
 **Para qué sirve:** que la gente te encuentre, te conozca, y elija visitarte o contactarte.
 
 | Servicio | Precio | Qué hace |
 |---|---|---|
-| Página web profesional | (incluido en Presencia) | Tu cara digital, mobile-first |
+| Página web profesional | (incluido en Presencia) | Tu presencia digital, mobile-first |
 | Ficha Google My Business optimizada | (incluido) | Aparecer cuando te buscan en Google |
-| 📊 Tu Analista Digital | $180K/mes | Reporte semanal de visitas/llamadas |
-| 👁️ Tu Vigilante de Reputación | $250K/mes | Monitorea y responde reseñas |
-| ✍️ Tu Community Manager | $480K/mes | 12 publicaciones/mes en redes |
+| Tu Analista Digital | $180K/mes | Reporte semanal de visitas/llamadas |
+| Tu Vigilante de Reputación | $250K/mes | Monitorea y responde reseñas |
+| Tu Community Manager | $480K/mes | 12 publicaciones/mes en redes |
 
 **Tier Presencia Digital:** Básico $290K · Intermedio $790K · Profesional $1.59M
 
 ---
 
-### 💬 Capa VOZ · Atención y conversación
+### Capa CANALES DIGITALES
 
 **Para qué sirve:** convertir a quien te encontró en cliente. Atenderlo 24/7. No perder ventas.
 
 | Servicio | Precio | Qué hace |
 |---|---|---|
-| 💬 Tu Recepcionista WhatsApp | $750K/mes | Contesta WhatsApp 24/7, agenda citas |
-| 💌 Tu Vendedor de Fidelización | $420K/mes | Recupera clientes inactivos |
+| Tu Recepcionista WhatsApp | $750K/mes | Contesta WhatsApp 24/7, agenda citas |
+| Tu Vendedor de Fidelización | $420K/mes | Recupera clientes inactivos |
 | (Futuro) Chatbot Web | TBD | Atención en el sitio mismo |
 | (Futuro) Email automation | TBD | Email transaccional + nurture |
 | (Futuro) Instagram DMs / Messenger | TBD | Mismo cerebro, otros canales |
 
 ---
 
-### ⚙️ Capa MOTOR · Operación y automatización
+### Capa OPERACIÓN
 
 **Para qué sirve:** que tu equipo recupere horas. Que los procesos repetitivos se hagan solos.
 
@@ -84,11 +85,11 @@ eXcalando organiza su catálogo en **4 capas** que cubren las 4 dimensiones dond
 
 ---
 
-### 📊 Capa INTELIGENCIA · Decisiones con datos (transversal)
+### Capa INTELIGENCIA (transversal)
 
 **Para qué sirve:** dejar de operar a ojo. Tomar decisiones con datos. Ver qué funciona y qué no.
 
-**Esta capa es transversal:** cruza Cara, Voz y Motor y las potencia.
+**Esta capa es transversal:** cruza Presencia, Canales y Operación, y las potencia.
 
 | Servicio | Estado | Qué hace |
 |---|---|---|
@@ -106,75 +107,60 @@ eXcalando organiza su catálogo en **4 capas** que cubren las 4 dimensiones dond
 
 ### Pitch corto (10 segundos)
 
-> "Tu negocio crece en 4 capas: Cara (cómo te ven), Voz (cómo te hablan), Motor (cómo trabajás), Inteligencia (cómo decidís). eXcalando construye puentes entre las cuatro con IA. Tu negocio escalando sin muros."
+> "Tu negocio crece en 4 capas: Presencia Digital (cómo te ven), Canales Digitales (cómo te hablan), Operación (cómo trabajas), Inteligencia (cómo decides). eXcalando construye puentes entre las cuatro con IA. Tu negocio escalando sin muros."
 
 ### Pitch medio (30 segundos)
 
-> "La mayoría de las PyMEs tienen una web que no habla con su WhatsApp, un WhatsApp que no habla con su sistema de facturación, y datos que viven en hojas de Excel sueltas. Son cuatro mundos separados por muros. eXcalando trabaja en las cuatro capas — Cara, Voz, Motor e Inteligencia — y las conecta. Tu negocio crece sin que se te caiga la operación."
+> "La mayoría de las PyMEs tienen una web que no habla con su WhatsApp, un WhatsApp que no habla con su sistema de facturación, y datos que viven en hojas de Excel sueltas. Son cuatro mundos separados por muros. eXcalando trabaja en las cuatro capas — Presencia Digital, Canales Digitales, Operación e Inteligencia — y las conecta. Tu negocio crece sin que se te caiga la operación."
 
 ### Pitch largo (60 segundos)
 
 > "Las PyMEs nos contratan en una de cuatro capas, o las cuatro:
 >
-> **Cara** — cómo te ven. Web, redes, ficha Google, reputación online. Aquí vivimos los primeros clientes.
+> **Presencia Digital** — cómo te ven. Web, redes, ficha Google, reputación online. Aquí vivimos los primeros clientes.
 >
-> **Voz** — cómo te hablan. Tu WhatsApp atendido 24/7 por un asistente IA, tu email que responde solo, tu fidelización automática. Aquí vivimos los clientes que ya te encontraron y deciden si compran.
+> **Canales Digitales** — cómo te hablan. Tu WhatsApp atendido 24/7 por un asistente IA, tu email que responde solo, tu fidelización automática. Aquí vivimos los clientes que ya te encontraron y deciden si compran.
 >
-> **Motor** — cómo trabajás. Automatizaciones que conectan tus herramientas para que la información viaje sola. Tareas repetitivas que dejan de existir.
+> **Operación** — cómo trabajas. Automatizaciones que conectan tus herramientas para que la información viaje sola. Tareas repetitivas que dejan de existir.
 >
-> **Inteligencia** — cómo decidís. Dashboards que te dicen qué está funcionando. Datos que se vuelven decisiones, no informes que nadie lee. Esta capa es transversal — cruza las otras tres y las hace crecer juntas.
+> **Inteligencia** — cómo decides. Dashboards que te dicen qué está funcionando. Datos que se vuelven decisiones, no informes que nadie lee. Esta capa es transversal — cruza las otras tres y las hace crecer juntas.
 >
-> Y lo más importante: las cuatro capas se hablan entre sí. Una venta que cierra el bot en Voz dispara la operación en Motor, actualiza el reporte en Inteligencia y se refleja en tu Cara. Por eso decimos que construimos puentes donde otros hacen muros."
+> Y lo más importante: las cuatro capas se hablan entre sí. Una venta que cierra el bot en Canales dispara la operación en Operación, actualiza el reporte en Inteligencia y se refleja en tu Presencia Digital. Por eso decimos que construimos puentes donde otros hacen muros."
 
 ---
 
-## Cómo se comunica en el sitio
+## Cómo viven las 4 capas en los artefactos
 
-✅ **YA implementado** (2026-05-18): el sitio reorganizado muestra:
+**Decisión 2026-05-23:** las 4 capas **no son sección visible** de la landing principal de excalando.com. Viven en:
 
-```
-─── HERO ─────────────────────────
-"Tu PyME está perdiendo plata. Te decimos dónde, gratis."
+- **Documentos brand internos** (este archivo, el PMC)
+- **Página de capacidades** (`/capacidades` cuando se haga la migración a multi-página)
+- **Materiales comerciales:** decks de venta, propuestas, brochures imprimibles
+- **Contenido educativo:** la pieza ancla P2 del piloto de contenido + posts derivados
+- **Conversaciones de Francisco con prospects:** marco mental para guiar el diagnóstico
 
-─── PROBLEMA ────────────────────
-[Las 3 verdades incómodas]
-
-─── SCORE DIGITAL ────────────────
-Puerta de entrada (5 min gratis)
-
-─── ⭐ LAS 4 CAPAS ──────────────
-Sección nueva con tarjetas Cara/Voz/Motor/Inteligencia
-+ frase: "todo conectado, todo fluye"
-
-─── CAPA CARA ───────────────────
-Presencia Digital (3 tiers)
-
-─── CAPA VOZ ────────────────────
-Empleados Digitales (los 5 agentes)
-
-─── CAPA MOTOR ──────────────────
-Automatización a medida (3 niveles)
-
-─── PAQUETES INTEGRALES ─────────
-4 combos cross-capas
-
-─── PROCESO ──────────────────────
-Diagnóstico → Plan → Implementación → Optimización
-
-─── MANIFIESTO ──────────────────
-5 principios, ahora incluye "Puentes, no muros"
-
-─── CASOS + FAQ + CTA + Footer ─
-(sin cambios)
-```
+**Por qué salieron de la landing:** la home estaba abierta en demasiados frentes (14 secciones). El cliente llegaba a un catálogo en lugar de una promesa clara. Las capas son **lenguaje interno de marca**, no copy de entrada.
 
 ---
 
-## Decisiones firmadas (2026-05-18)
+## Decisiones firmadas
 
-1. ✅ **Nombres de las capas:** Cara · Voz · Motor · Inteligencia (más metafóricos, más cálidos que Frente/Medio/Fondo)
-2. ✅ **Son 4, no 3:** Inteligencia es transversal pero merece visibilidad propia
-3. ✅ **"Puentes vs muros":** vive en el Manifiesto (principio #01), no en el hero
-4. ✅ **Score Digital aparte:** es la puerta de entrada, no una capa
-5. ✅ **Reorganización del sitio:** implementada hoy mismo
-6. ⏳ **Materiales comerciales:** pitch deck por actualizar (lo dejo agendado para el próximo bloque)
+### 2026-05-18 (cierre original del modelo)
+1. ✅ **4 capas, no 3:** Inteligencia es transversal pero merece visibilidad propia
+2. ✅ **"Puentes vs muros":** vive en el Manifiesto (principio #01), no en el hero
+3. ✅ **Score Digital aparte:** es la puerta de entrada, no una capa
+
+### 2026-05-23 (rename de las capas)
+4. ✅ **Naming nuevo:** Presencia Digital · Canales Digitales · Operación · Inteligencia (en reemplazo de Cara · Voz · Motor · Inteligencia)
+5. ✅ **Forma asimétrica intencional:** las dos primeras llevan calificador "Digital" para evitar ambigüedad; las dos últimas son auto-evidentes en contexto
+6. ✅ **Las capas salen de la landing:** vivirán en `/capacidades` (página propia) tras migración multi-página
+
+### Pendientes
+- ⏳ **Materiales comerciales:** pitch deck por actualizar al naming nuevo
+- ⏳ **Página `/capacidades`:** crear cuando se ejecute la migración multi-página
+
+---
+
+## Anexo · Naming previo (archivado)
+
+Antes del 2026-05-23 las capas se llamaban **CARA · VOZ · MOTOR · INTELIGENCIA**. La revisión del 23 de mayo cambió el naming para mejorar claridad — los nombres anteriores mezclaban metáforas anatómicas (Cara, Voz) con metáfora mecánica (Motor) y un concepto abstracto (Inteligencia), lo que rompía la coherencia. El naming actual usa cuatro sustantivos conceptuales del mismo registro, comprensibles sin diccionario por cualquier dueño de PyME.
