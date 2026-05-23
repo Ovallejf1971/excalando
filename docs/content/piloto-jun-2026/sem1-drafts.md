@@ -50,41 +50,39 @@ Cada pieza está abajo en formato **listo para copiar y pegar** en LinkedIn. Des
 
 ## ▌ Pieza 2 — Miércoles jun 3, 6:00 pm
 
-**Pilar:** P2 — Capacidades Digitales como Lenguaje (marco propietario 4 capas)
-**Intención:** plantar el modelo de 4 capas como lenguaje de marca. Cualquier pieza P2 futura se va a referenciar a este post.
+**Pilar:** P2 — Capacidades Digitales como Lenguaje
+**Intención:** plantar **las 4 dimensiones** donde un negocio crece o se estanca, sin todavía nombrar formalmente las capas. El naming canónico (Presencia Digital · Canales Digitales · Operación · Inteligencia) se planta cuando exista `/capacidades` en el sitio.
 
 ### Copy para publicar
 
-> Las 4 capas digitales de cualquier negocio.
+> Hay 4 frentes donde una PyME crece o se estanca. La mayoría trabaja uno bien y deja los otros tres en automático.
 >
-> La mayoría de PyMEs trabaja una. Las que escalan trabajan las cuatro.
+> — Cómo te ven.
+> Tu página web, tus redes, tu ficha de Google. Lo que aparece cuando alguien busca tu nombre. Si esto está descuidado, el cliente decide antes de hablarte.
 >
-> ▸ CARA — cómo te ven.
-> Tu página, tu Google Maps, lo que aparece cuando alguien busca tu nombre. Si esto está descuidado, el cliente decide antes de hablarte.
+> — Cómo te hablan.
+> El WhatsApp, el chat del sitio, el correo de contacto. La velocidad de la respuesta es donde se gana o se pierde el negocio. Hoy esto puede pasar 24/7 sin un humano contestando.
 >
-> ▸ VOZ — cómo te hablan.
-> El WhatsApp, el chat de la página, el correo de contacto. La velocidad de la respuesta es donde se gana o se pierde el negocio. Hoy esto puede pasar 24/7 sin un humano contestando.
+> — Cómo trabajas.
+> Los procesos repetitivos de adentro: cotizar, facturar, agendar, hacer seguimiento, despachar. Cada paso es candidato a no hacerse a mano nunca más.
 >
-> ▸ MOTOR — cómo trabajas.
-> Los procesos internos que se repiten todos los días: cotizar, facturar, agendar, hacer seguimiento, despachar. Cada paso es candidato a no hacerse a mano nunca más.
+> — Cómo decides.
+> Los datos que ya tienes pero no estás mirando. Cuánto vendes, qué cliente vuelve, qué producto se mueve, qué mes se cae. Decidir con esto cambia el negocio.
 >
-> ▸ INTELIGENCIA — cómo decides.
-> Los datos que ya tienes pero no estás mirando. Cuánto vendes, qué cliente vuelve, qué producto se mueve, qué mes se cae. Decidir mirando esto cambia el negocio.
+> La mayoría de las PyMEs trabaja el primer frente (sitio + redes) y deja los otros tres en automático. Por eso las cotizaciones llegan tarde, los procesos se traban, y al final del año nadie explica por qué creció o por qué no.
 >
-> La mayoría de las PyMEs trabaja la Cara y deja las otras tres en automático. Por eso las cotizaciones llegan tarde, los procesos se traban, y al final del año nadie explica por qué creció o por qué no.
+> Un solo frente bien no es estrategia digital. Es decoración.
 >
-> Una sola capa no es estrategia digital. Es decoración.
->
-> ¿Cuál de las cuatro tiene tu negocio mejor resuelta hoy?
+> ¿Cuál de los cuatro tienes mejor resuelto hoy?
 
-**Hashtags al final:** `#CapacidadesDigitales #PyMEsColombia #EstrategiaDigital`
+**Hashtags al final:** `#PyMEsColombia #EstrategiaDigital #NegociosLATAM`
 
-**Caracteres:** ~1.450 (al borde, pero el formato lista hace fácil escanear)
+**Caracteres:** ~1.500
 
 **Notas:**
-- El símbolo `▸` es un triángulo sobrio. Si no te gusta visualmente, podemos cambiar a `—` o a Unicode bold (𝗖𝗔𝗥𝗔, 𝗩𝗢𝗭, etc.) — pero más simple es mejor.
-- Pregunta de cierre genera comentarios autoclasificantes: la gente nombra su capa fuerte, lo que te dice qué buscan reforzar (sin pedírselo).
-- Este post es el ancla del pilar P2 — futuros posts van a referenciarlo ("hablamos antes de la capa Motor; profundicemos…").
+- Versión deliberadamente conversacional — no nombra "las 4 capas" formalmente todavía. El naming oficial (Presencia Digital · Canales Digitales · Operación · Inteligencia) se reserva para cuando exista `/capacidades` en el sitio.
+- Pregunta de cierre genera comentarios autoclasificantes: la gente dice cuál tiene mejor, lo que te dice qué buscan reforzar (sin pedírselo).
+- Este post abre el camino — futuros posts pueden ir profundizando frente por frente (uno por semana) sin sentirse repetitivos.
 
 ---
 
