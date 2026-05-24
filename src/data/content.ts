@@ -210,7 +210,7 @@ export const PROCESO = [
 export const MANIFIESTO = [
   { n: "01", titulo: "Puentes, no muros.", desc: "El sector pone muros: jerga, lock-in, contratos eternos, precios opacos, herramientas que no hablan entre sí. Nosotros construimos puentes — entre tu negocio y lo que la IA puede hacer hoy, entre tus canales, entre lo que vendes y cómo decides. La X de eXcalando es ese cruce." },
   { n: "02", titulo: "No vendemos horas. Vendemos resultados.", desc: "El precio se ata a lo que mueve tu negocio, no a cuántas reuniones tuvimos. Si no movemos la aguja, no facturamos." },
-  { n: "03", titulo: "Tu infraestructura. Cero lock-in.", desc: "Todo corre en servidores que vos controlás. Sin SaaS que te suban el precio. Sin datos atrapados en herramientas ajenas. Te vas cuando quieras y te llevás todo funcionando." },
+  { n: "03", titulo: "Tu infraestructura. Cero lock-in.", desc: "Todo corre en servidores que tú controlas. Sin SaaS que te suban el precio. Sin datos atrapados en herramientas ajenas. Te vas cuando quieras y te llevas todo funcionando." },
   { n: "04", titulo: "30–90 días o nada.", desc: "Si no ves resultados medibles en máximo 90 días, algo está mal y lo arreglamos. Sin contratos eternos." },
   { n: "05", titulo: "Hablamos como humanos, no como agencia.", desc: "Cero jerga inflada, cero reportes-relleno. Una llamada al mes con números reales y decisiones claras." },
 ];
@@ -232,7 +232,7 @@ export const CAPAS: Capa[] = [
   {
     id: "cara",
     emoji: "🌐",
-    nombre: "Cara",
+    nombre: "Presencia Digital",
     subtitulo: "Cómo te ven",
     desc: "Tu presencia pública. Lo que la gente ve cuando te busca en Google, te entra al sitio o lee tus reseñas. Sin esto, no te encuentran.",
     servicios: [
@@ -249,7 +249,7 @@ export const CAPAS: Capa[] = [
   {
     id: "voz",
     emoji: "💬",
-    nombre: "Voz",
+    nombre: "Canales Digitales",
     subtitulo: "Cómo te hablan",
     desc: "La conversación con quien te encontró. Tu WhatsApp atendido 24/7. Tu email respondido. Tus clientes inactivos reactivados. Sin esto, lo que te encuentra se enfría.",
     servicios: [
@@ -265,8 +265,8 @@ export const CAPAS: Capa[] = [
   {
     id: "motor",
     emoji: "⚙️",
-    nombre: "Motor",
-    subtitulo: "Cómo trabajás",
+    nombre: "Operación",
+    subtitulo: "Cómo trabajas",
     desc: "Lo que pasa atrás. Tus herramientas conectadas para que la información viaje sola. Tareas repetitivas que dejan de existir. Sin esto, escalar te rompe.",
     servicios: [
       "Automatización a medida",
@@ -282,7 +282,7 @@ export const CAPAS: Capa[] = [
     id: "inteligencia",
     emoji: "📊",
     nombre: "Inteligencia",
-    subtitulo: "Cómo decidís",
+    subtitulo: "Cómo decides",
     desc: "El cerebro transversal. Dashboards que te dicen qué hacer. Datos que se vuelven decisiones. Esta capa cruza las otras tres y las hace crecer juntas.",
     servicios: [
       "Dashboards en tiempo real",
@@ -300,13 +300,13 @@ export const CAPAS: Capa[] = [
 export const FAQS = [
   { q: "¿Cuánto cuesta implementar IA en una PyME?", a: "Depende del alcance. Una atención automatizada de WhatsApp completa para una PyME colombiana arranca con setup desde $1.5M y mensualidad desde $290.000. Los costos de infraestructura (servidor, licencias) son típicamente menos de $200.000/mes adicionales. En el Score Digital te damos una estimación según tu caso, gratis." },
   { q: "¿Cuál es la diferencia entre un chatbot y un asistente con IA?", a: "Un chatbot tradicional sigue un árbol de decisiones: si el cliente dice A, responde B. Si pregunta algo no previsto, se traba. Un asistente con IA entiende el contexto, conecta información de tu negocio, agenda, escala a humano cuando hace falta y aprende. La diferencia es como comparar un menú de teléfono con una recepcionista entrenada." },
-  { q: "¿Vale la pena automatizar WhatsApp con IA en mi negocio?", a: "Si recibís más de 30 mensajes al día con preguntas repetidas (precios, horarios, disponibilidad, agendamientos), sí. La atención automatizada libera al equipo humano de lo repetitivo y solo te escala lo importante. ROI típico en 3–6 meses. Si tu volumen es menor o tus consultas son muy técnicas/personalizadas, te lo decimos honestamente en el Score." },
+  { q: "¿Vale la pena automatizar WhatsApp con IA en mi negocio?", a: "Si recibes más de 30 mensajes al día con preguntas repetidas (precios, horarios, disponibilidad, agendamientos), sí. La atención automatizada libera al equipo humano de lo repetitivo y solo te escala lo importante. ROI típico en 3–6 meses. Si tu volumen es menor o tus consultas son muy técnicas/personalizadas, te lo decimos honestamente en el Score." },
   { q: "¿Cuánto tiempo toma ver resultados?", a: "Quick-wins entre 30 y 45 días (mejoras de conversión, automatizaciones que te devuelven horas). Resultados estructurales (SEO, captación) en 60–90 días. Si pasados 90 días no ves números mejor, revisamos contigo sin costo." },
-  { q: "¿Por qué dicen 'sin lock-in'?", a: "Todo lo que construimos corre en infraestructura que vos controlás — herramientas de código abierto sobre tu propio servidor. Si mañana decidís irte, te entregamos accesos, documentación y se acabó. No retenemos tu data ni tus flujos. Te llevás todo funcionando, no fragmentos." },
+  { q: "¿Por qué dicen 'sin lock-in'?", a: "Todo lo que construimos corre en infraestructura que tú controlas — herramientas de código abierto sobre tu propio servidor. Si mañana decides irte, te entregamos accesos, documentación y se acabó. No retenemos tu data ni tus flujos. Te llevas todo funcionando, no fragmentos." },
   { q: "Mi PyME es muy pequeña / muy específica. ¿Aplica?", a: "Trabajamos con PyMEs de 5 a 50 empleados en servicios profesionales, retail, salud, transporte, comercio y manufactura. Si tu modelo no encaja, te lo decimos en el Score Digital y te recomendamos a alguien que sí." },
-  { q: "¿Necesito saber de tecnología?", a: "No. De hecho, la mayoría de nuestros clientes no son técnicos. Nuestro trabajo es traducir IA y automatización a decisiones de negocio. Vos decidís qué construir; nosotros lo hacemos y te entregamos en un lenguaje que entendés." },
+  { q: "¿Necesito saber de tecnología?", a: "No. De hecho, la mayoría de nuestros clientes no son técnicos. Nuestro trabajo es traducir IA y automatización a decisiones de negocio. Tú decides qué construir; nosotros lo hacemos y te entregamos en un lenguaje que entiendes." },
   { q: "¿Cómo se compara con contratar in-house?", a: "Un equipo in-house (desarrollador + diseñador + experto IA) te cuesta entre $20M y $40M mensuales y tarda 6 meses en arrancar. Nosotros entregamos el primer resultado en 30 días por una fracción. Cuando crezcas y quieras internalizar, te ayudamos con el traspaso." },
-  { q: "¿Y si la IA le dice algo absurdo a un cliente?", a: "Por eso hay traspaso a humano siempre disponible, reglas específicas por industria y revisión periódica de conversaciones. La IA no opera sin red — siempre podés intervenir en vivo desde el panel. Y todo queda auditable." },
+  { q: "¿Y si la IA le dice algo absurdo a un cliente?", a: "Por eso hay traspaso a humano siempre disponible, reglas específicas por industria y revisión periódica de conversaciones. La IA no opera sin red — siempre puedes intervenir en vivo desde el panel. Y todo queda auditable." },
 ];
 
 export const CASOS = [

@@ -9,8 +9,11 @@ export const Footer = () => (
           <LogoMark className="transition-transform group-hover:rotate-3" />
           <Wordmark className="text-lg text-ink" />
         </a>
+        <p className="text-[15px] leading-relaxed text-ink font-medium max-w-sm mb-2">
+          Construimos puentes donde los demás hacen muros.
+        </p>
         <p className="text-sm leading-relaxed text-ink-2 max-w-sm">
-          Capacidades digitales con IA para PyMEs colombianas que quieren crecer en serio. Bogotá · Medellín · Cali.
+          Capacidades digitales con IA. Bogotá · Medellín · Cali.
         </p>
       </div>
       <div>
