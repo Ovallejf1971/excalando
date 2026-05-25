@@ -1,38 +1,30 @@
-import { Nav, Hero } from "@/components/sections/Hero";
-import { Showreel } from "@/components/sections/Showreel";
-import { Problema } from "@/components/sections/Problema";
-import { Score } from "@/components/sections/Score";
-import { Capas } from "@/components/sections/Capas";
-import { PresenciaDigital } from "@/components/sections/PresenciaDigital";
-import { EmpleadosDigitales } from "@/components/sections/EmpleadosDigitales";
-import { Automatizacion } from "@/components/sections/Automatizacion";
-import { Proceso } from "@/components/sections/Proceso";
-import { Manifiesto } from "@/components/sections/Manifiesto";
-import { Casos } from "@/components/sections/Casos";
-import { Faq } from "@/components/sections/Faq";
-import { Cta } from "@/components/sections/Cta";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Nav } from "@/components/sections/Hero";
 import { Footer } from "@/components/sections/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
+import { HomePage } from "@/pages/HomePage";
+import { ManifiestoPage } from "@/pages/ManifiestoPage";
+import { CapacidadesPage } from "@/pages/CapacidadesPage";
+import { ProcesoPage } from "@/pages/ProcesoPage";
+import { ScorePage } from "@/pages/ScorePage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-bg text-ink">
-      <Nav />
-      <Hero />
-      <Showreel />
-      <Problema />
-      <Score />
-      <Capas />
-      <PresenciaDigital />
-      <EmpleadosDigitales />
-      <Automatizacion />
-      <Proceso />
-      <Manifiesto />
-      <Casos />
-      <Faq />
-      <Cta />
-      <Footer />
-      <WhatsAppFloat />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-bg text-ink">
+        <Nav />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/manifiesto" element={<ManifiestoPage />} />
+          <Route path="/capacidades" element={<CapacidadesPage />} />
+          <Route path="/proceso" element={<ProcesoPage />} />
+          <Route path="/score" element={<ScorePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+        <Footer />
+        <WhatsAppFloat />
+      </div>
+    </BrowserRouter>
   );
 }

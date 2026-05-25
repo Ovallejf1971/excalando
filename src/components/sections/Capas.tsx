@@ -86,10 +86,10 @@ export const Capas = () => (
     >
       <p className="text-sm md:text-base text-ink-2 leading-relaxed">
         <span className="text-accent font-semibold">Lo que nos hace distintos:</span> las 4 capas se hablan entre sí.
-        Una venta que cierra el bot en <strong className="text-ink">Voz</strong> dispara la
-        operación en <strong className="text-ink">Motor</strong>, actualiza tu reporte en
+        Una venta que entra por <strong className="text-ink">Canales Digitales</strong> dispara la
+        <strong className="text-ink"> Operación</strong>, actualiza tu reporte en
         <strong className="text-ink"> Inteligencia</strong> y se refleja en tu
-        <strong className="text-ink"> Cara</strong>. Todo conectado. Todo fluye.
+        <strong className="text-ink"> Presencia Digital</strong>. Todo conectado. Todo fluye.
       </p>
     </motion.div>
   </Section>

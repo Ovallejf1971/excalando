@@ -1,43 +1,51 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Check, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "./_atoms";
 import { ScoreDashboard } from "../ScoreDashboard";
 import { LogoMark, Wordmark } from "../Logo";
 import { EVENTS, track } from "@/lib/analytics";
 
-const NAV_LINKS = [
-  { href: "#servicios", label: "Servicios" },
-  { href: "#score", label: "Score" },
-  { href: "#proceso", label: "Proceso" },
-  { href: "#casos", label: "Casos" },
-  { href: "#faq", label: "FAQ" },
+type NavLink = { href: string; label: string; internal?: boolean };
+
+const NAV_LINKS: NavLink[] = [
+  { href: "/capacidades", label: "Capacidades", internal: true },
+  { href: "/manifiesto", label: "Por qué eXcalando", internal: true },
+  { href: "/proceso", label: "Proceso", internal: true },
+  { href: "/score", label: "Score", internal: true },
 ];
 
 export const Nav = () => {
   const [open, setOpen] = useState(false);
   return (
     <nav className="sticky top-0 z-50 px-4 sm:px-6 md:px-12 lg:px-20 py-3.5 md:py-5 flex items-center justify-between border-b border-line backdrop-blur-md bg-bg/80">
-      <a href="#" className="flex items-center gap-2.5 sm:gap-3 min-w-0 group">
+      <Link to="/" className="flex items-center gap-2.5 sm:gap-3 min-w-0 group">
         <LogoMark className="shrink-0 transition-transform group-hover:rotate-3" />
         <Wordmark className="text-base text-ink" />
         <div className="hidden sm:block ml-2 font-mono text-[10px] tracking-[0.18em] text-ink-3 px-2 py-1 border border-line-2 uppercase">
           v.2026
         </div>
-      </a>
+      </Link>
       <div className="hidden md:flex items-center gap-9 text-sm text-ink-2">
-        {NAV_LINKS.map((l) => (
-          <a key={l.href} href={l.href} className="hover:text-ink transition-colors">
-            {l.label}
-          </a>
-        ))}
+        {NAV_LINKS.map((l) =>
+          l.internal ? (
+            <Link key={l.href} to={l.href} className="hover:text-ink transition-colors">
+              {l.label}
+            </Link>
+          ) : (
+            <a key={l.href} href={l.href} className="hover:text-ink transition-colors">
+              {l.label}
+            </a>
+          )
+        )}
       </div>
       <div className="hidden md:block">
         <Button size="sm" asChild>
-          <a href="#score" onClick={() => track(EVENTS.NAV_CTA_CLICK)}>
+          <Link to="/score" onClick={() => track(EVENTS.NAV_CTA_CLICK)}>
             Score gratis <ArrowRight className="h-3.5 w-3.5" />
-          </a>
+          </Link>
         </Button>
       </div>
       <button
@@ -60,21 +68,32 @@ export const Nav = () => {
             className="md:hidden absolute top-full left-0 right-0 bg-bg/95 backdrop-blur-md border-b border-line"
           >
             <div className="flex flex-col px-4 py-2">
-              {NAV_LINKS.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="py-3.5 text-base text-ink-2 hover:text-ink border-b border-line-2 last:border-b-0"
-                >
-                  {l.label}
-                </a>
-              ))}
+              {NAV_LINKS.map((l) =>
+                l.internal ? (
+                  <Link
+                    key={l.href}
+                    to={l.href}
+                    onClick={() => setOpen(false)}
+                    className="py-3.5 text-base text-ink-2 hover:text-ink border-b border-line-2 last:border-b-0"
+                  >
+                    {l.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className="py-3.5 text-base text-ink-2 hover:text-ink border-b border-line-2 last:border-b-0"
+                  >
+                    {l.label}
+                  </a>
+                )
+              )}
               <div className="py-4">
                 <Button asChild className="w-full">
-                  <a href="#score" onClick={() => setOpen(false)}>
+                  <Link to="/score" onClick={() => setOpen(false)}>
                     Score gratis <ArrowRight className="h-3.5 w-3.5" />
-                  </a>
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -133,9 +152,9 @@ export const Hero = () => (
 
         <div className="flex flex-wrap gap-3 mb-7">
           <Button size="lg" asChild>
-            <a href="#score" onClick={() => track(EVENTS.HERO_CTA_SCORE)}>
+            <Link to="/score" onClick={() => track(EVENTS.HERO_CTA_SCORE)}>
               Arrancar Score Digital gratis <ArrowRight className="h-4 w-4" />
-            </a>
+            </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
             <a href="#proceso" onClick={() => track(EVENTS.HERO_CTA_PROCESO)}>Ver cómo trabajamos</a>

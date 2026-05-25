@@ -8,7 +8,7 @@ export const EmpleadosDigitales = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <Section id="empleados-digitales">
+    <Section alt id="empleados-digitales">
       <SectionHeader
         n="05"
         eyebrow="Empleados sueltos"

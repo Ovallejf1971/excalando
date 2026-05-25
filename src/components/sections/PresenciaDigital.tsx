@@ -17,7 +17,7 @@ const renderCelda = (valor: boolean | string, esResaltado?: boolean) => {
 };
 
 export const PresenciaDigital = () => (
-  <Section alt id="presencia-digital">
+  <Section id="presencia-digital">
     <SectionHeader
       n="04"
       eyebrow="La base · Presencia Digital"

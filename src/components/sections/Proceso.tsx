@@ -4,7 +4,7 @@ import { PROCESO } from "@/data/content";
 import { Section, SectionHeader } from "./_atoms";
 
 export const Proceso = () => (
-  <Section dark id="proceso">
+  <Section alt id="proceso">
     <SectionHeader
       n="08"
       eyebrow="Cómo trabajamos"
