@@ -4,6 +4,11 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Section, Eyebrow } from "@/components/sections/_atoms";
 import { Manifiesto } from "@/components/sections/Manifiesto";
+import { Capas } from "@/components/sections/Capas";
+import { PresenciaDigital } from "@/components/sections/PresenciaDigital";
+import { EmpleadosDigitales } from "@/components/sections/EmpleadosDigitales";
+import { Automatizacion } from "@/components/sections/Automatizacion";
+import { Proceso } from "@/components/sections/Proceso";
 
 const DATOS = [
   { n: "99%", l: "de las empresas en LATAM son MIPYMES", fuente: "CEPAL 2025" },
@@ -14,7 +19,7 @@ const DATOS = [
 
 export const ManifiestoPage = () => (
   <>
-    {/* Hero del manifiesto */}
+    {/* 1. HERO — entrada narrativa */}
     <Section>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -22,7 +27,7 @@ export const ManifiestoPage = () => (
         transition={{ duration: 0.5 }}
         className="max-w-3xl"
       >
-        <Eyebrow n="—">Manifesto · eXcalando</Eyebrow>
+        <Eyebrow n="—">Por qué eXcalando</Eyebrow>
         <h1 className="mt-6 mb-8 font-display text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[0.95] tracking-[-0.035em] text-ink text-balance">
           Algo cambió en los últimos <span className="text-accent">18 meses</span>. Pocas PyMEs se enteraron.
         </h1>
@@ -32,7 +37,7 @@ export const ManifiestoPage = () => (
       </motion.div>
     </Section>
 
-    {/* Datos firmados */}
+    {/* 2. DATOS FIRMADOS — la realidad del sector */}
     <Section alt>
       <div className="mb-12">
         <Eyebrow n="—">Los números</Eyebrow>
@@ -65,21 +70,32 @@ export const ManifiestoPage = () => (
       </div>
     </Section>
 
-    {/* Principios — Reuso el componente Manifiesto */}
+    {/* 3. INSIGHT — el marco propietario: las 4 capas */}
+    <Capas />
+
+    {/* 4. SOLUCIÓN — detalle de cada capa */}
+    <PresenciaDigital />
+    <EmpleadosDigitales />
+    <Automatizacion />
+
+    {/* 5. CÓMO TRABAJAMOS — el proceso */}
+    <Proceso />
+
+    {/* 6. PRINCIPIOS — manifesto firmado */}
     <Manifiesto />
 
-    {/* Cierre + CTA */}
-    <Section alt>
+    {/* 7. CTA FINAL — al Score */}
+    <Section dark>
       <div className="max-w-2xl">
-        <Eyebrow n="—">Tu próximo paso</Eyebrow>
-        <h2 className="mt-4 mb-6 text-3xl md:text-5xl font-bold tracking-tight text-ink text-balance">
+        <Eyebrow n="—" className="text-ink-on-dark-3">Tu próximo paso</Eyebrow>
+        <h2 className="mt-4 mb-6 text-3xl md:text-5xl font-bold tracking-tight text-ink-on-dark text-balance">
           Tu negocio no necesita estar a la altura del 2026. Necesita estar preparado para los <span className="text-accent">años que vienen</span>.
         </h2>
-        <p className="text-lg leading-relaxed text-ink-2 mb-8">
+        <p className="text-lg leading-relaxed text-ink-on-dark-2 mb-8">
           Tú sigues haciendo lo que sabes hacer mejor: tu negocio. Nosotros construimos los puentes.
         </p>
         <Button size="lg" asChild>
-          <Link to="/#score">
+          <Link to="/score">
             Arrancar mi Score Digital gratis <ArrowRight className="h-4 w-4" />
           </Link>
         </Button>

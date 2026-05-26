@@ -11,10 +11,8 @@ import { EVENTS, track } from "@/lib/analytics";
 type NavLink = { href: string; label: string; internal?: boolean };
 
 const NAV_LINKS: NavLink[] = [
-  { href: "/capacidades", label: "Capacidades", internal: true },
   { href: "/manifiesto", label: "Por qué eXcalando", internal: true },
-  { href: "/proceso", label: "Proceso", internal: true },
-  { href: "/score", label: "Score", internal: true },
+  { href: "/score", label: "Score Digital", internal: true },
 ];
 
 export const Nav = () => {
