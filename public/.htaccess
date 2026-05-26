@@ -1,0 +1,40 @@
+# SPA rewrite — OpenLiteSpeed / Apache compatible
+# Sirve index.html para cualquier ruta que NO sea archivo/directorio existente.
+# Necesario porque excalando.com es SPA React Router: /manifiesto, /score, etc.
+# son rutas client-side, no archivos físicos en el docroot.
+#
+# Subido al docroot via Vite (public/.htaccess → dist/.htaccess → rsync VPS).
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # No reescribir si la petición es un archivo o directorio real
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Tampoco reescribir el directorio .well-known (Let's Encrypt)
+  RewriteRule ^\.well-known - [L]
+
+  # Todo lo demás → index.html (deja que React Router maneje la ruta)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Cache busting: HTML nunca cachear, assets con hash siempre cachear largo
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  <FilesMatch "\.(js|css|woff2|svg|png|jpg|webp)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# Compresión gzip básica
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
