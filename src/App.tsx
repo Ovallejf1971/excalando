@@ -5,6 +5,8 @@ import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { HomePage } from "@/pages/HomePage";
 import { ManifiestoPage } from "@/pages/ManifiestoPage";
 import { ScorePage } from "@/pages/ScorePage";
+import { PrivacidadPage } from "@/pages/PrivacidadPage";
+import { TerminosPage } from "@/pages/TerminosPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
 
 export default function App() {
@@ -16,6 +18,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/manifiesto" element={<ManifiestoPage />} />
           <Route path="/score" element={<ScorePage />} />
+          <Route path="/privacidad" element={<PrivacidadPage />} />
+          <Route path="/terminos" element={<TerminosPage />} />
           {/* Redirects de URLs viejas fusionadas en /manifiesto */}
           <Route path="/capacidades" element={<Navigate to="/manifiesto" replace />} />
           <Route path="/proceso" element={<Navigate to="/manifiesto" replace />} />

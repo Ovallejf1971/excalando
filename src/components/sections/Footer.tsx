@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { LogoMark, Wordmark } from "../Logo";
 
 export const Footer = () => (
@@ -64,9 +65,8 @@ export const Footer = () => (
     <div className="border-t border-line-on-dark pt-6 flex justify-between items-center flex-wrap gap-4 text-xs text-ink-3 font-mono uppercase">
       <div>© 2026 eXcalando · NIT 901.XXX.XXX-X · Colombia</div>
       <div className="flex gap-6">
-        <span>Términos</span>
-        <span>Privacidad</span>
-        <span>Cookies</span>
+        <Link to="/terminos" className="hover:text-ink transition-colors">Términos</Link>
+        <Link to="/privacidad" className="hover:text-ink transition-colors">Privacidad</Link>
       </div>
     </div>
   </footer>
