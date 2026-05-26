@@ -63,7 +63,7 @@ export const Solucion = () => (
     </div>
     <div className="flex flex-wrap gap-3">
       <Button asChild variant="outline">
-        <Link to="/capacidades">
+        <Link to="/manifiesto">
           Ver las cuatro capacidades en detalle <ArrowRight className="h-4 w-4" />
         </Link>
       </Button>

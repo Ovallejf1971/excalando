@@ -63,11 +63,8 @@ export const Capas = () => (
             ))}
           </div>
 
-          {/* Footer: precio + CTA */}
-          <div className="flex items-center justify-between text-xs border-t border-line pt-3 mt-auto">
-            <span className="font-mono text-accent font-semibold text-[11.5px]">
-              {capa.precio}
-            </span>
+          {/* Footer: CTA */}
+          <div className="flex items-center justify-end text-xs border-t border-line pt-3 mt-auto">
             <span className="text-ink-3 group-hover:text-accent transition-colors font-mono">
               Ver ↓
             </span>

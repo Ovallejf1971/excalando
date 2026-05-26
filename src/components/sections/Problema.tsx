@@ -5,7 +5,7 @@ import { Section, SectionHeader } from "./_atoms";
 export const Problema = () => (
   <Section>
     <SectionHeader
-      n="01"
+      n="02"
       eyebrow="El problema"
       title={
         <>

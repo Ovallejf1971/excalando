@@ -186,10 +186,10 @@ export const DOLORES = [
   },
   {
     n: "02",
-    titulo: "Las agencias te cobran caro y entregan poco",
-    desc: "Reportes de 40 páginas, jerga inflada y resultados que no se notan en el banco. Pagaste por horas, no por crecimiento. Suena familiar.",
+    titulo: "El sector tradicional cobra como en 2018",
+    desc: "Reportes de 40 páginas, jerga inflada, contratos largos y resultados que no se notan en el banco. Paquetes diseñados para empresas grandes y aplicados a tu PyME sin matiz. Suena familiar.",
     metric: "$15M",
-    metricLabel: "promedio gastado en agencias antes de venir con nosotros",
+    metricLabel: "promedio gastado antes de cambiar el enfoque",
   },
   {
     n: "03",
@@ -210,8 +210,8 @@ export const PROCESO = [
 export const MANIFIESTO = [
   { n: "01", titulo: "Puentes, no muros.", desc: "El sector pone muros: jerga, lock-in, contratos eternos, precios opacos, herramientas que no hablan entre sí. Nosotros construimos puentes — entre tu negocio y lo que la IA puede hacer hoy, entre tus canales, entre lo que vendes y cómo decides. La X de eXcalando es ese cruce." },
   { n: "02", titulo: "No vendemos horas. Vendemos resultados.", desc: "El precio se ata a lo que mueve tu negocio, no a cuántas reuniones tuvimos. Si no movemos la aguja, no facturamos." },
-  { n: "03", titulo: "Tu infraestructura. Cero lock-in.", desc: "Todo corre en servidores que tú controlas. Sin SaaS que te suban el precio. Sin datos atrapados en herramientas ajenas. Te vas cuando quieras y te llevas todo funcionando." },
-  { n: "04", titulo: "30–90 días o nada.", desc: "Si no ves resultados medibles en máximo 90 días, algo está mal y lo arreglamos. Sin contratos eternos." },
+  { n: "03", titulo: "Sin lock-in. Sin atajos.", desc: "Construimos sobre código abierto e infraestructura propia. No dependes de licencias que te suban el precio. Si decides irte, te entregamos accesos y documentación — y te ayudamos a migrar a donde quieras." },
+  { n: "04", titulo: "30–90 días o lo ajustamos.", desc: "Si en 90 días no ves resultados medibles, revisamos contigo sin costo adicional hasta que la aguja se mueva. Sin contratos eternos, cancelación libre en cualquier momento." },
   { n: "05", titulo: "Hablamos como humanos, no como agencia.", desc: "Cero jerga inflada, cero reportes-relleno. Una llamada al mes con números reales y decisiones claras." },
 ];
 

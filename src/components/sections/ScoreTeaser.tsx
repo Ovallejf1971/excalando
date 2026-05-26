@@ -18,7 +18,7 @@ export const ScoreTeaser = () => (
       aria-hidden
     />
     <SectionHeader
-      n="02"
+      n="05"
       eyebrow="Score Digital · Gratis"
       title={
         <>

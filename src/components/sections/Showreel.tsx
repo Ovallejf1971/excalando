@@ -6,7 +6,7 @@ export const Showreel = () => (
   <section className="section-dark border-t border-line-on-dark px-5 sm:px-6 md:px-12 lg:px-20 py-12 md:py-16">
     <div className="max-w-6xl mx-auto">
       <div className="mb-6 md:mb-8">
-        <Eyebrow n="01 / muestra" className="text-ink-on-dark-3">
+        <Eyebrow n="04 / muestra" className="text-ink-on-dark-3">
           Lo que construimos · en movimiento
         </Eyebrow>
         <h2 className="mt-3 font-display text-2xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-ink-on-dark text-balance max-w-3xl">

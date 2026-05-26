@@ -145,7 +145,7 @@ export const Hero = () => (
         <p className="text-lg md:text-xl leading-relaxed text-ink-2 max-w-xl mb-8">
           <strong className="text-ink font-semibold">Atención automatizada</strong> en WhatsApp,{" "}
           <strong className="text-ink font-semibold">roles repetitivos</strong> que trabajan solos y{" "}
-          <strong className="text-ink font-semibold">tus sistemas hablándose</strong> sin copiar-pegar. Para PyMEs en Colombia y LATAM. Resultados medibles en 30–90 días.
+          <strong className="text-ink font-semibold">tus sistemas hablándose</strong> sin copiar-pegar. Para PyMEs en Colombia y LATAM. Empieza por el diagnóstico gratuito — el resto, paso a paso.
         </p>
 
         <div className="flex flex-wrap gap-3 mb-7">
@@ -155,7 +155,7 @@ export const Hero = () => (
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <a href="#proceso" onClick={() => track(EVENTS.HERO_CTA_PROCESO)}>Ver cómo trabajamos</a>
+            <Link to="/manifiesto" onClick={() => track(EVENTS.HERO_CTA_PROCESO)}>Ver cómo trabajamos</Link>
           </Button>
         </div>
 
