@@ -181,22 +181,22 @@ export const DOLORES = [
     n: "01",
     titulo: "Estás perdiendo clientes que ni siquiera sabes que existen",
     desc: "Mientras lees esto, alguien busca lo que vendes en Google y aterriza en la web de tu competencia. Sin presencia digital sólida, eres invisible.",
-    metric: "73%",
-    metricLabel: "de las búsquedas locales no pasan de la primera página",
+    metric: "92%",
+    metricLabel: "de los consumidores investiga online antes de elegir. Si no apareces ahí, no existes.",
   },
   {
     n: "02",
     titulo: "El sector tradicional cobra como en 2018",
     desc: "Reportes de 40 páginas, jerga inflada, contratos largos y resultados que no se notan en el banco. Paquetes diseñados para empresas grandes y aplicados a tu PyME sin matiz. Suena familiar.",
-    metric: "$15M",
-    metricLabel: "promedio gastado antes de cambiar el enfoque",
+    metric: "$5K USD",
+    metricLabel: "era el precio de un asistente que atiende 24/7 hace 2 años. Hoy cabe en tu mensualidad.",
   },
   {
     n: "03",
     titulo: "Sabes que IA es importante. No sabes qué hacer con eso.",
     desc: "Lees titulares todos los días. Tu sobrino te explicó ChatGPT. Pero nadie te dice cómo aplicar IA a tu PyME sin contratar a un equipo de ingenieros.",
-    metric: "0",
-    metricLabel: "líneas de código que vas a tener que escribir",
+    metric: "8/10",
+    metricLabel: "dueños de PyME LATAM quiere adoptar IA. Solo el 38% lo ha hecho (Microsoft 2025).",
   },
 ];
 
