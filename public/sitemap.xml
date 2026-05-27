@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Home -->
   <url>
     <loc>https://excalando.com/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="es-CO" href="https://excalando.com/" />
     <xhtml:link rel="alternate" hreflang="es" href="https://excalando.com/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://excalando.com/" />
   </url>
+
+  <!-- Por qué eXcalando (manifesto + capacidades + proceso fusionados) -->
+  <url>
+    <loc>https://excalando.com/manifiesto</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es-CO" href="https://excalando.com/manifiesto" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://excalando.com/manifiesto" />
+  </url>
+
+  <!-- Score Digital - lead magnet principal -->
+  <url>
+    <loc>https://excalando.com/score</loc>
+    <lastmod>2026-05-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es-CO" href="https://excalando.com/score" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://excalando.com/score" />
+  </url>
+
+  <!-- Legales (prioridad baja, indexan pero no protagonistas) -->
+  <url>
+    <loc>https://excalando.com/privacidad</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://excalando.com/terminos</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
   <!-- TODO: agregar URLs futuras a medida que se publiquen:
-       /score, /blog, /casos/<slug>, /servicios/<vertical>, /comerciales -->
+       /blog, /blog/<slug>, /casos/<slug>, /sobre-nosotros -->
 </urlset>
