@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PageMeta } from "@/components/PageMeta";
 import { Section, Eyebrow } from "@/components/sections/_atoms";
 import { Manifiesto } from "@/components/sections/Manifiesto";
 import { Capas } from "@/components/sections/Capas";
@@ -19,6 +20,12 @@ const DATOS = [
 
 export const ManifiestoPage = () => (
   <>
+    <PageMeta
+      title="Por qué eXcalando · Manifesto, capacidades y cómo trabajamos"
+      description="Lo que antes costaba miles de dólares hoy cabe en el presupuesto de una PyME. Datos sectoriales LATAM, las 4 capas digitales de un negocio, cómo trabajamos y nuestros principios."
+      path="/manifiesto"
+      type="article"
+    />
     {/* 1. HERO — entrada narrativa */}
     <Section>
       <motion.div

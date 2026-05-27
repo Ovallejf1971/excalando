@@ -1,7 +1,14 @@
 import { Section, Eyebrow } from "@/components/sections/_atoms";
+import { PageMeta } from "@/components/PageMeta";
 
 export const PrivacidadPage = () => (
-  <Section>
+  <>
+    <PageMeta
+      title="Política de Privacidad | eXcalando"
+      description="Cómo eXcalando trata los datos personales: qué recolectamos, para qué, derechos del titular. Self-hosted, no vendemos datos. Cumple Ley 1581 Colombia."
+      path="/privacidad"
+    />
+    <Section>
     <div className="max-w-3xl">
       <Eyebrow n="—">Legal</Eyebrow>
       <h1 className="mt-6 mb-4 font-display text-4xl md:text-6xl font-extrabold leading-[0.95] tracking-[-0.035em] text-ink">
@@ -87,4 +94,5 @@ export const PrivacidadPage = () => (
       </div>
     </div>
   </Section>
+  </>
 );

@@ -1,7 +1,14 @@
 import { Section, Eyebrow } from "@/components/sections/_atoms";
+import { PageMeta } from "@/components/PageMeta";
 
 export const TerminosPage = () => (
-  <Section>
+  <>
+    <PageMeta
+      title="Términos y Condiciones | eXcalando"
+      description="Términos de uso de excalando.com. Propiedad intelectual, uso permitido, ley aplicable Colombia. Lenguaje directo."
+      path="/terminos"
+    />
+    <Section>
     <div className="max-w-3xl">
       <Eyebrow n="—">Legal</Eyebrow>
       <h1 className="mt-6 mb-4 font-display text-4xl md:text-6xl font-extrabold leading-[0.95] tracking-[-0.035em] text-ink">
@@ -98,4 +105,5 @@ export const TerminosPage = () => (
       </div>
     </div>
   </Section>
+  </>
 );
