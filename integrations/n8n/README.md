@@ -1,4 +1,4 @@
-# Integraciones n8n — eXcalando
+﻿# Integraciones n8n — eXcalando
 
 Workflows de n8n que orquestan la captura y notificacion de leads del Score Digital.
 
@@ -203,7 +203,7 @@ Ir a [https://n8n.lithv.net](https://n8n.lithv.net) y loguearse.
 
 #### Gmail
 - Click el nodo **Gmail → Enviar reporte**
-- En **Credential to connect with**: seleccionar **Gmail account** (o cualquiera de las existentes que pertenezca a Francisco / `ovallejf@gmail.com`)
+- En **Credential to connect with**: seleccionar **Gmail account** (o cualquiera de las existentes que pertenezca a Javier / `ovallejf@gmail.com`)
 - Verificar que el campo **Sender Name** dentro de Options diga `Diagnostico Digital`
 
 ### 4. Activar el workflow
@@ -249,7 +249,7 @@ El frontend hace POST con este shape:
     "tieneWeb": true,
     "webMobile": true,
     "...": "...",
-    "nombre": "Francisco Ovalle",
+    "nombre": "Javier Ovalle",
     "email": "ejemplo@gmail.com",
     "empresa": "Mi PyME",
     "telefono": "+573164728441"

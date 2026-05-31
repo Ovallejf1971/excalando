@@ -1,4 +1,4 @@
----
+﻿---
 title: Estado del proyecto · 2026-05-31
 description: Snapshot del estado al 31 may 2026.
 ---
@@ -20,7 +20,7 @@ description: Snapshot del estado al 31 may 2026.
 
 ## Piloto LinkedIn (programado, arranca mar 2 jun)
 
-**Decisión 30-may:** TODO contenido va por **página eXcalando**. LinkedIn personal Francisco queda libre. Repost personal opcional con comentario propio.
+**Decisión 30-may:** TODO contenido va por **página eXcalando**. LinkedIn personal Javier queda libre. Repost personal opcional con comentario propio.
 
 **Programación Buffer:**
 - Mar 2 jun 6pm — Pieza 1 (P3 manifesto "92% offline")
@@ -31,7 +31,7 @@ description: Snapshot del estado al 31 may 2026.
 
 **Formato sem 1:** texto puro (sin imagen). Carruseles arrancan sem 2.
 
-**Operativa post-publicación:** Francisco responde primeros 3-5 comentarios en las 2h siguientes a cada post.
+**Operativa post-publicación:** Javier responde primeros 3-5 comentarios en las 2h siguientes a cada post.
 
 ## Stack producción contenido (decidido)
 
@@ -42,14 +42,14 @@ description: Snapshot del estado al 31 may 2026.
 - **NO Canva pro** (Figma cubre mejor)
 
 **Pendiente sem 2:**
-- Adaptar 1 template Figma a marca eXcalando (paleta hueso + Electric Blue + logo + Geist) — 1h Harol + Francisco
+- Adaptar 1 template Figma a marca eXcalando (paleta hueso + Electric Blue + logo + Geist) — 1h Harol + Javier
 - Templates priorizados del pack: Portrait Light Big Idea · Portrait Light Single Letter · Portrait Light List · Portrait Light Call-to-Action
 
 ## Pendientes vivos (próxima sesión)
 
 | # | Tarea | Cuándo |
 |---|---|---|
-| 1 | Francisco lee BMC en `docs/business-model-canvas.md` | Lectura tuya |
+| 1 | Javier lee BMC en `docs/business-model-canvas.md` | Lectura tuya |
 | 2 | Drafts piloto sem 2 (entrega) | Lun 8 jun |
 | 3 | Adaptar template Figma a marca | Antes de mar 9 jun |
 | 4 | Bing Webmaster Tools | Opcional |
@@ -74,7 +74,7 @@ description: Snapshot del estado al 31 may 2026.
 - **Concisión:** ejecutar primero, explicar solo si relevante. Mapas mentales nuevos vale extenderse.
 - **Tú estricto** (no voseo, no usted)
 - **Outcomes no stack:** prohibido "n8n", "agente IA", "LLM" en copy visible
-- **Separación marca/persona:** Francisco personal libre de eXcalando, todo va por página
+- **Separación marca/persona:** Javier personal libre de eXcalando, todo va por página
 - **Sin precios públicos en sitio fase 1** (tabla vive en `docs/sales/`)
 - **Decisiones de marca brand-wide:** aclarar alcance antes de pedir confirmación
 

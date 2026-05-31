@@ -1,8 +1,8 @@
----
+﻿---
 title: Piloto Semana 1 — Drafts LinkedIn
 fechas: jun 2-5 2026
-estado: DRAFT — pendiente edición Francisco
-voz: Francisco Ovalle desde perfil personal
+estado: DRAFT — pendiente edición Javier
+voz: Javier Ovalle desde perfil personal
 piloto: content-strategy-2026-v2 · derisk de 2 semanas
 ---
 
@@ -133,7 +133,7 @@ Cada pieza está abajo en formato **listo para copiar y pegar** en LinkedIn. Des
 
 **Después de publicar:**
 1. Responde los primeros 3-5 comentarios dentro de las primeras 2 horas. Pregunta de vuelta o profundiza. No respondas con emojis solos.
-2. Si alguien escribe DM con interés comercial: respóndele como Francisco persona, no como vendedor. La métrica de éxito NO es el lead — es el respeto.
+2. Si alguien escribe DM con interés comercial: respóndele como Javier persona, no como vendedor. La métrica de éxito NO es el lead — es el respeto.
 3. Anota en una hoja simple (Google Sheets, lo que sea): hora publicación, reacciones a las 24h, comentarios sustantivos, perfiles relevantes que comentaron.
 
 **Sábado jun 13 (cierre piloto sem 1+2):**

@@ -3,18 +3,18 @@ title: Socios y roles
 description: Quién hace qué en eXcalando.
 ---
 
-## Socios fundadores
+## Socios Fundadores
 
-### Javier Francisco Ovalle
+eXcalando nace de **dos socios fundadores en igual condición**. Ningún rótulo CEO/CTO. Ningún "founder vs co-founder". Las decisiones se toman en conjunto según la matriz de la última sección.
 
-- **Rol:** estrategia, ventas, contenido, relación con cliente, producto.
-- **Dedicación:** tiempo parcial (compatibiliza con otras responsabilidades).
+### Javier Ovalle · Socio Fundador
+
+- **Foco:** estrategia, contenido, ventas, relación con cliente, producto.
 - **Monetización:** no monetarizado aún. Formalizar entre mes 4–6 según break-even.
 
-### Harol Valencia
+### Harol Valencia · Socio Fundador
 
-- **Rol:** infraestructura VPS, deploys, integración técnica, mantenimiento stack self-hosted.
-- **Dedicación:** tiempo parcial.
+- **Foco:** infraestructura VPS, deploys, integración técnica, mantenimiento del stack self-hosted.
 - **Monetización:** no monetarizado aún. Formalizar al mismo hito que Javier.
 
 ## Aliados recurrentes
@@ -27,10 +27,14 @@ description: Quién hace qué en eXcalando.
 | _(pendiente)_ | Diseñador UI/UX | — | Por proyecto |
 | _(pendiente)_ | Videógrafo / edición | — | Por proyecto |
 
-## Reglas de colaboración
+## Matriz de decisión
 
-- Cualquier compromiso económico con un aliado se documenta en este libro (`06 · Operación`).
-- Decisiones brand-wide (cambios de naming, identidad, posicionamiento) requieren acuerdo de ambos socios.
-- Decisiones técnicas reversibles (infra, herramientas internas): Harol decide, Javier informado.
-- Decisiones comerciales reversibles (pricing puntual, contenido): Javier decide, Harol informado.
-- Decisiones irreversibles (cerrar contrato cliente, contratar fijo, levantar capital): ambos.
+| Tipo de decisión | Quién decide |
+|---|---|
+| Brand-wide (naming, identidad, posicionamiento, pricing público) | Ambos socios |
+| Económica de impacto (cerrar cliente, contratar fijo, levantar capital, gastos >$200 USD/mes recurrentes) | Ambos socios |
+| Técnica reversible (infra, herramientas internas, stack) | Harol decide · Javier informado |
+| Comercial reversible (pricing puntual a un cliente, contenido específico) | Javier decide · Harol informado |
+| Operativa diaria (responder cliente, ejecutar tarea acordada) | Quien la tenga asignada |
+
+Cualquier compromiso económico con un aliado se documenta en este libro (`06 · Operación`).

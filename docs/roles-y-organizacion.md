@@ -6,7 +6,7 @@ description: Roles internos extendidos. Complementa Socios y roles.
 # Roles y organización — eXcalando
 
 **Última actualización:** 2026-05-05
-**Owner:** Francisco Ovalle
+**Owner:** Javier Ovalle
 
 > eXcalando opera con un modelo híbrido: **2 humanos part-time + 10 agentes IA**.
 > Cada función crítica está cubierta por un agente. Los humanos toman decisiones,
@@ -27,7 +27,7 @@ description: Roles internos extendidos. Complementa Socios y roles.
    pretendemos ser humanos. Esa honestidad es nuestro diferencial.
 4. **Aprendizaje continuo.** Cada conversación cerrada alimenta los prompts.
    La calidad sube semana a semana.
-5. **Humanos para alto leverage.** Francisco se enfoca en cerrar ventas y
+5. **Humanos para alto leverage.** Javier se enfoca en cerrar ventas y
    estrategia. Harol en infraestructura. Nadie pierde tiempo en tareas que un
    agente puede hacer.
 
@@ -41,7 +41,7 @@ description: Roles internos extendidos. Complementa Socios y roles.
 
 ## Roles humanos
 
-### Francisco Ovalle — Founder / CEO
+### Javier Ovalle — Socio Fundador
 
 **Dedicación:** part-time variable
 **Tiempo estimado:** 10-20 hrs/semana (variable según fase)
@@ -52,7 +52,7 @@ description: Roles internos extendidos. Complementa Socios y roles.
 |---|---|---|
 | 1 | **Cierre de ventas** — convertir leads calificados en clientes | A demanda (cada lead caliente) |
 | 2 | **Estrategia** — decisiones de producto, precios, posicionamiento | Semanal (1-2 hrs) |
-| 3 | **Vocero de marca personal** — LinkedIn de Francisco, posts de visión | 2-3 posts/semana |
+| 3 | **Vocero de marca personal** — LinkedIn de Javier, posts de visión | 2-3 posts/semana |
 | 4 | **Supervisión de agentes** — review semanal de calidad IA | 1 hr/semana |
 | 5 | **Approval mode** (primeras 100 conversaciones) | A demanda |
 | 6 | **Crisis management** — alertas críticas (legal, bad language, sentiment crítico) | A demanda (idealmente 0-2/mes) |
@@ -73,9 +73,9 @@ description: Roles internos extendidos. Complementa Socios y roles.
 
 ---
 
-### Harol Mauricio Valencia — Co-founder / CTO
+### Harol Valencia — Socio Fundador
 
-**Dedicación:** part-time, a la par de Francisco
+**Dedicación:** part-time, a la par de Javier
 **Tiempo estimado:** 10-15 hrs/semana
 
 #### Responsabilidades core
@@ -108,9 +108,9 @@ sentido sumar cuando el volumen lo justifique.
 | **Customer Success Lead** | 5+ clientes activos | Contractor part-time, 10-20 hrs/sem |
 | **Content / Marketing Lead** | Necesidad de >10 posts/sem o videos | Contractor part-time + freelance video |
 | **Implementation Specialist** | 8+ proyectos en paralelo | Contractor full-time |
-| **Sales Development Rep (SDR)** | Demanda > capacidad de Francisco para ventas | Contractor part-time, comisión por venta |
+| **Sales Development Rep (SDR)** | Demanda > capacidad de Javier para ventas | Contractor part-time, comisión por venta |
 
-**Ninguno se contrata antes del mes 4-6.** Antes, todo lo absorben Francisco + Harol + agentes.
+**Ninguno se contrata antes del mes 4-6.** Antes, todo lo absorben Javier + Harol + agentes.
 
 ---
 
@@ -120,58 +120,58 @@ Resumen rápido. Detalle técnico completo en [`agentes-ia-stack.md`](./agentes-
 
 | # | Agente | Función | Fase | Owner humano |
 |---|---|---|---|---|
-| 1 | **Conversational Agent** | Responde mensajes WhatsApp del cliente | V1 | Francisco |
-| 2 | **Analyzer Agent** | Clasifica cada mensaje (sentiment, intent, flags) | V1 | Francisco |
+| 1 | **Conversational Agent** | Responde mensajes WhatsApp del cliente | V1 | Javier |
+| 2 | **Analyzer Agent** | Clasifica cada mensaje (sentiment, intent, flags) | V1 | Javier |
 | 3 | **Knowledge Agent** | RAG — busca en KB para responder con datos exactos | V1 | Harol (técnica) |
-| 4 | **Lead Qualification Agent** | Califica leads del Score Digital, asigna prioridad | V1 | Francisco |
-| 5 | **Reporting Agent** | Daily summary a Francisco (leads, alertas, oportunidades) | V2 | Francisco |
-| 6 | **Reactivation Agent** | Re-engages leads que abandonaron el funnel | V2 | Francisco |
-| 7 | **Content Generator** | Drafts de posts para LinkedIn / Instagram | V3 | Francisco |
-| 8 | **Newsletter Agent** | Newsletter mensual a base de leads y clientes | V3 | Francisco |
-| 9 | **Proposal Generator** | Genera propuestas customizadas desde Score Digital | V3 | Francisco |
-| 10 | **Onboarding Agent** | Acompaña al cliente recién firmado en sus primeros 30 días | V3 | Francisco |
+| 4 | **Lead Qualification Agent** | Califica leads del Score Digital, asigna prioridad | V1 | Javier |
+| 5 | **Reporting Agent** | Daily summary a Javier (leads, alertas, oportunidades) | V2 | Javier |
+| 6 | **Reactivation Agent** | Re-engages leads que abandonaron el funnel | V2 | Javier |
+| 7 | **Content Generator** | Drafts de posts para LinkedIn / Instagram | V3 | Javier |
+| 8 | **Newsletter Agent** | Newsletter mensual a base de leads y clientes | V3 | Javier |
+| 9 | **Proposal Generator** | Genera propuestas customizadas desde Score Digital | V3 | Javier |
+| 10 | **Onboarding Agent** | Acompaña al cliente recién firmado en sus primeros 30 días | V3 | Javier |
 
 ---
 
 ## Org chart visual
 
 ```
-                          ┌───────────────────────────┐
-                          │      FRANCISCO OVALLE     │
-                          │     Founder · CEO         │
-                          │   (sales, strategy,       │
-                          │    brand voice)           │
-                          └──────────┬────────────────┘
-                                     │
-                          ┌──────────┴────────────────┐
-                          │                           │
-                          ▼                           ▼
-              ┌────────────────────────┐  ┌────────────────────────┐
-              │       HUMANOS          │  │     10 AGENTES IA      │
-              │                        │  │                        │
-              │  HAROL VALENCIA        │  │  V1 (Producción AHORA)│
-              │  Co-founder · CTO      │  │  • Conversational      │
-              │  (infra, workflows)    │  │  • Analyzer            │
-              │                        │  │  • Knowledge (RAG)     │
-              │                        │  │  • Lead Qualification  │
-              │                        │  │                        │
-              │                        │  │  V2 (mes 2-3)          │
-              │                        │  │  • Reporting           │
-              │                        │  │  • Reactivation        │
-              │                        │  │                        │
-              │                        │  │  V3 (mes 4+)           │
-              │                        │  │  • Content Generator   │
-              │                        │  │  • Newsletter          │
-              │                        │  │  • Proposal Generator  │
-              │                        │  │  • Onboarding          │
-              └────────────────────────┘  └────────────────────────┘
-                                     │
-                                     ▼
-                          ┌────────────────────────┐
-                          │   CLIENTES Y LEADS     │
-                          │  (interactúan con      │
-                          │  agentes principalmente)│
-                          └────────────────────────┘
+              ┌──────────────────────────┐    ┌──────────────────────────┐
+              │      JAVIER OVALLE       │    │     HAROL VALENCIA       │
+              │      Socio Fundador      │    │     Socio Fundador       │
+              │  (estrategia, ventas,    │    │  (infra, workflows,      │
+              │   contenido, producto)   │    │   integraciones técnicas)│
+              └────────────┬─────────────┘    └────────────┬─────────────┘
+                           │                               │
+                           └───────────────┬───────────────┘
+                                           │
+                                           ▼
+                          ┌────────────────────────────┐
+                          │      10 AGENTES IA         │
+                          │                            │
+                          │  V1 (Producción AHORA)     │
+                          │  • Conversational          │
+                          │  • Analyzer                │
+                          │  • Knowledge (RAG)         │
+                          │  • Lead Qualification      │
+                          │                            │
+                          │  V2 (mes 2-3)              │
+                          │  • Reporting               │
+                          │  • Reactivation            │
+                          │                            │
+                          │  V3 (mes 4+)               │
+                          │  • Content Generator       │
+                          │  • Newsletter              │
+                          │  • Proposal Generator      │
+                          │  • Onboarding              │
+                          └─────────────┬──────────────┘
+                                        │
+                                        ▼
+                          ┌────────────────────────────┐
+                          │     CLIENTES Y LEADS       │
+                          │  (interactúan con          │
+                          │   agentes principalmente)  │
+                          └────────────────────────────┘
 ```
 
 ### Flujo de información
@@ -181,8 +181,8 @@ Resumen rápido. Detalle técnico completo en [`agentes-ia-stack.md`](./agentes-
 - **Conversational Agent → Analyzer Agent** (paralelo, clasifica cada mensaje)
 - **Analyzer Agent → Postgres** (guarda análisis)
 - **Postgres → Reporting Agent** (consume análisis para summary)
-- **Reporting Agent → Francisco** (daily email/WhatsApp)
-- **Alertas → Francisco** (instantáneo si severity ≥ media)
+- **Reporting Agent → Javier** (daily email/WhatsApp)
+- **Alertas → Javier** (instantáneo si severity ≥ media)
 
 ---
 
@@ -195,10 +195,10 @@ Cuando aparece una nueva tarea repetitiva en la operación, esta es la matriz de
 | Repetitiva, reglas claras, alto volumen | **Agente IA** |
 | Repetitiva, reglas claras, bajo volumen | Workflow n8n simple (sin LLM) |
 | Repetitiva, requiere juicio | **Agente IA con human-in-the-loop** |
-| No repetitiva, requiere creatividad | **Humano (Francisco)** |
+| No repetitiva, requiere creatividad | **Humano (Javier)** |
 | Técnica, requiere acceso a infra | **Humano (Harol)** |
-| Requiere autoridad (firma, decisión final) | **Humano (Francisco)** |
-| Crisis o caso atípico | **Humano (Francisco), agente debe escalar** |
+| Requiere autoridad (firma, decisión final) | **Humano (Javier)** |
+| Crisis o caso atípico | **Humano (Javier), agente debe escalar** |
 
 ---
 
@@ -208,11 +208,11 @@ Cuando aparece una nueva tarea repetitiva en la operación, esta es la matriz de
 
 | Canal | Propósito | Quién lo usa |
 |---|---|---|
-| **WhatsApp Francisco** | Alertas críticas + WhatsApp del trabajo | Francisco ↔ agentes (alertas), clientes |
-| **Telegram bot** | Alertas medias + reportes | Francisco recibe |
-| **Email** | Reportes diarios consolidados | Francisco recibe |
-| **Chatwoot** | UI para tomar control de conversaciones | Francisco interviene |
-| **Metabase** | Dashboards de métricas | Francisco + Harol |
+| **WhatsApp Javier** | Alertas críticas + WhatsApp del trabajo | Javier ↔ agentes (alertas), clientes |
+| **Telegram bot** | Alertas medias + reportes | Javier recibe |
+| **Email** | Reportes diarios consolidados | Javier recibe |
+| **Chatwoot** | UI para tomar control de conversaciones | Javier interviene |
+| **Metabase** | Dashboards de métricas | Javier + Harol |
 | **n8n UI** | Configurar/editar workflows de agentes | Harol |
 | **Repositorio docs/** | Estrategia, prompts, decisiones | Ambos |
 
@@ -223,7 +223,7 @@ Cuando aparece una nueva tarea repetitiva en la operación, esta es la matriz de
 | **Tiempo real** | Alertas críticas (legal, bad language, sentiment drop) |
 | **Cada 5 min** | Cliente pidió humano explícito |
 | **Diaria** | Email resumen: leads del día, oportunidades, alertas no resueltas |
-| **Semanal** | Review de calidad IA (Francisco): conversaciones random, edits sugeridos |
+| **Semanal** | Review de calidad IA (Javier): conversaciones random, edits sugeridos |
 | **Mensual** | Métricas comerciales + decisiones estratégicas |
 
 ---
@@ -232,26 +232,26 @@ Cuando aparece una nueva tarea repetitiva en la operación, esta es la matriz de
 
 ### Fase 1 (mes 1-2): MVP operacional
 
-- Francisco: 80% en validar producto + cerrar primeros 3 clientes
+- Javier: 80% en validar producto + cerrar primeros 3 clientes
 - Harol: 80% en infraestructura + workflows base
 - Agentes: V1 corriendo en modo approval
 
 ### Fase 2 (mes 3-4): Validación de mercado
 
-- Francisco: 60% ventas + 30% supervisión IA + 10% estrategia
+- Javier: 60% ventas + 30% supervisión IA + 10% estrategia
 - Harol: 50% mantener infra + 30% nuevos workflows + 20% mejoras
 - Agentes: V1 en autopilot temático, V2 entrando
 
 ### Fase 3 (mes 5-6): Escalamiento
 
-- Francisco: 50% ventas + 30% estrategia + 20% review
+- Javier: 50% ventas + 30% estrategia + 20% review
 - Harol: 60% infra y mantenimiento + 30% V3 + 10% mejoras
 - Agentes: V1+V2 en autopilot completo, V3 entrando
 - Posible primer humano contratado (Customer Success o Content)
 
 ### Fase 4 (mes 6+): Crecimiento
 
-- Francisco: 80% estrategia + ventas grandes + brand
+- Javier: 80% estrategia + ventas grandes + brand
 - Harol: 80% mantener stack + escalar
 - Agentes: 10 corriendo, mejorados continuamente
 - 2-3 humanos adicionales (CS, Content, Implementation)
@@ -272,7 +272,7 @@ Cuando aparece una nueva tarea repetitiva en la operación, esta es la matriz de
 - **Uptime del stack** — target: >99.5%
 - **NPS de clientes** — target: >40 al mes 6
 - **Sentiment promedio en WhatsApp** — target: >0.3
-- **Burnout signals** (Francisco + Harol) — review mensual
+- **Burnout signals** (Javier + Harol) — review mensual
 
 ---
 
@@ -293,7 +293,7 @@ Cuando aparece una nueva tarea repetitiva en la operación, esta es la matriz de
 **"¿No se siente impersonal?"**
 > Lo que es impersonal es esperar 3 días por un email genérico. Nuestros agentes
 > son rápidos, claros, y consistentes. Y cuando importa de verdad, hablás con
-> Francisco directo.
+> Javier directo.
 
 ---
 

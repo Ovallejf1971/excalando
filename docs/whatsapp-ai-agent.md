@@ -1,4 +1,4 @@
----
+﻿---
 title: WhatsApp AI Agent
 description: Agente recepcionista WhatsApp 24/7.
 ---
@@ -7,7 +7,7 @@ description: Agente recepcionista WhatsApp 24/7.
 
 **Documento de diseño técnico y operacional**
 Última actualización: 2026-05-05 (post decisiones estratégicas)
-Owner: Francisco Ovalle
+Owner: Javier Ovalle
 
 > Las decisiones de configuración (LLM, modo de operación, alertas, temas no-IA, etc.)
 > están consolidadas en [decisiones-estrategicas-2026-05-05.md](./decisiones-estrategicas-2026-05-05.md).
@@ -82,7 +82,7 @@ El agente de WhatsApp de eXcalando tiene tres roles simultáneos:
               │
               ▼
        ┌──────────────┐
-       │ Telegram /   │  ← alerta inmediata a Francisco
+       │ Telegram /   │  ← alerta inmediata a Javier
        │ WhatsApp Bot │
        └──────────────┘
 ```
@@ -114,7 +114,7 @@ El agente de WhatsApp de eXcalando tiene tres roles simultáneos:
 
 ### Identidad
 
-- Se presenta como "el asistente de eXcalando" (NO como "Francisco" o como humano).
+- Se presenta como "el asistente de eXcalando" (NO como "Javier" o como humano).
 - Si pregunta directamente "¿sos un bot?" → responde con honestidad: *"Sí, soy un asistente IA del equipo de eXcalando. Pero detrás hay personas reales que intervienen cuando hace falta. ¿En qué te puedo ayudar?"*
 
 ---
@@ -150,11 +150,11 @@ Adicionalmente, no debe:
 
 | Disparador | Acción |
 |---|---|
-| Cliente escribe: "humano", "persona", "alguien real", "tu jefe", "el dueño" | Pausa, manda mensaje "Te paso con Francisco en un toque" + alerta |
+| Cliente escribe: "humano", "persona", "alguien real", "tu jefe", "el dueño" | Pausa, manda mensaje "Te paso con Javier en un toque" + alerta |
 | Lenguaje agresivo / groserías | Pausa, mensaje empático, alerta crítica |
 | Menciones: "demanda", "denuncia", "estafa", "fraude", "abogado" | Pausa, mensaje "Te paso con un humano de inmediato" + alerta crítica |
-| Preguntas legales / contractuales | Pausa, "Esa duda la responde Francisco directo" + alerta |
-| Sentiment < -0.5 en 2 mensajes seguidos | Pausa después de 2do, alerta a Francisco |
+| Preguntas legales / contractuales | Pausa, "Esa duda la responde Javier directo" + alerta |
+| Sentiment < -0.5 en 2 mensajes seguidos | Pausa después de 2do, alerta a Javier |
 
 ---
 
@@ -244,7 +244,7 @@ CREATE TABLE kb_casos (
   // → INSERT en oportunidades
 
   escalar_a_humano(motivo: string, urgencia: 'alta' | 'media'): void
-  // → marca conversación en Chatwoot + alerta a Francisco
+  // → marca conversación en Chatwoot + alerta a Javier
 }
 ```
 
@@ -392,7 +392,7 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
         ahorra entre 15-25 hrs semana del staff de admin (agendar, recordar,
         cobrar copagos).
 
-        ¿Te tinca agendar 30 min con Francisco para hablarlo? Sin compromiso."
+        ¿Te tinca agendar 30 min con Javier para hablarlo? Sin compromiso."
         [agendar_reunion → manda Cal.com]
 ```
 
@@ -402,12 +402,12 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
 [16:40] Cliente: "Esto no funciona, hace 3 días estoy esperando respuesta"
 [16:40] IA (analiza: sentiment=-0.7, intent=queja, risk=0.8 → ESCALAR):
         "Entiendo la molestia, no debería pasar. Déjame validar internamente
-        y te paso con Francisco directo en un toque."
+        y te paso con Javier directo en un toque."
         [escalar_a_humano("queja por demora", urgencia="alta")]
-        🚨 Alerta a Francisco
+        🚨 Alerta a Javier
 
-[16:42] Francisco toma control en Chatwoot
-[16:42] Francisco: "Hola, soy Francisco. Cuéntame qué pasó y lo resolvemos."
+[16:42] Javier toma control en Chatwoot
+[16:42] Javier: "Hola, soy Javier. Cuéntame qué pasó y lo resolvemos."
 ```
 
 ### Flow 4 — Cliente pide humano explícito
@@ -415,7 +415,7 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
 ```
 [09:05] Cliente: "Quiero hablar con una persona"
 [09:05] IA (detecta escalation_request → ESCALAR):
-        "Por supuesto. Te paso con Francisco. Te responde en máximo 1 hora
+        "Por supuesto. Te paso con Javier. Te responde en máximo 1 hora
         hábil."
         [escalar_a_humano("cliente pidió humano", urgencia="media")]
 ```
@@ -428,27 +428,27 @@ IMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicaci�
 
 - IA **propone** la respuesta
 - Aparece en Chatwoot como "draft"
-- Francisco aprueba con 1 click → se envía
-- Si Francisco edita → se aprende el estilo
+- Javier aprueba con 1 click → se envía
+- Si Javier edita → se aprende el estilo
 - **Objetivo:** validar 100 conversaciones antes de soltar autopilot
 
 ### Modo 2 — Autopilot temático (semanas 3-6)
 
 - IA responde sola en temas que demostró dominar (ej: precios, FAQ, agendamiento)
 - En temas nuevos sigue requiriendo approval
-- Francisco recibe resumen diario de "qué hizo la IA hoy"
+- Javier recibe resumen diario de "qué hizo la IA hoy"
 
 ### Modo 3 — Autopilot completo + alertas (mes 2+)
 
 - IA responde sola por defecto
-- Francisco SOLO interviene cuando:
+- Javier SOLO interviene cuando:
   - Llega alerta crítica
   - Cliente pide humano explícito
   - Métrica de calidad baja (revisión semanal)
 
 ### Reglas de alerta (todos los modos) — confirmadas 2026-05-05
 
-Mapa de severidad → canal de notificación a Francisco:
+Mapa de severidad → canal de notificación a Javier:
 
 | Severidad | Disparador | Canal de notificación |
 |---|---|---|
@@ -502,14 +502,14 @@ Mapa de severidad → canal de notificación a Francisco:
 
 - [ ] Crear workflow en n8n: webhook de Chatwoot → Claude analizador → Postgres
 - [ ] Tabla `mensajes_analisis` poblándose en cada mensaje entrante
-- [ ] Reglas de alerta básicas funcionando (Telegram bot a Francisco)
+- [ ] Reglas de alerta básicas funcionando (Telegram bot a Javier)
 - [ ] Dashboard básico en Metabase con sentiment y volumen
 
 ### Fase 2 — Agente conversacional con approval (semana 3-4)
 
 - [ ] Crear workflow conversacional en n8n
 - [ ] Implementar tools (consultar_servicios, consultar_faq, agendar_reunion, escalar)
-- [ ] Modo approval: IA propone, Francisco aprueba en Chatwoot
+- [ ] Modo approval: IA propone, Javier aprueba en Chatwoot
 - [ ] Logs de cada interacción en Postgres
 
 ### Fase 3 — Autopilot temático (semana 5-6)
@@ -608,7 +608,7 @@ Cuando retomemos:
 9. **Workflow #1 en n8n:** Agente Analizador (clasifica cada mensaje en background)
 10. **Workflow #2 en n8n:** Agente Conversacional (responde, con tools y fallback)
 11. **Configurar bot de Telegram** y reglas de alerta por severidad
-12. **Modo Approval activado** — Francisco aprueba primeras 100 conversaciones
+12. **Modo Approval activado** — Javier aprueba primeras 100 conversaciones
 
 Después de esos pasos ya hay sistema funcional para validar con tráfico real.
 

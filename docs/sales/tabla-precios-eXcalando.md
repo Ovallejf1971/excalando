@@ -1,8 +1,8 @@
-# Tabla de Precios eXcalando
+﻿# Tabla de Precios eXcalando
 
 > **Documento interno y comercial.** Para uso en propuestas personalizadas, slides comerciales (pitch deck), one-pagers de venta, conversaciones de prospect, y onboarding de comerciales referidos.
 >
-> **No publicar en el sitio público (decisión Francisco 2026-05-25).** El sitio no muestra tabla SKU porque coincide con la estrategia v2 valor-first y con el manifesto ("el problema no es el precio"). Los precios entregamos personalizados tras el Score Digital + diagnóstico.
+> **No publicar en el sitio público (decisión Javier 2026-05-25).** El sitio no muestra tabla SKU porque coincide con la estrategia v2 valor-first y con el manifesto ("el problema no es el precio"). Los precios entregamos personalizados tras el Score Digital + diagnóstico.
 >
 > **Origen:** estos precios vivían públicamente en `/manifiesto` (antes `/capacidades`) hasta el 2026-05-25. Se extrajeron a este documento al sacarlos del sitio.
 
@@ -125,7 +125,7 @@ Para comerciales externos y aliados que traen clientes:
 ## 7 · Reglas de pricing — política interna
 
 ### Quién puede negociar
-- **Francisco** puede aprobar descuentos hasta 15% sobre tabla.
+- **Javier** puede aprobar descuentos hasta 15% sobre tabla.
 - **Descuentos mayores a 15%** requieren justificación escrita y van a aprobación de socio (Harol).
 - **Setup nunca se regala completo** salvo programa especial documentado.
 
@@ -164,4 +164,4 @@ Casi nunca. Si el cliente es estratégico (caso de éxito, vertical nueva, conta
 
 ---
 
-*Mantenido por: Francisco Ovalle · Próxima revisión: 2026-11-25*
+*Mantenido por: Javier Ovalle · Próxima revisión: 2026-11-25*

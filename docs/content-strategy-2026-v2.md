@@ -1,4 +1,4 @@
----
+﻿---
 title: Content Strategy 2026 · v2
 description: Estrategia de contenido valor-first. 4 pilares.
 ---
@@ -15,8 +15,8 @@ description: Estrategia de contenido valor-first. 4 pilares.
 Antes de comprometernos al plan mensual completo, validamos en 2 semanas tres cosas concretas:
 
 **Qué validamos:**
-1. **Voz funciona.** Los drafts de Claude requieren ediciones menores (cosmética, no estructura) y la voz publicada se siente Francisco.
-2. **Carga horaria sostenible.** El tiempo real de Francisco editando + publicando + respondiendo comentarios no excede 5 horas/semana.
+1. **Voz funciona.** Los drafts de Claude requieren ediciones menores (cosmética, no estructura) y la voz publicada se siente Javier.
+2. **Carga horaria sostenible.** El tiempo real de Javier editando + publicando + respondiendo comentarios no excede 5 horas/semana.
 3. **Hay señal de engagement.** Al menos una pieza de las 6 cruza umbral mínimo (20+ reacciones genuinas o 3+ comentarios sustantivos).
 
 **Plan piloto (reducido respecto al mensual completo):**
@@ -32,16 +32,16 @@ Antes de comprometernos al plan mensual completo, validamos en 2 semanas tres co
 | Mié jun 10 6pm | LinkedIn — "Marco mental: las 5 preguntas que debes hacerte ANTES de comprar cualquier herramienta digital" | P2 autodiagnóstico |
 | Vie jun 12 10am | **Long-form blog/Medium** — *"Las 4 capas digitales de una PyME: el marco que casi nadie te enseña"* (1.500 palabras) + LinkedIn de lanzamiento | P2 hub |
 
-**Total:** 6 piezas LinkedIn + 1 long-form. **Tiempo Francisco estimado: ~4 horas/semana** (editar drafts + publicar + responder primeros comentarios).
+**Total:** 6 piezas LinkedIn + 1 long-form. **Tiempo Javier estimado: ~4 horas/semana** (editar drafts + publicar + responder primeros comentarios).
 
 **Evaluación al cierre del piloto (sábado jun 13):**
 
 | Criterio | Verde | Amarillo | Rojo |
 |---|---|---|---|
 | Calidad de drafts (¿requieren rework estructural?) | Ediciones cosméticas | Algunas reescrituras | Reescribo desde cero |
-| Tiempo real Francisco | ≤4h/sem | 4-6h/sem | >6h/sem |
+| Tiempo real Javier | ≤4h/sem | 4-6h/sem | >6h/sem |
 | Engagement | ≥1 pieza con 20+ reacciones genuinas | Engagement plano pero comentarios sustantivos | Cero tracción |
-| Voz publicada | Se siente Francisco | Mezcla rara | No se siente él |
+| Voz publicada | Se siente Javier | Mezcla rara | No se siente él |
 
 **Decisión post-piloto:**
 - **3-4 verdes:** activamos plan mensual completo desde jun 15, incluyendo primer informe sectorial al cierre de mes.
@@ -133,7 +133,7 @@ Tu modelo de 4 capas (Cara, Voz, Motor, Inteligencia) **es** un activo de marca.
 ### P3 · Puentes contra Muros
 **Tipo:** Manifesto, opinión, crítica al sector · **Cadencia:** 2 piezas LinkedIn/semana
 
-La voz de Francisco como **pensador del sector**, no como proveedor. Esta es donde la marca tiene personalidad — donde se construye el respeto, no solo el conocimiento.
+La voz de Javier como **pensador del sector**, no como proveedor. Esta es donde la marca tiene personalidad — donde se construye el respeto, no solo el conocimiento.
 
 **Por qué este pilar manda:** la educación (P2) y los datos (P1) construyen autoridad técnica. P3 construye **autoridad personal**. La gente sigue personas, no sitios web. Y compra a personas que tienen criterio público, no a anónimos.
 
@@ -144,7 +144,7 @@ La voz de Francisco como **pensador del sector**, no como proveedor. Esta es don
 - Predicciones honestas: "Cómo se va a ver una PyME colombiana en 2028 (las cuatro que sobrevivan)", "Lo que va a pasar con las agencias tradicionales en los próximos 24 meses"
 - Reflexiones puente/muro: aplicar la metáfora central a casos concretos del sector
 
-**Formato base:** post LinkedIn de 800-1.500 caracteres, sin imagen o con visual sobrio, primera persona, voz Francisco.
+**Formato base:** post LinkedIn de 800-1.500 caracteres, sin imagen o con visual sobrio, primera persona, voz Javier.
 
 ### P4 · Hazlo Tú Mismo (cuando se puede)
 **Tipo:** Capacitación gratuita real · **Cadencia:** 1 pieza/quincena (long-form + plantilla descargable)
@@ -171,16 +171,16 @@ Tabla operativa por semana típica:
 
 | Día | Formato | Pilar | Quién genera draft | Quién aprueba |
 |---|---|---|---|---|
-| Lun | Aprobación temas semana | — | Claude propone | Francisco aprueba |
-| Mar 6pm | LinkedIn post (P3 opinión) | P3 | Claude | Francisco edita y publica |
-| Mié 6pm | LinkedIn post (P3 observación / pregunta provocación) | P3 | Claude | Francisco edita y publica |
-| Jue 9am | LinkedIn carrusel o long-form derivado | P2 / P4 | Claude | Francisco edita y publica |
-| Vie 10am | Publicación long-form (blog o Medium) | P2 / P4 | Claude | Francisco edita y publica |
-| Vie 5pm | Métricas semanales (Plausible cuando esté arriba) | — | Francisco | — |
+| Lun | Aprobación temas semana | — | Claude propone | Javier aprueba |
+| Mar 6pm | LinkedIn post (P3 opinión) | P3 | Claude | Javier edita y publica |
+| Mié 6pm | LinkedIn post (P3 observación / pregunta provocación) | P3 | Claude | Javier edita y publica |
+| Jue 9am | LinkedIn carrusel o long-form derivado | P2 / P4 | Claude | Javier edita y publica |
+| Vie 10am | Publicación long-form (blog o Medium) | P2 / P4 | Claude | Javier edita y publica |
+| Vie 5pm | Métricas semanales (Plausible cuando esté arriba) | — | Javier | — |
 
 **Cada 4-6 semanas:** se reemplaza el long-form del viernes por el **lanzamiento del informe sectorial P1**, con 4 piezas LinkedIn de soporte esa misma semana (teaser, hallazgos, hilo, link final).
 
-**Volumen mensual realista:** 16-18 piezas + 1 informe profundo cada ~5 semanas. **Carga real para Francisco:** ~45 min de edición/publicación por pieza LinkedIn, ~2 horas por long-form, ~6 horas distribuidas para revisar/firmar el informe sectorial. Total: **~8 horas/semana de Francisco**.
+**Volumen mensual realista:** 16-18 piezas + 1 informe profundo cada ~5 semanas. **Carga real para Javier:** ~45 min de edición/publicación por pieza LinkedIn, ~2 horas por long-form, ~6 horas distribuidas para revisar/firmar el informe sectorial. Total: **~8 horas/semana de Javier**.
 
 ---
 
@@ -219,7 +219,7 @@ Tabla operativa por semana típica:
 - **Sem 3:** muestra el lado generoso (regalamos GMB)
 - **Sem 4:** suelta el activo de autoridad más fuerte (informe sectorial original)
 
-Al final del mes, alguien que llegó nuevo al perfil de Francisco vio: opinión con criterio (P3), un marco propio (P2), generosidad real (P4), y datos que nadie más tiene (P1). Es exactamente el perfil de "el laboratorio que entiende a la PyME LATAM mejor que nadie".
+Al final del mes, alguien que llegó nuevo al perfil de Javier vio: opinión con criterio (P3), un marco propio (P2), generosidad real (P4), y datos que nadie más tiene (P1). Es exactamente el perfil de "el laboratorio que entiende a la PyME LATAM mejor que nadie".
 
 ---
 
@@ -244,7 +244,7 @@ Todo lo definido en `.agents/product-marketing-context.md` aplica sin excepción
 
 | Métrica | Target mes 4 | Cómo se mide |
 |---|---|---|
-| Followers LinkedIn Francisco | +800 vs baseline | LinkedIn nativo |
+| Followers LinkedIn Javier | +800 vs baseline | LinkedIn nativo |
 | Followers página eXcalando | +300 vs cero | LinkedIn nativo |
 | Engagement promedio por post (likes+comments+shares) | 40+ | LinkedIn nativo |
 | Comentarios sustantivos por post (no emoji-only) | 5+ | revisión manual |
@@ -265,15 +265,15 @@ Aquí entran a jugar conversión, leads, reuniones agendadas y demás métricas 
 - ❌ Cotizaciones enviadas
 - ❌ Cierres
 
-Si alguien escribe directamente a Francisco vía LinkedIn por interés comercial: bienvenido, lo atiende. Pero **no es la métrica de éxito del contenido**.
+Si alguien escribe directamente a Javier vía LinkedIn por interés comercial: bienvenido, lo atiende. Pero **no es la métrica de éxito del contenido**.
 
 ---
 
 ## Distribución y canales
 
 **Canales nativos (esfuerzo principal):**
-- **LinkedIn personal Francisco** — voz primaria, P3 vive aquí
-- **LinkedIn página eXcalando** — repost de Francisco + long-form derivados
+- **LinkedIn personal Javier** — voz primaria, P3 vive aquí
+- **LinkedIn página eXcalando** — repost de Javier + long-form derivados
 - **Blog propio** (cuando exista `excalando.com/blog/`) — home de P2, P4 y resúmenes P1
 - **Newsletter propio** (a partir mes 2 — herramienta TBD: Buttondown, Beehiiv o self-hosted vía Listmonk en VPS) — distribución semanal de lo publicado + un insight exclusivo
 
@@ -289,22 +289,22 @@ Si alguien escribe directamente a Francisco vía LinkedIn por interés comercial
 
 ---
 
-## Operativa Francisco ↔ Claude
+## Operativa Javier ↔ Claude
 
 **Roles claros:**
 - **Claude genera todos los drafts** (LinkedIn, long-form, informes, comunicados) — desde el primer borrador en voz y tú estricto.
-- **Francisco edita, ajusta voz, agrega anécdotas propias, y publica.**
-- **Francisco aprueba temas semanales los lunes.** Sin esa aprobación, no se generan drafts — para evitar producir piezas que luego se descartan.
-- **Para informes sectoriales:** Claude propone diseño metodológico (qué medir, cómo levantar datos, fuentes a cruzar) → Francisco aprueba → Claude ejecuta el levantamiento (encuestas, scraping ético, análisis) → Francisco lee borrador y firma.
+- **Javier edita, ajusta voz, agrega anécdotas propias, y publica.**
+- **Javier aprueba temas semanales los lunes.** Sin esa aprobación, no se generan drafts — para evitar producir piezas que luego se descartan.
+- **Para informes sectoriales:** Claude propone diseño metodológico (qué medir, cómo levantar datos, fuentes a cruzar) → Javier aprueba → Claude ejecuta el levantamiento (encuestas, scraping ético, análisis) → Javier lee borrador y firma.
 
 **Cómo se trabaja una semana típica:**
-1. **Lunes:** Claude entrega "menú de temas" para la semana (2-3 opciones por slot). Francisco elige.
+1. **Lunes:** Claude entrega "menú de temas" para la semana (2-3 opciones por slot). Javier elige.
 2. **Lunes-Martes mañana:** Claude entrega drafts del Martes y Miércoles LinkedIn.
-3. **Martes 6pm:** Francisco publica el primero.
-4. **Miércoles 6pm:** Francisco publica el segundo.
+3. **Martes 6pm:** Javier publica el primero.
+4. **Miércoles 6pm:** Javier publica el segundo.
 5. **Miércoles-Jueves:** Claude entrega draft Jueves + long-form Viernes.
-6. **Jueves 9am:** Francisco publica carrusel/derivado.
-7. **Viernes 10am:** Francisco publica long-form.
+6. **Jueves 9am:** Javier publica carrusel/derivado.
+7. **Viernes 10am:** Javier publica long-form.
 8. **Viernes 5pm:** revisión métricas semanales (cuando Plausible esté arriba).
 
 **Reglas para Claude al generar drafts:**
@@ -338,4 +338,4 @@ Cuando los KPIs de fase 1 se cumplen al menos en un 70%, se activa fase 2 — do
 
 ---
 
-*Próximo paso: Francisco lee este documento completo y, si aprueba, Claude arranca generando el "menú de temas" del lunes 1 de junio para validar la operativa antes de que arranque el mes.*
+*Próximo paso: Javier lee este documento completo y, si aprueba, Claude arranca generando el "menú de temas" del lunes 1 de junio para validar la operativa antes de que arranque el mes.*

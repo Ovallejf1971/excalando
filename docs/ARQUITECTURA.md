@@ -1,4 +1,4 @@
----
+﻿---
 title: Arquitectura general
 description: Visión general de la arquitectura técnica de eXcalando.
 ---
@@ -41,7 +41,7 @@ flowchart LR
     B["🔀 BRIDGES<br/><br/>Adapta el canal<br/>al formato del cerebro"]
     C["🧠 CEREBRO IA<br/><br/>Conversa · Decide<br/>Escala cuando hace falta"]
     D[("🗃️ DATOS<br/><br/>Postgres · Redis<br/>Estado + KB")]
-    E["👤 HUMANOS<br/><br/>Francisco · Harol<br/>Solo para escalaciones<br/>y decisiones estratégicas"]
+    E["👤 HUMANOS<br/><br/>Javier · Harol<br/>Solo para escalaciones<br/>y decisiones estratégicas"]
 
     A -->|"mensaje"| B
     B <-->|"persistencia"| D
@@ -108,8 +108,8 @@ flowchart TB
     end
 
     subgraph HUMANOS["👤 INTERVENCIÓN HUMANA"]
-        FRA["Francisco · Founder<br/>estrategia, ventas, decisiones,<br/>aprobaciones, escalaciones"]
-        HAR["Harol · Co-Founder<br/>infra, deploys, troubleshooting"]
+        FRA["Javier · Socio Fundador<br/>estrategia, ventas, decisiones,<br/>aprobaciones, escalaciones"]
+        HAR["Harol · Socio Fundador<br/>infra, deploys, troubleshooting"]
         COMM["⏳ Equipo comercial futuro<br/>solo leads calientes post-escalación"]
     end
 
@@ -204,7 +204,7 @@ flowchart TB
 8. Twilio Bridge:
    a. UPDATE conversaciones SET ai_handled_count + 1
    b. Si fue escalación → INSERT alerta con conversacion_id vinculado
-   c. (Futuro) Bot Telegram notifica push a Francisco
+   c. (Futuro) Bot Telegram notifica push a Javier
    d. Envía respuesta vía Twilio API → cliente recibe en su WhatsApp
 9. Listo. Toda la cadena toma 3-5 segundos.
 
@@ -294,8 +294,8 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 
 | Rol | Quién hoy | Responsabilidades | Cuándo crece esto |
 |---|---|---|---|
-| **Co-Founder · Estrategia y comercial** | Francisco Ovalle | Decisiones de negocio, ventas, vocería, aprobaciones, primera revisión de alertas, marca personal | Permanente |
-| **Co-Founder · Tech y operación** | Harol Valencia | VPS, despliegues, debugging, escalado técnico, nuevos workflows, infraestructura | Permanente |
+| **Socio Fundador · Estrategia y comercial** | Javier Ovalle | Decisiones de negocio, ventas, vocería, aprobaciones, primera revisión de alertas, marca personal | Permanente |
+| **Socio Fundador · Tech y operación** | Harol Valencia | VPS, despliegues, debugging, escalado técnico, nuevos workflows, infraestructura | Permanente |
 | **Comercial junior** | — (futuro) | Atender SOLO leads calientes post-escalación, agendar y cerrar | Mes 4-6 según volumen |
 | **Copywriter / Content** | — (futuro) | Editar drafts del Agente Content Generator (cuando exista) | Mes 6+ |
 | **Diseñador** | — (futuro) | Custom design para clientes que lo paguen | Cuando aparezca demanda |
@@ -355,7 +355,7 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 3. Lee `docs/infraestructura-instalada.md` para mapa del VPS
 4. Lee `docs/agentes-ia-stack.md` para los workflows IA detallados
 5. Acceso al VPS lo gestiona Harol
-6. Acceso a n8n (`https://n8n.lithv.net`) lo gestiona Francisco
+6. Acceso a n8n (`https://n8n.lithv.net`) lo gestiona Javier
 7. Para sumar un workflow nuevo: ramada en git → JSON en `integrations/n8n/` → commit → import desde URL en n8n
 
 ### Si sos contenido/copy
@@ -372,10 +372,10 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 | Síntoma | Primera mirada | Quién |
 |---|---|---|
 | El bot no responde en WhatsApp | `n8n.lithv.net` → executions de `Twilio Bridge` | Harol |
-| El bot responde mal (incoherente, inventa cosas) | Revisar `kb_servicios` (¿cargada?) + Agent Conversational prompt | Francisco + Harol |
+| El bot responde mal (incoherente, inventa cosas) | Revisar `kb_servicios` (¿cargada?) + Agent Conversational prompt | Javier + Harol |
 | El sitio está caído | `curl https://excalando.com` desde otra red. Si 503/502 → CyberPanel | Harol |
 | Alerta no llegó a Telegram | Revisar tabla `alertas` en Postgres + workflow Telegram | Harol |
-| Cliente reclama por algo legal/contractual | Escalación inmediata a Francisco. NO responder sin él. | Cualquiera → Francisco |
+| Cliente reclama por algo legal/contractual | Escalación inmediata a Javier. NO responder sin él. | Cualquiera → Javier |
 
 ---
 
@@ -398,7 +398,7 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 **Mes 1-3 (validación, donde estamos hoy):**
 - WhatsApp + Web operando
 - 1 agente conversacional + 1 RAG + Bridges
-- Francisco aprueba escalaciones, Harol mantiene infra
+- Javier aprueba escalaciones, Harol mantiene infra
 
 **Mes 4-6 (cuando hay 8-12 clientes activos):**
 - Sumar Agente Analyzer (corre en paralelo, analiza sentiment/intent)
@@ -422,5 +422,5 @@ El **Agent Conversational** es el único punto donde vive la "personalidad de eX
 
 ---
 
-**Cualquier duda sobre este documento → Francisco u Harol** (`ovallejf@gmail.com` · WhatsApp interno equipo).
+**Cualquier duda sobre este documento → Javier u Harol** (`ovallejf@gmail.com` · WhatsApp interno equipo).
 

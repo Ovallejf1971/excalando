@@ -1,8 +1,8 @@
-# Onboarding de Cliente Nuevo · Primeros 30 días
+﻿# Onboarding de Cliente Nuevo · Primeros 30 días
 
 > Lo que mandamos al cliente en cada checkpoint para que se sienta acompañado, no abandonado.
 > Este flujo lo va a operar el Agente Onboarding (n8n) cuando esté listo.
-> Mientras tanto, Francisco lo ejecuta manual con estas plantillas.
+> Mientras tanto, Javier lo ejecuta manual con estas plantillas.
 
 ---
 
@@ -50,8 +50,8 @@ Si necesitás algo antes del kick-off, escribí. No tenés que esperar.
 
 Confía en el proceso.
 
-Francisco Ovalle
-Founder · eXcalando
+Javier Ovalle
+Socio Fundador · eXcalando
 ```
 
 **Acciones internas paralelas:**
@@ -120,7 +120,7 @@ Si todo bien, nos vemos en la revisión del día 30.
 
 Confía en el proceso.
 
-Francisco
+Javier
 ```
 
 **Acciones internas:**
@@ -161,7 +161,7 @@ Si querés ir leyendo de antemano:
 
 Confía en el proceso.
 
-Francisco
+Javier
 ```
 
 **Acciones internas:**
@@ -208,7 +208,7 @@ Tu respuesta nos ayuda a corregir lo que haga falta.
 
 Confía en el proceso.
 
-Francisco
+Javier
 ```
 
 ---
@@ -226,7 +226,7 @@ Para que el Agente Onboarding funcione solo, necesita estos triggers:
 | `reunion_completada` | Al cerrar reunión Day 30 en Cal.com con tag `revision-mes-1` | Email post-reunión |
 
 Cuando los servicios estén operativos:
-- Si NPS mes 1 < 3 → escalar a Francisco automáticamente
+- Si NPS mes 1 < 3 → escalar a Javier automáticamente
 - Si NPS mes 1 = 5 → activar flujo `caso-exito-candidato` (pedir si quieren ser caso)
 - Si cliente pasa día 60 sin completar acción acordada → recordatorio amable
 
@@ -250,7 +250,7 @@ Si esto te afecta de alguna forma, decime y lo conversamos.
 
 Disculpas por la demora.
 
-Francisco
+Javier
 ```
 
 ### Si el cliente no responde 7+ días
@@ -264,7 +264,7 @@ y que no tenés algún tema pendiente de mi lado.
 Si necesitás algo, escribí.
 Si todo va, basta con un 👍
 
-Francisco
+Javier
 ```
 
 ### Si el cliente expresa frustración
@@ -280,7 +280,7 @@ Te paso link para agendar la primera hora disponible: {link Cal.com}
 Mientras tanto, escribí acá lo que más te preocupa para llegar
 preparado a la llamada.
 
-Francisco
+Javier
 ```
 
 ---

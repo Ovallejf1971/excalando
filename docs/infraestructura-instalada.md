@@ -1,4 +1,4 @@
----
+﻿---
 title: Infraestructura instalada
 description: Servicios Docker corriendo en el VPS.
 ---
@@ -6,7 +6,7 @@ description: Servicios Docker corriendo en el VPS.
 # Infraestructura instalada — eXcalando
 
 **Última actualización:** 2026-05-05
-**Owner técnico:** Harol Mauricio Valencia + Francisco Ovalle
+**Owner técnico:** Harol Valencia + Javier Ovalle
 
 Estado de la infraestructura del proyecto eXcalando en el VPS Hostinger.
 
@@ -149,7 +149,7 @@ context / {
 
 1. Acceder a https://cal.lithv.net
 2. Setup wizard: crear admin user
-3. Configurar Google Calendar como integración (usar la cuenta de Francisco)
+3. Configurar Google Calendar como integración (usar la cuenta de Javier)
 4. Crear event types:
    - **Discovery 30 min** (lead nuevo)
    - **Demo 45 min** (lead calificado)
@@ -187,8 +187,8 @@ context / {
 - [x] Cal.com corriendo (interno)
 - [ ] Subdominio metabase.lithv.net (Harol)
 - [ ] Subdominio cal.lithv.net (Harol)
-- [ ] OpenAI API key (Francisco)
-- [ ] Anthropic API key (Francisco)
+- [ ] OpenAI API key (Javier)
+- [ ] Anthropic API key (Javier)
 - [ ] Setup admin Metabase + dashboards
 - [ ] Setup admin Cal.com + event types
 - [ ] Cargar contenido inicial KB (5 servicios + 30 FAQs)

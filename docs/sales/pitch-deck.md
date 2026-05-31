@@ -1,4 +1,4 @@
-# Pitch Deck · eXcalando
+﻿# Pitch Deck · eXcalando
 
 **Formato:** 14 slides
 **Uso:** primera reunión con prospecto (Discovery o Demo de 30-45 min)
@@ -17,7 +17,7 @@ Capacidades digitales con IA para PyMEs
 
 [Logo + tagline]
 
-Francisco Ovalle · Founder
+Javier Ovalle · Socio Fundador
 [fecha de la reunión]
 ```
 

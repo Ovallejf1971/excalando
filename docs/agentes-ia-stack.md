@@ -1,4 +1,4 @@
----
+﻿---
 title: Stack de agentes IA
 description: Catálogo de agentes IA producto eXcalando.
 ---
@@ -6,7 +6,7 @@ description: Catálogo de agentes IA producto eXcalando.
 # Stack de agentes IA — eXcalando
 
 **Última actualización:** 2026-05-05
-**Owner:** Francisco Ovalle (estrategia) + Harol Valencia (técnica)
+**Owner:** Javier Ovalle (estrategia) + Harol Valencia (técnica)
 
 > Detalle técnico de los 10 agentes IA que componen la operación de eXcalando.
 > Para visión organizacional ver [`roles-y-organizacion.md`](./roles-y-organizacion.md).
@@ -90,10 +90,10 @@ Todos los agentes comparten esta estructura:
 | **Tools** | `consultar_servicios`, `consultar_faq`, `agendar_reunion`, `escalar_a_humano`, `registrar_oportunidad` |
 | **Modelo** | GPT-4o (principal) → Claude Sonnet 4.6 (fallback) |
 | **Costo** | ~$0.03 por conversación de 5 mensajes |
-| **Owner** | Francisco (supervisión modo approval inicial) |
+| **Owner** | Javier (supervisión modo approval inicial) |
 
 **Detalles operacionales:**
-- Modo Approval: primeras 100 conversaciones, Francisco aprueba antes de enviar
+- Modo Approval: primeras 100 conversaciones, Javier aprueba antes de enviar
 - Modo Autopilot temático: temas dominados se envían directo
 - Modo Autopilot completo: por defecto, intervención solo en alertas
 - System prompt completo en [`whatsapp-ai-agent.md`](./whatsapp-ai-agent.md) sec. 6
@@ -119,7 +119,7 @@ Todos los agentes comparten esta estructura:
 | **Modelo** | GPT-4o-mini (suficiente para clasificación, mucho más barato) |
 | **Costo** | ~$0.001 por mensaje |
 | **Persistencia** | INSERT en `mensajes_analisis` |
-| **Owner** | Francisco (lee output via dashboards) |
+| **Owner** | Javier (lee output via dashboards) |
 
 **Detalles operacionales:**
 - Output 100% JSON estricto (system prompt fuerza esto)
@@ -146,7 +146,7 @@ Todos los agentes comparten esta estructura:
 | **Modelo** | (no LLM — solo embeddings) |
 | **Tecnología** | OpenAI text-embedding-3-small + pgvector cosine similarity |
 | **Costo** | ~$0.0001 por query |
-| **Owner** | Harol (mantener KB actualizada técnicamente) + Francisco (contenido) |
+| **Owner** | Harol (mantener KB actualizada técnicamente) + Javier (contenido) |
 
 **Detalles operacionales:**
 - Query del cliente → embed → search en pgvector → top K → return texto
@@ -163,7 +163,7 @@ Todos los agentes comparten esta estructura:
 
 ### Agente 4 — Lead Qualification Agent
 
-**Propósito:** Cuando un lead completa el Score Digital, califica el lead automáticamente y le asigna prioridad para el follow-up de Francisco.
+**Propósito:** Cuando un lead completa el Score Digital, califica el lead automáticamente y le asigna prioridad para el follow-up de Javier.
 
 | Atributo | Valor |
 |---|---|
@@ -174,7 +174,7 @@ Todos los agentes comparten esta estructura:
 | **Modelo** | GPT-4o-mini |
 | **Costo** | ~$0.005 por lead |
 | **Persistencia** | UPDATE `leads` con campos `priority`, `qualification_reason`, `suggested_action` |
-| **Owner** | Francisco (consume output para priorizar quién contactar primero) |
+| **Owner** | Javier (consume output para priorizar quién contactar primero) |
 
 **Lógica de calificación (ejemplo):**
 
@@ -188,10 +188,10 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 - Se ejecuta DESPUÉS del INSERT de leads
 - Suma 1-2 segundos al flujo actual (imperceptible)
 - Output va a `leads.priority` y aparece en Metabase
-- Trigger de notificación: si priority='hot' → WhatsApp inmediato a Francisco
+- Trigger de notificación: si priority='hot' → WhatsApp inmediato a Javier
 
 **Métricas de éxito:**
-- Acuerdo Francisco con clasificación >80% (review semanal)
+- Acuerdo Javier con clasificación >80% (review semanal)
 - Conversion rate por categoría diferencial (hot >50%, warm 20%, cold 5%)
 
 ---
@@ -200,7 +200,7 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 
 ### Agente 5 — Reporting Agent
 
-**Propósito:** Generar el resumen diario que Francisco recibe cada mañana.
+**Propósito:** Generar el resumen diario que Javier recibe cada mañana.
 
 | Atributo | Valor |
 |---|---|
@@ -210,12 +210,12 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 | **Tools** | (consume datos via Postgres queries en n8n, no necesita tools LLM) |
 | **Modelo** | GPT-4o-mini (para narrativa, datos van pre-procesados) |
 | **Costo** | ~$0.05 por resumen diario |
-| **Owner** | Francisco (consume) |
+| **Owner** | Javier (consume) |
 
 **Estructura del resumen diario:**
 
 ```
-🌅 Buenos días Francisco. Resumen del día.
+🌅 Buenos días Javier. Resumen del día.
 
 📊 LEADS (últimas 24h)
 - Total nuevos: 4
@@ -255,7 +255,7 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 | **Modelo** | GPT-4o (para personalizar bien) |
 | **Costo** | ~$0.05 por re-engage |
 | **Persistencia** | UPDATE `leads` con `reactivated_at`, INSERT en `conversaciones` |
-| **Owner** | Francisco (modo approval para los primeros 20) |
+| **Owner** | Javier (modo approval para los primeros 20) |
 
 **Reglas:**
 - No reactivar si ya hubo 3+ intentos
@@ -275,21 +275,21 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 
 ### Agente 7 — Content Generator
 
-**Propósito:** Genera drafts de posts de LinkedIn (Francisco) y Instagram (marca eXcalando).
+**Propósito:** Genera drafts de posts de LinkedIn (Javier) y Instagram (marca eXcalando).
 
 | Atributo | Valor |
 |---|---|
 | **Trigger** | Cron 3x/semana (lunes, miércoles, viernes 8 AM) |
 | **Inputs** | Pillars de contenido, tendencias del sector, conversaciones cerradas (insights) |
-| **Outputs** | 2 drafts: 1 para Francisco (LinkedIn), 1 para eXcalando (Instagram caption) |
+| **Outputs** | 2 drafts: 1 para Javier (LinkedIn), 1 para eXcalando (Instagram caption) |
 | **Tools** | `consultar_pillars`, `analizar_conversaciones_recientes`, `generar_imagen` (futuro) |
 | **Modelo** | GPT-4o |
 | **Costo** | ~$0.15 por par de drafts |
-| **Owner** | Francisco (review y publica desde apps nativas) |
+| **Owner** | Javier (review y publica desde apps nativas) |
 
 **Detalle:**
 - Los drafts llegan por email a las 8 AM
-- Francisco copia, edita 5-10%, publica
+- Javier copia, edita 5-10%, publica
 - Imágenes a futuro: Replicate o DALL-E API
 - Pillars y tono definidos en `estrategia-redes-sociales.md` (pendiente)
 
@@ -308,13 +308,13 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 | **Modelo** | GPT-4o |
 | **Costo** | ~$0.10 por newsletter |
 | **Distribución** | n8n → Resend o Gmail (a base de leads + clientes) |
-| **Owner** | Francisco (review antes de enviar) |
+| **Owner** | Javier (review antes de enviar) |
 
 ---
 
 ### Agente 9 — Proposal Generator
 
-**Propósito:** Cuando un lead se vuelve hot y agenda reunión, este agente genera una propuesta personalizada **antes** de la reunión, para que Francisco la presente.
+**Propósito:** Cuando un lead se vuelve hot y agenda reunión, este agente genera una propuesta personalizada **antes** de la reunión, para que Javier la presente.
 
 | Atributo | Valor |
 |---|---|
@@ -325,7 +325,7 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 | **Modelo** | GPT-4o |
 | **Costo** | ~$0.10 por propuesta |
 | **Output format** | Markdown → conversión a PDF via Pandoc o API similar |
-| **Owner** | Francisco (revisa, ajusta, envía como leave-behind tras la reunión) |
+| **Owner** | Javier (revisa, ajusta, envía como leave-behind tras la reunión) |
 
 ---
 
@@ -341,7 +341,7 @@ cold:   score >= 55 (ya están bien, baja necesidad)
 | **Tools** | `enviar_whatsapp`, `consultar_status_proyecto`, `escalar_a_francisco` |
 | **Modelo** | GPT-4o-mini |
 | **Costo** | ~$0.10 por cliente |
-| **Owner** | Francisco (intervienen en respuestas si el cliente engancha conversación profunda) |
+| **Owner** | Javier (intervienen en respuestas si el cliente engancha conversación profunda) |
 
 **Checkpoints:**
 - **Día 1:** Bienvenida + qué esperar la primera semana
@@ -433,7 +433,7 @@ Cada workflow tiene:
 
 ### Sprint 2 — V1 plus + V2 (semanas 3-4)
 
-- Pulir prompts según feedback de Francisco
+- Pulir prompts según feedback de Javier
 - Migrar Conversational a Autopilot temático
 - Implementar Reporting Agent
 - Diseñar Reactivation Agent
@@ -456,14 +456,14 @@ Cada workflow tiene:
 
 ## Mantenimiento y mejora continua
 
-### Review semanal (Francisco, 30 min)
+### Review semanal (Javier, 30 min)
 
 - Leer 10 conversaciones random
 - Marcar respuestas "buenas/malas"
 - Identificar gaps en KB → tareas para Harol
 - Decidir si algún tópico nuevo entra a Autopilot
 
-### Review mensual (Francisco + Harol, 1 hora)
+### Review mensual (Javier + Harol, 1 hora)
 
 - Métricas de cada agente vs target
 - Costo real vs presupuesto
@@ -485,7 +485,7 @@ Cada workflow tiene:
 | OpenAI cae | Fallback automático a Claude (configurado en cada workflow) |
 | Claude también cae | Mensaje a cliente: "Estamos teniendo demoras técnicas, te respondemos en X horas" + alerta a Harol |
 | Costos se disparan (>$200/mes inesperado) | Cap configurado en n8n, alerta + downgrade temporal a GPT-4o-mini |
-| Cliente abusa (groserías repetidas) | 3 strikes → pausa 24h + alerta a Francisco |
+| Cliente abusa (groserías repetidas) | 3 strikes → pausa 24h + alerta a Javier |
 | Prompt injection detectado | Detector pre-LLM + escalación inmediata + log para análisis |
 | Knowledge Base desactualizada | Alerta automática si KB no se updatea en 30 días |
 

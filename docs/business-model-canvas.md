@@ -5,7 +5,7 @@ description: BMC firmado de eXcalando.
 
 # Business Model Canvas · eXcalando
 
-*v1 · draft 2026-05-25 — para revisión Francisco*
+*v1 · draft 2026-05-25 — para revisión Javier*
 *Fuentes: PMC firmado 2026-05-18, plan-negocio-agencia-digital-ia.md (abril 2026), content-strategy-2026-v2 (pivot mayo 2026), manifesto V6.*
 
 ---
@@ -26,7 +26,7 @@ description: BMC firmado de eXcalando.
 │ Red referidos  ├───────────────┤ muros."          ├───────────────┤ Verticales:    │
 │ Freelancers    │ KEY RESOURCES │                  │ CHANNELS      │ comercio,      │
 │ ad-hoc         │               │ • 4 capacidades  │               │ servicios,     │
-│                │ Francisco     │   integradas     │ Sitio propio  │ salud, retail, │
+│                │ Javier     │   integradas     │ Sitio propio  │ salud, retail, │
 │                │ Harol         │ • Stack self-    │ LinkedIn pers.│ educación,     │
 │                │ Stack self-   │   hosted         │ + página      │ transporte,    │
 │                │ hosted (VPS)  │ • Cobramos por   │ Blog propio   │ professional   │
@@ -47,7 +47,7 @@ description: BMC firmado de eXcalando.
 │   • Plausible ~$10/mes                  │ Servicios sueltos:                         │
 │                                         │   • Score Digital            GRATIS         │
 │ Tiempo humano (no monetarizado aún):    │   • Agentes IA individuales  $180K-$750K/mes│
-│   • Francisco                           │   • Automatización a medida  $800K-$5M setup│
+│   • Javier                           │   • Automatización a medida  $800K-$5M setup│
 │   • Harol                               │                                            │
 │                                         │                                            │
 │ Sin publicidad fase 1 (3 meses orgánico)│                                            │
@@ -75,7 +75,7 @@ description: BMC firmado de eXcalando.
   - Salud (clínicas dentales, médicas, estética)
   - Educación (institutos, academias)
   - Restauración
-  - Transporte y logística (experiencia previa de Francisco)
+  - Transporte y logística (experiencia previa de Javier)
   - Manufactura pequeña
 
 **Anti-persona (NO es nuestro cliente):**
@@ -125,7 +125,7 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 | Canal | Estado | Para qué |
 |---|---|---|
 | **Sitio propio excalando.com** | ACTIVO (deploy VPS) | Lead magnet Score Digital, página de capacidades, manifesto |
-| **LinkedIn personal Francisco** | PILOTO arranca 2 jun | Voz personal, manifesto P3, opinión sectorial |
+| **LinkedIn personal Javier** | PILOTO arranca 2 jun | Voz personal, manifesto P3, opinión sectorial |
 | **Página LinkedIn eXcalando** | Activa, sin contenido constante | Distribución secundaria |
 | **WhatsApp directo** | ACTIVO (botón flotante) | Conversación 1:1 con interesados |
 
@@ -217,7 +217,7 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 ## 6 · Key Resources
 
 ### Humanos
-- **Francisco Ovalle** (fundador) — estrategia, ventas, contenido, relación cliente. No monetarizado aún.
+- **Javier Ovalle** (fundador) — estrategia, ventas, contenido, relación cliente. No monetarizado aún.
 - **Harol Valencia** (socio técnico) — infraestructura VPS, deploys, integración técnica. No monetarizado aún.
 - Freelancers ad-hoc (diseño, video, copy) según demanda — no fijos.
 
@@ -251,13 +251,13 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 
 | Actividad | Quién | Frecuencia |
 |---|---|---|
-| Producción de contenido (4 pilares estrategia v2) | Claude drafts + Francisco edita | Semanal (4 piezas) |
+| Producción de contenido (4 pilares estrategia v2) | Claude drafts + Javier edita | Semanal (4 piezas) |
 | Diagnósticos Score Digital | Automatizado | Continuo |
-| Diagnósticos personalizados (reunión 30 min) | Francisco | Por demanda |
-| Implementación de proyectos | Francisco + Harol | Por contrato |
+| Diagnósticos personalizados (reunión 30 min) | Javier | Por demanda |
+| Implementación de proyectos | Javier + Harol | Por contrato |
 | Operación infraestructura cliente | Harol + agentes IA | Continuo |
 | Mantenimiento stack self-hosted | Harol | Mensual |
-| Networking LinkedIn + comunidades | Francisco | Diario |
+| Networking LinkedIn + comunidades | Javier | Diario |
 
 **Estratégicas (no continuas):**
 - Levantamiento de informes sectoriales (1 cada 4–6 semanas, fase 2)
@@ -276,7 +276,7 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 
 ### Socios fundadores
 - **Harol Valencia** — socio del negocio
-- **Javier Francisco Ovalle** — socio del negocio
+- **Javier Ovalle** — socio del negocio
 
 ### Distribución y captación (en construcción)
 - **Cámaras de comercio Colombia** — acceso a bases PyME
@@ -296,7 +296,7 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 
 ## 9 · Cost Structure
 
-### Operación actual (estructura lean — solo Francisco + Harol part-time)
+### Operación actual (estructura lean — solo Javier + Harol)
 
 **Costos fijos mensuales (~$170 USD/mes):**
 
@@ -315,14 +315,14 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 - Freelancers ad-hoc (diseño video, etc.) — solo cuando demanda lo justifique
 
 **Costos de oportunidad (no monetarizados todavía):**
-- Tiempo de Francisco
+- Tiempo de Javier
 - Tiempo de Harol
 - Estos costos deben formalizarse cuando lleguen los primeros 3–5 clientes pagos
 
 ### Sin estos costos (fase 1):
 - ❌ Publicidad paga (regla: 3 meses orgánico antes de evaluar)
 - ❌ Oficina física (todo remoto)
-- ❌ Empleados fijos (todo Francisco + Harol + freelancers ad-hoc)
+- ❌ Empleados fijos (todo Javier + Harol + freelancers ad-hoc)
 - ❌ Software SaaS pesado (Salesforce, HubSpot Enterprise, etc.) — incompatible con filosofía self-hosted
 
 ### Inversión inicial ya hecha (sunk cost)
@@ -350,9 +350,9 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 | Tensión | Estado |
 |---|---|
 | Precios públicos en sitio vs estrategia v2 valor-first en contenido | **RESUELTO** — sitio sin precios fase 1, precios solo en /capacidades cuando alguien evalúa |
-| Cuándo formalizar tiempo de Francisco y Harol (salarios) | **PENDIENTE** — depende de break-even, idealmente mes 4–6 |
+| Cuándo formalizar tiempo de Javier y Harol (salarios) | **PENDIENTE** — depende de break-even, idealmente mes 4–6 |
 | Activación de pauta paga | **PENDIENTE** — evaluar al mes 3 si tracción orgánica es insuficiente |
-| Decisión sobre CRM (Twenty / EspoCRM / Mautic OSS) | **PENDIENTE** — postergada por Francisco para investigar |
+| Decisión sobre CRM (Twenty / EspoCRM / Mautic OSS) | **PENDIENTE** — postergada por Javier para investigar |
 | Migración del producto "contenido as a service" a oferta formal | **PENDIENTE** — depende de validación del piloto LinkedIn |
 
 ### Qué hace falta para que este BMC esté "vivo"
@@ -367,7 +367,7 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 
 ## Próximos pasos sugeridos
 
-1. Francisco lee y firma/ajusta este BMC
+1. Javier lee y firma/ajusta este BMC
 2. Cuando esté firmado, propagar a memoria como `project_business_model_canvas.md`
 3. Vincular al PMC como sección "Modelo de negocio" o documento hermano
 4. Revisar BMC trimestralmente (próxima revisión: 2026-08-25)

@@ -1,10 +1,10 @@
-# Propuesta Comercial · {CLIENTE}
+﻿# Propuesta Comercial · {CLIENTE}
 
 **Fecha:** {DD de MMMM de AAAA}
 **Cliente:** {Nombre de la empresa / persona}
 **Contacto:** {Nombre del decisor + cargo}
 **Sector:** {Industria del cliente}
-**Preparado por:** Francisco Ovalle · Founder eXcalando
+**Preparado por:** Javier Ovalle · Socio Fundador eXcalando
 
 ---
 

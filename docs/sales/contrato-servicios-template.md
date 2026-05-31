@@ -1,4 +1,4 @@
-# Acuerdo de Servicios Digitales
+﻿# Acuerdo de Servicios Digitales
 
 > ⚠️ **DISCLAIMER LEGAL:** Este documento es un **borrador comercial** preparado por el equipo de eXcalando para facilitar la firma. **NO sustituye revisión legal**. Antes de usarlo con un cliente real, debe ser revisado y ajustado por un abogado de su confianza. Las cláusulas aquí son orientativas y reflejan la intención comercial, no necesariamente lo legalmente óptimo en cada caso.
 
@@ -8,7 +8,7 @@
 
 **eXcalando · Agencia Digital** (en adelante "eXcalando" o "el Proveedor")
 NIT: 901.XXX.XXX-X
-Representante legal: Francisco Javier Ovalle Muñoz
+Representante legal: Javier Javier Ovalle Muñoz
 Domicilio: {Dirección}, Colombia
 Email: hola@excalando.com
 
@@ -200,7 +200,7 @@ Todas las notificaciones se entenderán válidamente enviadas vía email a las d
 **Por eXcalando**
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-Francisco Javier Ovalle Muñoz
+Javier Javier Ovalle Muñoz
 CC {número}
 Fecha: {DD/MM/AAAA}
 

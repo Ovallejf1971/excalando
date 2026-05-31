@@ -1,11 +1,11 @@
----
+﻿---
 title: "¿Cuánto cuesta implementar inteligencia artificial en una PyME colombiana? Guía 2026"
 slug: cuanto-cuesta-implementar-ia-pyme-colombia-2026
 pillar: P2 — Costos + ROI IA en PyMEs
 canal: Medium ES (long-form)
 tipo: pieza ancla AEO
 sem: 5
-autor: Francisco Ovalle
+autor: Javier Ovalle
 fechaPub: 2026-05-22
 fechaUpdate: 2026-05-22
 palabrasObjetivo: 2000-2400
@@ -183,7 +183,7 @@ Cuando estés listo para tu primer paso, sabes dónde encontrarnos.
 
 ---
 
-**Sobre el autor.** Francisco Ovalle es fundador de [eXcalando](https://excalando.com), una agencia colombiana que implementa atención automatizada y procesos con IA para PyMEs en Colombia y LATAM. Más sobre Francisco en [LinkedIn](https://www.linkedin.com/in/francisco-ovalle).
+**Sobre el autor.** Javier Ovalle es fundador de [eXcalando](https://excalando.com), una agencia colombiana que implementa atención automatizada y procesos con IA para PyMEs en Colombia y LATAM. Más sobre Javier en [LinkedIn](https://www.linkedin.com/in/francisco-ovalle).
 
 ---
 
@@ -200,7 +200,7 @@ Cuando estés listo para tu primer paso, sabes dónde encontrarnos.
   "dateModified": "2026-05-22",
   "author": {
     "@type": "Person",
-    "name": "Francisco Ovalle",
+    "name": "Javier Ovalle",
     "url": "https://excalando.com",
     "sameAs": ["https://www.linkedin.com/in/francisco-ovalle"]
   },

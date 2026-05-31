@@ -1,4 +1,4 @@
-# Plan de contenido evergreen eXcalando · 2026 Q2-Q3
+﻿# Plan de contenido evergreen eXcalando · 2026 Q2-Q3
 
 Producción de contenido para alimentar el SEO/AEO ya configurado, generar leads orgánicos y posicionar a eXcalando como autoridad en IA para PyMEs LATAM. Cadencia conservadora (3-4 piezas/sem) sostenida durante 90 días para construir momentum sin quemarnos.
 
@@ -16,7 +16,7 @@ Producción de contenido para alimentar el SEO/AEO ya configurado, generar leads
 
 | Canal | Formato | Largo | Cadencia | Pilares prioritarios | Para qué |
 |---|---|---|---|---|---|
-| **LinkedIn (corto)** | Post texto 1-3 párrafos | 600-1200 caracteres | 2/sem | P5 (manifesto/opinión) + ocasional P4 (mini-casos) | Engagement, distribución, marca personal Francisco |
+| **LinkedIn (corto)** | Post texto 1-3 párrafos | 600-1200 caracteres | 2/sem | P5 (manifesto/opinión) + ocasional P4 (mini-casos) | Engagement, distribución, marca personal Javier |
 | **LinkedIn (largo/carrousel)** | Post largo o carrousel 6-10 slides | 1500-2500 chars o 6-10 frames | 1/sem | P2, P3 (educativo) | Profundizar autoridad, capturar reposts |
 | **Medium ES (long-form)** | Artículo SEO completo | 1500-3000 palabras | 1/sem (alternando con YouTube) | P1, P2, P3 (AEO, indexable) | **El motor SEO/AEO real** — donde Google y LLMs indexan |
 | **YouTube** | Tutorial / explicación visual | 5-10 minutos | 1/sem (alternando con Medium) | P1 (demos), P4 (casos) | Visual demos, transcripciones indexables, AEO secundario |
@@ -139,12 +139,12 @@ Cada descarga → captura email → email sequence 5 toques (a diseñar en frent
 | Día | Actividad | Responsable |
 |---|---|---|
 | **Lunes 9am** | Claude entrega drafts de la semana (2 LinkedIn + 1 long-form) | Claude |
-| **Lunes-Martes** | Francisco edita drafts, valida con su voz | Francisco |
-| **Martes 6pm** | LinkedIn post #1 (corto) publicado | Francisco |
-| **Miércoles 6pm** | LinkedIn post #2 (corto) publicado | Francisco |
-| **Jueves 9am** | LinkedIn post largo / carrousel publicado | Francisco |
-| **Viernes 9am** | Medium o YouTube publicado | Francisco / Harol (técnico) |
-| **Viernes 5pm** | Review métricas semana en Plausible + LinkedIn insights | Francisco |
+| **Lunes-Martes** | Javier edita drafts, valida con su voz | Javier |
+| **Martes 6pm** | LinkedIn post #1 (corto) publicado | Javier |
+| **Miércoles 6pm** | LinkedIn post #2 (corto) publicado | Javier |
+| **Jueves 9am** | LinkedIn post largo / carrousel publicado | Javier |
+| **Viernes 9am** | Medium o YouTube publicado | Javier / Harol (técnico) |
+| **Viernes 5pm** | Review métricas semana en Plausible + LinkedIn insights | Javier |
 
 ## 9. Próximo paso inmediato
 

@@ -1,4 +1,4 @@
-# Paquetes Integrales · Combos con hasta 21% de descuento
+﻿# Paquetes Integrales · Combos con hasta 21% de descuento
 
 > **Las 4 capacidades digitales empaquetadas en 4 combos por nivel de negocio.**
 > **Un solo precio mensual. Ahorrás hasta $6.4M COP al año vs comprar suelto.**
@@ -68,7 +68,7 @@ Incluye:
 - Todo lo del Ventas Pro
 - 1 automatización **Compleja** a medida (ej: tienda virtual + inventario + contabilidad + dashboards)
 - Dashboards Metabase personalizados
-- Revisión estratégica trimestral con Francisco (founder)
+- Revisión estratégica trimestral con Javier (founder)
 - Soporte prioritario 4h hábiles
 
 Ahorro vs comprar suelto: **~$6.4M COP al año**.

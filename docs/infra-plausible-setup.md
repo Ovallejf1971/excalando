@@ -1,4 +1,4 @@
----
+﻿---
 title: Plausible Analytics
 description: Setup de Plausible self-hosted en VPS.
 ---
@@ -35,7 +35,7 @@ Editar `.env` con:
 - `BASE_URL=https://plausible.excalando.com`
 - `SECRET_KEY_BASE=` → generar con `openssl rand -base64 48`
 - `HTTP_PORT=8000` (interno; OpenLiteSpeed proxea al subdominio)
-- `DISABLE_REGISTRATION=invite_only` (solo Francisco/Harol crean cuenta)
+- `DISABLE_REGISTRATION=invite_only` (solo Javier/Harol crean cuenta)
 
 Si querés reusar el `shared_postgres` y `shared_redis` existentes (ver `docs/ARQUITECTURA.md`), apuntar en `.env`:
 - `DATABASE_URL=postgres://plausible:<pwd>@shared_postgres:5432/plausible_db`
@@ -66,7 +66,7 @@ Una vez levantado, ir a `https://plausible.excalando.com/register`. Crear cuenta
 
 ## Verificación
 
-Desde Francisco/tu máquina:
+Desde Javier/tu máquina:
 ```bash
 curl -I https://plausible.excalando.com/js/script.outbound-links.js
 # Debe devolver 200 OK con Content-Type: application/javascript

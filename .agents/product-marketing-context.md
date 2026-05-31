@@ -37,7 +37,7 @@ eXcalando viene de **"escalar"** (crecer, subir de nivel). Pero la **X mayúscul
 
 **Usos confirmados:**
 - LinkedIn page tagline (eXcalando empresa)
-- LinkedIn headline personal Francisco (combinado con rol)
+- LinkedIn headline personal Javier (combinado con rol)
 - Página About de LinkedIn (primera línea)
 - Pendiente propagar a: footer del sitio, firma de email, materiales de venta
 

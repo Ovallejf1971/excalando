@@ -1,4 +1,4 @@
----
+﻿---
 title: Decisiones estratégicas · 2026-05-05
 description: Decisiones tomadas el 5 may 2026.
 ---
@@ -16,19 +16,19 @@ desde aquí. Si una decisión cambia, se actualiza este doc y se propaga.
 
 ## 👤 Equipo y dedicación
 
-### 1. Francisco Ovalle — fundador
+### 1. Javier Ovalle — fundador
 
 - **Dedicación:** part-time variable
 - **Rol:** estratega, ventas, decisiones de negocio, vocero de marca personal
-- **Implicación:** el sistema debe operar de forma autónoma cuando Francisco no
+- **Implicación:** el sistema debe operar de forma autónoma cuando Javier no
   esté disponible. La automatización no es un nice-to-have, es **requisito**.
 
-### 2. Harol Mauricio Valencia — socio técnico
+### 2. Harol Valencia — socio técnico
 
-- **Dedicación:** part-time, a la par de Francisco
+- **Dedicación:** part-time, a la par de Javier
 - **Rol:** infraestructura, deployments, automatizaciones, soporte VPS
 - **Implicación:** los workflows técnicos los puede sostener Harol; las decisiones
-  de producto y comercial las toma Francisco.
+  de producto y comercial las toma Javier.
 
 ### 3. Equipo extendido
 
@@ -98,7 +98,7 @@ para regionalización futura. CTAs de WhatsApp con código país +57 por ahora.
 ### 9. Cara visible
 
 - **Decisión:** **ambos en paralelo**
-- **Francisco** como founder content (LinkedIn personal, Twitter/X, posts de visión)
+- **Javier** como founder content (LinkedIn personal, Twitter/X, posts de visión)
 - **eXcalando** como producto/marca (Instagram, web, casos)
 - **Implicación:** dos calendarios de contenido distintos pero coordinados. El
   agente de contenido IA debe poder generar drafts para ambos perfiles.
@@ -107,7 +107,7 @@ para regionalización futura. CTAs de WhatsApp con código país +57 por ahora.
 
 - **Decisión:** **solo orgánico los primeros 3 meses**
 - **Canales orgánicos prioritarios:**
-  - LinkedIn (Francisco personal + página eXcalando)
+  - LinkedIn (Javier personal + página eXcalando)
   - Instagram (página eXcalando)
   - Referidos (empuje activo a la red personal)
   - SEO de blog/contenido a futuro
@@ -149,7 +149,7 @@ para regionalización futura. CTAs de WhatsApp con código país +57 por ahora.
 ### 13. Modo de operación del agente
 
 - **Fase 1 (semanas 1-2 después de lanzamiento):** **Modo Approval** — la IA
-  propone respuesta, Francisco aprueba antes de enviar
+  propone respuesta, Javier aprueba antes de enviar
 - **Fase 2 (semanas 3-6):** **Modo Autopilot temático** — IA responde sola en
   temas dominados, approval para temas nuevos
 - **Fase 3 (mes 2+):** **Modo Autopilot completo** — IA por defecto, intervención

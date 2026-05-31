@@ -1,7 +1,7 @@
-# El modelo de las 4 capas · Cómo eXcalando organiza sus servicios
+﻿# El modelo de las 4 capas · Cómo eXcalando organiza sus servicios
 
 > Marco mental para que las PyMEs entiendan en 30 segundos qué hacemos y dónde encaja cada servicio.
-> **Cerrado 2026-05-18** por Francisco y Harol.
+> **Cerrado 2026-05-18** por Javier y Harol.
 > **Renombrado 2026-05-23** — versión vigente abajo. Naming previo (Cara · Voz · Motor · Inteligencia) archivado al final.
 
 ---
@@ -137,7 +137,7 @@ eXcalando organiza su catálogo en **4 capas** que cubren las 4 dimensiones dond
 - **Página de capacidades** (`/capacidades` cuando se haga la migración a multi-página)
 - **Materiales comerciales:** decks de venta, propuestas, brochures imprimibles
 - **Contenido educativo:** la pieza ancla P2 del piloto de contenido + posts derivados
-- **Conversaciones de Francisco con prospects:** marco mental para guiar el diagnóstico
+- **Conversaciones de Javier con prospects:** marco mental para guiar el diagnóstico
 
 **Por qué salieron de la landing:** la home estaba abierta en demasiados frentes (14 secciones). El cliente llegaba a un catálogo en lugar de una promesa clara. Las capas son **lenguaje interno de marca**, no copy de entrada.
 

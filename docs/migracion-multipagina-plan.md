@@ -1,6 +1,6 @@
-# Plan · Migración a sitio multi-página
+﻿# Plan · Migración a sitio multi-página
 
-*Borrador 2026-05-23 · Pendiente de aprobación de Francisco antes de tocar código.*
+*Borrador 2026-05-23 · Pendiente de aprobación de Javier antes de tocar código.*
 
 ---
 
@@ -77,7 +77,7 @@ Decisión del 2026-05-23: la landing one-pager actual tiene 14 secciones, demasi
 ### Páginas fase 3 (mes 4+, cuando aplique)
 
 ```
-/sobre-nosotros         Equipo (Francisco + Harol + freelancers)
+/sobre-nosotros         Equipo (Javier + Harol + freelancers)
 /precios                Pricing transparente (solo cuando fase 2 del contenido se active)
 /contacto               Form simple (opcional — el Score ya es la puerta principal)
 ```
@@ -236,7 +236,7 @@ Si quieres alguno de estos como segunda iteración, se planifica aparte.
 
 ---
 
-## Decisión pendiente de Francisco
+## Decisión pendiente de Javier
 
 Antes de tocar código:
 
