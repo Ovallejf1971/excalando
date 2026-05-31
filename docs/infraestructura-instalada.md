@@ -1,3 +1,8 @@
+---
+title: Infraestructura instalada
+description: Servicios Docker corriendo en el VPS.
+---
+
 # Infraestructura instalada — eXcalando
 
 **Última actualización:** 2026-05-05

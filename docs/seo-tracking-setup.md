@@ -1,3 +1,8 @@
+---
+title: SEO tracking
+description: Checklist de tracking SEO para el sitio público.
+---
+
 # Setup de tracking SEO — checklist para Francisco
 
 Pasos manuales para activar Google Search Console, Bing Webmaster y Plausible. Hacer en orden — toma ~30 minutos.

@@ -1,3 +1,8 @@
+---
+title: Stack de agentes IA
+description: Catálogo de agentes IA producto eXcalando.
+---
+
 # Stack de agentes IA — eXcalando
 
 **Última actualización:** 2026-05-05

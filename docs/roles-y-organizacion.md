@@ -1,3 +1,8 @@
+---
+title: Roles y organización
+description: Roles internos extendidos. Complementa Socios y roles.
+---
+
 # Roles y organización — eXcalando
 
 **Última actualización:** 2026-05-05

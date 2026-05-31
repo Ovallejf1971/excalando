@@ -1,3 +1,8 @@
+---
+title: Estado del proyecto · 2026-05-31
+description: Snapshot del estado al 31 may 2026.
+---
+
 # Estado del Proyecto eXcalando · 2026-05-31
 
 > Snapshot para próxima sesión. Estado al cierre de la sesión 30-31 may.

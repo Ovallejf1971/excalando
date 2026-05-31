@@ -1,3 +1,8 @@
+---
+title: Estrategia integral
+description: Estrategia comercial completa de eXcalando.
+---
+
 # ESTRATEGIA INTEGRAL: eXcalando — Agencia de Capacidades Digitales con IA
 
 ---

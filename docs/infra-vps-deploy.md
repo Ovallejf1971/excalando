@@ -1,3 +1,8 @@
+---
+title: Deploy VPS
+description: Pipeline de deploy GitHub Actions → VPS Hostinger.
+---
+
 # Deploy automatizado al VPS — guía para Harol
 
 eXcalando se sirve desde el VPS Hostinger (`62.72.27.80`, CyberPanel + OpenLiteSpeed). Cada push a `main` debe rebuildear y subir el `dist/` al document root del sitio automáticamente. Sin GitHub Pages, sin servicios de terceros — self-hosted como dice el Manifiesto.

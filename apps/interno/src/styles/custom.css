@@ -1,0 +1,29 @@
+/* Paleta eXcalando · alineada con tailwind.config.ts del sitio público */
+:root {
+  --sl-color-accent-low: #0a2a66;
+  --sl-color-accent: #0066ff;
+  --sl-color-accent-high: #4d94ff;
+  --sl-color-white: #f4f1ec;
+  --sl-color-gray-1: #ede8e0;
+  --sl-color-gray-7: #1a1a1a;
+  --sl-color-black: #0f0f0f;
+
+  --sl-font: 'Inter', system-ui, sans-serif;
+  --sl-font-mono: 'Geist Mono', ui-monospace, monospace;
+}
+
+:root[data-theme='light'] {
+  --sl-color-bg: #f4f1ec;
+  --sl-color-bg-nav: #ede8e0;
+  --sl-color-text: #222;
+  --sl-color-text-accent: #0052cc;
+}
+
+/* Banner privacidad — aparece en todas las páginas */
+.sl-banner {
+  background: #c62828;
+  color: #fff;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.4rem;
+}

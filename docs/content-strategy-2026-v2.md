@@ -1,3 +1,8 @@
+---
+title: Content Strategy 2026 · v2
+description: Estrategia de contenido valor-first. 4 pilares.
+---
+
 # Content Strategy 2026 · v2 — Valor-First
 
 *Versión 2 · firmada 2026-05-22 · reemplaza a `content-plan-2026.md` (archivado como referencia histórica).*

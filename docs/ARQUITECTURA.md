@@ -1,3 +1,8 @@
+---
+title: Arquitectura general
+description: Visión general de la arquitectura técnica de eXcalando.
+---
+
 # Arquitectura eXcalando
 
 > Documento vivo · última actualización: 2026-05-17

@@ -1,3 +1,8 @@
+---
+title: Decisiones estratégicas · 2026-05-05
+description: Decisiones tomadas el 5 may 2026.
+---
+
 # Decisiones estratégicas — 2026-05-05
 
 Snapshot de las decisiones tomadas en la sesión del 5 de mayo de 2026, después de

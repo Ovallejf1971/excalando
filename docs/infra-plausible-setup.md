@@ -1,3 +1,8 @@
+---
+title: Plausible Analytics
+description: Setup de Plausible self-hosted en VPS.
+---
+
 # Plausible Analytics self-hosted en VPS — guía para Harol
 
 Setup de Plausible Community Edition en el VPS Hostinger, expuesto en `plausible.excalando.com`. La landing ya tiene el script Plausible cargado (en `index.html`) — apenas Plausible esté arriba, empieza a registrar pageviews + eventos custom sin tocar el código.

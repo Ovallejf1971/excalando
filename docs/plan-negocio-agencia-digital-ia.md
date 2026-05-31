@@ -1,3 +1,8 @@
+---
+title: Plan de negocio
+description: Documento extenso de plan de negocio. Complementa el BMC.
+---
+
 # Plan de Negocio: eXcalando — Agencia de Capacidades Digitales con IA
 ## "Capacidades digitales con IA · Agencia Digital" (nombre lockeado 2026-05-13)
 

@@ -1,3 +1,8 @@
+---
+title: Business Model Canvas
+description: BMC firmado de eXcalando.
+---
+
 # Business Model Canvas · eXcalando
 
 *v1 · draft 2026-05-25 — para revisión Francisco*
@@ -11,12 +16,13 @@
 ┌────────────────┬───────────────┬──────────────────┬───────────────┬────────────────┐
 │ KEY PARTNERS   │ KEY ACTIVITIES│ VALUE PROPOSITION│ RELATIONSHIPS │ CUSTOMER SEG.  │
 │                │               │                  │               │                │
-│ Harol (técnico)│ Contenido     │ Capacidades dig. │ Score Digital │ PyMEs LATAM    │
-│ Anthropic      │ Diagnósticos  │ con IA, sin lock-│ → diagnóstico │ 5-50 empleados │
-│ OpenAI         │ Implementación│ in, sin muros.   │ → propuesta   │ Dueño 35-60    │
-│ Hostinger VPS  │ Operación     │ "Construimos     │               │ no técnico     │
-│ Cámaras de     │ infra cliente │ puentes donde    │ Sin contratos │ Geo: CO → LATAM│
-│ comercio       │               │ los demás hacen  │ largos        │                │
+│ Harol          │ Contenido     │ Capacidades dig. │ Score Digital │ PyMEs LATAM    │
+│ Javier         │ Diagnósticos  │ con IA, sin lock-│ → diagnóstico │ 5-50 empleados │
+│ Anthropic      │ Implementación│ in, sin muros.   │ → propuesta   │ Dueño 35-60    │
+│ OpenAI         │ Operación     │ "Construimos     │               │ no técnico     │
+│ Hostinger VPS  │ infra cliente │ puentes donde    │ Sin contratos │ Geo: CO → LATAM│
+│ Cámaras de     │               │ los demás hacen  │ largos        │                │
+│ comercio       │               │                  │               │                │
 │ Red referidos  ├───────────────┤ muros."          ├───────────────┤ Verticales:    │
 │ Freelancers    │ KEY RESOURCES │                  │ CHANNELS      │ comercio,      │
 │ ad-hoc         │               │ • 4 capacidades  │               │ servicios,     │
@@ -41,12 +47,10 @@
 │   • Plausible ~$10/mes                  │ Servicios sueltos:                         │
 │                                         │   • Score Digital            GRATIS         │
 │ Tiempo humano (no monetarizado aún):    │   • Agentes IA individuales  $180K-$750K/mes│
-│   • Francisco tiempo completo           │   • Automatización a medida  $800K-$5M setup│
-│   • Harol part-time técnico             │                                            │
-│                                         │ Paquetes integrales:                       │
-│ Sin publicidad fase 1 (3 meses orgánico)│   • Despegue / Crecimiento / Ventas Pro    │
-│                                         │     / Transformación                       │
+│   • Francisco                           │   • Automatización a medida  $800K-$5M setup│
+│   • Harol                               │                                            │
 │                                         │                                            │
+│ Sin publicidad fase 1 (3 meses orgánico)│                                            │
 │                                         │ Futuros (fase 2+):                         │
 │                                         │   • Contenido as a Service (replicable)    │
 │                                         │   • Curso/academia                         │
@@ -199,13 +203,6 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 | Automatización a medida (Intermedia) | Desde $2.000.000 setup |
 | Automatización a medida (Compleja) | Desde $5.000.000 setup |
 
-### Paquetes integrales (combos con descuento hasta 21%)
-
-- 🌱 **Despegue** — fundacional
-- 🚀 **Crecimiento** — escala captación
-- 💎 **Ventas Pro** — foco conversión
-- 👑 **Transformación** — full stack
-
 ### Streams futuros (fase 2+, mes 5+)
 
 | Stream | Cuándo | Lógica |
@@ -220,8 +217,8 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 ## 6 · Key Resources
 
 ### Humanos
-- **Francisco Ovalle** (fundador) — estrategia, ventas, contenido, relación cliente. **Tiempo completo no monetarizado aún.**
-- **Harol Valencia** (socio técnico) — infraestructura VPS, deploys, integración técnica. **Part-time.**
+- **Francisco Ovalle** (fundador) — estrategia, ventas, contenido, relación cliente. No monetarizado aún.
+- **Harol Valencia** (socio técnico) — infraestructura VPS, deploys, integración técnica. No monetarizado aún.
 - Freelancers ad-hoc (diseño, video, copy) según demanda — no fijos.
 
 ### Técnicos / Infraestructura
@@ -277,8 +274,9 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 - **Hostinger** — VPS shared con Harol
 - **Comunidad n8n** — workflows reutilizables
 
-### Operativos
-- **Harol Valencia** — socio técnico (relación clave del negocio)
+### Socios fundadores
+- **Harol Valencia** — socio del negocio
+- **Javier Francisco Ovalle** — socio del negocio
 
 ### Distribución y captación (en construcción)
 - **Cámaras de comercio Colombia** — acceso a bases PyME
@@ -317,8 +315,8 @@ Entregamos **4 capacidades digitales conectadas entre sí** — Presencia Digita
 - Freelancers ad-hoc (diseño video, etc.) — solo cuando demanda lo justifique
 
 **Costos de oportunidad (no monetarizados todavía):**
-- Tiempo de Francisco (full-time)
-- Tiempo de Harol (part-time)
+- Tiempo de Francisco
+- Tiempo de Harol
 - Estos costos deben formalizarse cuando lleguen los primeros 3–5 clientes pagos
 
 ### Sin estos costos (fase 1):
