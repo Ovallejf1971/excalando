@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-bg text-ink font-sans;
+  }
+  ::selection {
+    @apply bg-accent/25 text-ink;
+  }
+  /* Tipografía display por defecto en headings */
+  h1, h2, h3 {
+    @apply font-display tracking-tight;
+    font-feature-settings: "ss01", "cv11";
+  }
+}
+
+@layer utilities {
+  /* Sección oscura: invierte tokens para fondos #0F0F0F */
+  .section-dark {
+    @apply bg-dark text-ink-on-dark;
+  }
+  .section-dark ::selection {
+    @apply bg-accent/40 text-ink-on-dark;
+  }
+  /* Overrides automáticos: traducen tokens light → dark dentro de .section-dark
+     para no tener que reescribir cada componente. */
+  .section-dark .text-ink { color: #F4F1EC; }
+  .section-dark .text-ink-2 { color: #C9C3B8; }
+  .section-dark .text-ink-3 { color: #8A857C; }
+  .section-dark .border-line { border-color: rgba(244, 241, 236, 0.10); }
+  .section-dark .border-line-2 { border-color: rgba(244, 241, 236, 0.18); }
+  .section-dark .bg-bg { background-color: #0F0F0F; }
+  .section-dark .bg-bg-2 { background-color: rgba(244, 241, 236, 0.04); }
+  .section-dark .bg-bg-3 { background-color: rgba(244, 241, 236, 0.06); }
+  .section-dark .hover\:bg-ink\/5:hover { background-color: rgba(244, 241, 236, 0.06); }
+  /* Grid sutil (claro y oscuro) */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent);
+  }
+  .section-dark .grid-bg,
+  .grid-bg-dark {
+    background-image:
+      linear-gradient(rgba(244, 241, 236, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(244, 241, 236, 0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent);
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent);
+  }
+  /* Acento magenta como subrayado para palabras clave */
+  .accent-underline {
+    background-image: linear-gradient(to top, rgba(0, 102, 255, 0.25) 30%, transparent 30%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+}
