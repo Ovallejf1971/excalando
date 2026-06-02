@@ -1,12 +1,17 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import rehypeMermaid from 'rehype-mermaid';
 
 // Sitio interno eXcalando — privado, sirve docs del monorepo
 // Fuente única: ../../docs/  (ver src/content.config.ts)
 export default defineConfig({
   site: 'https://interno.excalando.com',
   redirects: { '/': '/interno/' },
+  markdown: {
+    syntaxHighlight: { type: 'shiki', excludeLangs: ['mermaid'] },
+    rehypePlugins: [[rehypeMermaid, { strategy: 'img-svg', dark: true }]],
+  },
   integrations: [
     starlight({
       title: 'eXcalando · Interno',
