@@ -1,0 +1,19 @@
+{
+  "name": "excalando-pitch",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "slidev --open",
+    "dev:cliente": "slidev clients/$npm_config_cliente.md --open",
+    "build": "slidev build",
+    "export": "slidev export",
+    "export:cliente": "slidev export clients/$npm_config_cliente.md --output dist/$npm_config_cliente.pdf"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.49.27",
+    "@slidev/theme-default": "^0.25.0",
+    "playwright-chromium": "^1.45.0",
+    "vue": "^3.4.0"
+  }
+}
