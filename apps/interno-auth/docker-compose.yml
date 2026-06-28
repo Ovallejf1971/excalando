@@ -1,0 +1,20 @@
+services:
+  interno-auth:
+    build: .
+    container_name: interno-auth
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      SITE_DIST: /site
+      DB_PATH: /app/data/interno.db
+      WEB_COOKIE_SECURE: "true"
+    volumes:
+      # Build estático del sitio interno (Starlight). Regenerar con `npm run build` en ../interno.
+      - ../interno/dist:/site:ro
+      # Persistencia de la BD de usuarios.
+      - interno_auth_data:/app/data
+    ports:
+      - "127.0.0.1:8088:8000"
+
+volumes:
+  interno_auth_data:
