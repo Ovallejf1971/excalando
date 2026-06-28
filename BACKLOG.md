@@ -1,0 +1,69 @@
+# Backlog eXcalando — por prioridades
+
+> Fuente única de verdad del backlog del proyecto. El roadmap detallado del Score
+> Digital vive en [`docs/interno/producto/score-digital.md`](docs/interno/producto/score-digital.md).
+>
+> **No pertenecen a este proyecto** (son trabajo personal de Javier, viven aparte):
+> asistencia corporativa Solidaria (Power Automate) · KB Ingest del asistente personal
+> (Metabase / whitelist) · PMO / consola agéntica `asistente.lithv.net`.
+
+_Última actualización: 2026-06-25_
+
+---
+
+## P0 — Dogfooding: lo que un prospecto vería (credibilidad de venta)
+
+> Principio: si le vendemos esto a las PYMES, eXcalando tiene que usarlo primero y
+> mostrarlo. La casa del herrero no puede tener azadón de palo.
+
+- [ ] ⭐ **Asistente WhatsApp de eXcalando** — actualizar la base de conocimiento
+      (está desactualizada) y **conectarlo a Chatwoot**. Hoy no hay bandeja unificada
+      ni continuidad de conversación. _(el más importante)_
+- [ ] **Score Digital A1** — persistir leads: `POST /api/score` → Postgres
+      `scores_completados`. Hoy hay un `TODO` en `ScoreWizard.tsx`; si el visitante
+      hace el Score y no agenda, perdemos el contacto.
+
+## P1 — Mensaje y conversión (qué dice el sitio)
+
+- [ ] **Revisar el pitch deck** (`apps/comercial-pitch`, Slidev) y confirmar que está
+      bien. Javier prefiere su contenido al de la página actual → usarlo como base de
+      la narrativa del sitio.
+- [ ] **Repensar el Score Digital de la home** — producto + UX, no solo lo visual.
+      Alinearlo con la narrativa del pitch.
+- [ ] **Rediseño aspiracional del sitio** — salir del look "AI default" hacia plantillas
+      world-class (Linear/Stripe/Cursor). _(ya en memoria)_
+
+## P2 — Plataforma / seguridad
+
+- [x] **Sitio interno (`interno.excalando.com`): auth robusta** — ✅ HECHO 2026-06-27.
+      htpasswd reemplazado por gateway OTP (`apps/interno-auth`, FastAPI): código al
+      correo, roles admin/usuario, registro con aprobación. Admins: Javier + Harol.
+      Desplegado en VPS (`/opt/interno-auth`, contenedor `interno-auth` en `:8088`),
+      vhost de OpenLiteSpeed convertido a proxy. Usa el webhook de Gmail del PMO.
+
+## P3 — Score Digital, siguientes mejoras
+
+> Detalle y responsables en [`docs/interno/producto/score-digital.md`](docs/interno/producto/score-digital.md).
+
+- [ ] A2 — email automático con PDF del reporte (Resend/Postmark)
+- [ ] A3 — tracking del funnel del wizard (Plausible, evento por paso)
+- [ ] B1 — sequence de 3 emails post-Score (días 0/2/5)
+- [ ] B2 — selección de vertical → recomendaciones contextuales
+- [ ] B3 — botón "Compartir con mi equipo" (link único al reporte)
+- [ ] C1 — recalibrar pesos con ≥30 Scores reales · C2 — versión SaaS embebible · C3 — Diagnóstico Express pagado
+
+## Infra / pendientes transversales
+
+- [ ] HTTPS de dashboards — DNS Hostinger (Javier + Harol)
+- [ ] Evolution API / chip +57 bloqueado por IP del VPS (canal vivo = Twilio +1)
+- [ ] Deploy `excalando.com`: faltan 4 secrets de GitHub (VPS_HOST/USER/SSH_KEY/PATH)
+- [ ] Correo `hola@excalando.com` sin buzón (sin MX, rebota) → crear casilla o forward
+- [ ] Rebrand: comprar dominio + handles, propagar nombre al repo
+
+## Ideas sugeridas (a validar)
+
+- **Embudo único medible:** conectar Score Digital → WhatsApp → Chatwoot → CRM e
+  instrumentar los KPIs del Score que hoy no se miden (inicio/finalización/agenda).
+- **"Así lo hacemos nosotros" como contenido de venta:** mostrar el propio stack de
+  eXcalando (WhatsApp+Chatwoot, Score, automatizaciones) como prueba viva. El dogfooding
+  se vuelve material de marketing.
