@@ -29,8 +29,9 @@ _Última actualización: 2026-06-25_
             `mensajes_analisis` → Chatwoot. Twilio Bridge editado para persistir la respuesta
             del bot (`direction='out'`). **Entrantes Y salientes se espejan en vivo.** Inbox
             limpiado de datos de prueba. Ver `integrations/chatwoot-mirror/`.
-            Pendiente menor: (a) migrar el token del espejo de admin personal a un AgentBot
-            dedicado; (b) fase 2 "hub": que un humano responda DESDE Chatwoot al cliente.
+            Token del espejo migrado a un usuario dedicado ("eXcalando Espejo", admin cuenta 3),
+            ya no depende del login personal de un socio.
+            Pendiente menor: fase 2 "hub" — que un humano responda DESDE Chatwoot al cliente.
       - [x] **RAG extendido** — ahora busca en las 3 tablas (servicios + FAQ + políticas) vía
             UNION, y el Conversational inyecta FAQ/políticas al contexto del LLM. Probado:
             "¿permanencia?"/"¿garantía?" ya se responden solas (antes escalaban). Además se
