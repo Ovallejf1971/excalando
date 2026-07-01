@@ -24,14 +24,13 @@ _Última actualización: 2026-06-25_
             El RAG ya la sirve (verificado).
       - [x] **Chatwoot recuperado** — estaba en crash-loop (pid stale), ya vivo en `chat.lithv.net`.
       - [x] **Acceso API n8n headless** resuelto + backup de los 6 workflows vivos (`_live-backup/`).
-      - [~] **Chatwoot conectado (espejo aditivo)** — inbox "eXcalando WhatsApp" (id 2, API)
-            creado + contenedor `chatwoot-mirror` desplegado (`/opt/chatwoot-mirror`, poll 30s)
-            que replica `mensajes_analisis` → Chatwoot. Probado bidireccional (entrante+saliente).
-            Los mensajes ENTRANTES ya se espejan en vivo. Ver `integrations/chatwoot-mirror/`.
-            Falta: (a) editar el Twilio Bridge para persistir la respuesta del bot
-            (`direction='out'`) y que también se espeje en vivo; (b) migrar el token del
-            espejo a un AgentBot dedicado; (c) limpiar las conversaciones de prueba del inbox;
-            (d) fase 2: que un humano responda DESDE Chatwoot de vuelta al cliente.
+      - [x] **Chatwoot conectado (espejo aditivo)** — inbox "eXcalando WhatsApp" (id 2, API)
+            + contenedor `chatwoot-mirror` (`/opt/chatwoot-mirror`, poll 30s) que replica
+            `mensajes_analisis` → Chatwoot. Twilio Bridge editado para persistir la respuesta
+            del bot (`direction='out'`). **Entrantes Y salientes se espejan en vivo.** Inbox
+            limpiado de datos de prueba. Ver `integrations/chatwoot-mirror/`.
+            Pendiente menor: (a) migrar el token del espejo de admin personal a un AgentBot
+            dedicado; (b) fase 2 "hub": que un humano responda DESDE Chatwoot al cliente.
       - [ ] **Extender el RAG** para que consulte kb_faq/kb_politicas (hoy solo servicios).
 - [ ] **Score Digital A1** — persistir leads: `POST /api/score` → Postgres
       `scores_completados`. Hoy hay un `TODO` en `ScoreWizard.tsx`; si el visitante
