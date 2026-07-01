@@ -1,0 +1,12 @@
+services:
+  chatwoot-mirror:
+    build: .
+    container_name: chatwoot-mirror
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
