@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-16T19:13:08.035Z",
+  "updatedAt": "2026-07-01T03:14:59.915Z",
   "createdAt": "2026-05-16T11:17:23.457Z",
   "id": "A0GvUlxKlNxyI83B",
   "name": "Agent · Knowledge RAG (busqueda semantica del catalogo)",
@@ -67,7 +67,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Construye el SQL completo con el embedding inline (evita el bug de queryReplacement con comas)\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst embedLiteral = \"'[\" + embedding.join(',') + \"]'::vector\";\nconst categoriaFilter = params.categoria\n  ? `WHERE categoria = ${escString(params.categoria)}`\n  : '';\nconst topK = parseInt(params.top_k, 10) || 3;\n\nconst sql = `SELECT\n  id,\n  slug,\n  categoria,\n  nombre,\n  descripcion_corta,\n  descripcion_larga,\n  precio_setup,\n  precio_recurrente,\n  tiempo_entrega,\n  entregables,\n  casos_uso,\n  prerequisitos,\n  1 - (embedding <=> ${embedLiteral}) AS similarity\nFROM kb_servicios\n${categoriaFilter}\nORDER BY embedding <=> ${embedLiteral}\nLIMIT ${topK};`;\n\nreturn { sql, query: params.query };"
+        "jsCode": "// Construye el SQL de busqueda semantica sobre las 3 tablas de la KB\n// (kb_servicios + kb_faq + kb_politicas), con el embedding inline.\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst E = \"'[\" + embedding.join(',') + \"]'::vector\";\nconst topK = parseInt(params.top_k, 10) || 3;\nconst catServ = params.categoria ? `WHERE categoria = ${escString(params.categoria)}` : '';\n\nconst sql = `\n(SELECT 'servicio' AS tipo, id, slug, categoria, nombre, descripcion_corta, descripcion_larga,\n        precio_setup, precio_recurrente, tiempo_entrega, entregables, casos_uso, prerequisitos,\n        NULL::text AS pregunta, NULL::text AS respuesta, NULL::text AS topic, NULL::text AS contenido,\n        1 - (embedding <=> ${E}) AS similarity\n   FROM kb_servicios ${catServ}\n   ORDER BY embedding <=> ${E} LIMIT ${topK})\nUNION ALL\n(SELECT 'faq' AS tipo, id, NULL::text AS slug, categoria, NULL::text AS nombre, NULL::text AS descripcion_corta,\n        NULL::text AS descripcion_larga, NULL::text AS precio_setup, NULL::text AS precio_recurrente,\n        NULL::text AS tiempo_entrega, NULL::text[] AS entregables, NULL::text[] AS casos_uso,\n        NULL::text[] AS prerequisitos, pregunta, respuesta, NULL::text AS topic, NULL::text AS contenido,\n        1 - (embedding <=> ${E}) AS similarity\n   FROM kb_faq\n   ORDER BY embedding <=> ${E} LIMIT 3)\nUNION ALL\n(SELECT 'politica' AS tipo, id, NULL::text AS slug, NULL::text AS categoria, NULL::text AS nombre,\n        NULL::text AS descripcion_corta, NULL::text AS descripcion_larga, NULL::text AS precio_setup,\n        NULL::text AS precio_recurrente, NULL::text AS tiempo_entrega, NULL::text[] AS entregables,\n        NULL::text[] AS casos_uso, NULL::text[] AS prerequisitos, NULL::text AS pregunta,\n        NULL::text AS respuesta, topic, contenido,\n        1 - (embedding <=> ${E}) AS similarity\n   FROM kb_politicas\n   ORDER BY embedding <=> ${E} LIMIT 2)\nORDER BY similarity DESC;`;\n\nreturn { sql, query: params.query };\n"
       },
       "id": "c75d5162-410a-45cb-8954-be6231470621",
       "name": "Construir SQL de busqueda",
@@ -80,7 +80,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Recolecta todos los resultados (cada item es una fila) y los retorna como array\nconst items = $input.all();\nconst query = $('Validar query').item.json.query;\n\nconst resultados = items.map(it => ({\n  id: it.json.id,\n  slug: it.json.slug,\n  categoria: it.json.categoria,\n  nombre: it.json.nombre,\n  descripcion_corta: it.json.descripcion_corta,\n  descripcion_larga: it.json.descripcion_larga,\n  precio_setup: it.json.precio_setup,\n  precio_recurrente: it.json.precio_recurrente,\n  tiempo_entrega: it.json.tiempo_entrega,\n  entregables: it.json.entregables,\n  casos_uso: it.json.casos_uso,\n  prerequisitos: it.json.prerequisitos,\n  similarity: it.json.similarity\n}));\n\nreturn {\n  ok: true,\n  query,\n  total: resultados.length,\n  resultados\n};"
+        "jsCode": "// Separa las filas del UNION por tipo. Mantiene `resultados` = servicios (shape\n// original, para no romper el Conversational) y agrega `faq` y `politicas`.\nconst items = $input.all();\nconst query = $('Validar query').item.json.query;\nconst all = items.map(it => it.json).filter(r => r && r.tipo);\n\nconst resultados = all.filter(r => r.tipo === 'servicio').map(r => ({\n  id: r.id, slug: r.slug, categoria: r.categoria, nombre: r.nombre,\n  descripcion_corta: r.descripcion_corta, descripcion_larga: r.descripcion_larga,\n  precio_setup: r.precio_setup, precio_recurrente: r.precio_recurrente,\n  tiempo_entrega: r.tiempo_entrega, entregables: r.entregables,\n  casos_uso: r.casos_uso, prerequisitos: r.prerequisitos, similarity: r.similarity\n}));\n\nconst faq = all.filter(r => r.tipo === 'faq').map(r => ({\n  id: r.id, categoria: r.categoria, pregunta: r.pregunta, respuesta: r.respuesta, similarity: r.similarity\n}));\n\nconst politicas = all.filter(r => r.tipo === 'politica').map(r => ({\n  id: r.id, topic: r.topic, contenido: r.contenido, similarity: r.similarity\n}));\n\nreturn { ok: true, query, total: resultados.length, resultados, faq, politicas };\n"
       },
       "id": "508e39aa-9301-4d8e-af3b-bfd9646954ed",
       "name": "Formatear respuesta",
@@ -205,9 +205,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
-  "activeVersionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
-  "versionCounter": 38,
+  "versionId": "169d1c0a-d611-455a-9bb0-21a9733416c1",
+  "activeVersionId": "169d1c0a-d611-455a-9bb0-21a9733416c1",
+  "versionCounter": 41,
   "triggerCount": 1,
   "shared": [
     {
@@ -249,9 +249,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-05-16T19:13:12.489Z",
-    "createdAt": "2026-05-16T19:13:08.036Z",
-    "versionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
+    "updatedAt": "2026-07-01T03:14:59.916Z",
+    "createdAt": "2026-07-01T03:14:59.916Z",
+    "versionId": "169d1c0a-d611-455a-9bb0-21a9733416c1",
     "workflowId": "A0GvUlxKlNxyI83B",
     "nodes": [
       {
@@ -314,7 +314,7 @@
       },
       {
         "parameters": {
-          "jsCode": "// Construye el SQL completo con el embedding inline (evita el bug de queryReplacement con comas)\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst embedLiteral = \"'[\" + embedding.join(',') + \"]'::vector\";\nconst categoriaFilter = params.categoria\n  ? `WHERE categoria = ${escString(params.categoria)}`\n  : '';\nconst topK = parseInt(params.top_k, 10) || 3;\n\nconst sql = `SELECT\n  id,\n  slug,\n  categoria,\n  nombre,\n  descripcion_corta,\n  descripcion_larga,\n  precio_setup,\n  precio_recurrente,\n  tiempo_entrega,\n  entregables,\n  casos_uso,\n  prerequisitos,\n  1 - (embedding <=> ${embedLiteral}) AS similarity\nFROM kb_servicios\n${categoriaFilter}\nORDER BY embedding <=> ${embedLiteral}\nLIMIT ${topK};`;\n\nreturn { sql, query: params.query };"
+          "jsCode": "// Construye el SQL de busqueda semantica sobre las 3 tablas de la KB\n// (kb_servicios + kb_faq + kb_politicas), con el embedding inline.\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst E = \"'[\" + embedding.join(',') + \"]'::vector\";\nconst topK = parseInt(params.top_k, 10) || 3;\nconst catServ = params.categoria ? `WHERE categoria = ${escString(params.categoria)}` : '';\n\nconst sql = `\n(SELECT 'servicio' AS tipo, id, slug, categoria, nombre, descripcion_corta, descripcion_larga,\n        precio_setup, precio_recurrente, tiempo_entrega, entregables, casos_uso, prerequisitos,\n        NULL::text AS pregunta, NULL::text AS respuesta, NULL::text AS topic, NULL::text AS contenido,\n        1 - (embedding <=> ${E}) AS similarity\n   FROM kb_servicios ${catServ}\n   ORDER BY embedding <=> ${E} LIMIT ${topK})\nUNION ALL\n(SELECT 'faq' AS tipo, id, NULL::text AS slug, categoria, NULL::text AS nombre, NULL::text AS descripcion_corta,\n        NULL::text AS descripcion_larga, NULL::text AS precio_setup, NULL::text AS precio_recurrente,\n        NULL::text AS tiempo_entrega, NULL::text[] AS entregables, NULL::text[] AS casos_uso,\n        NULL::text[] AS prerequisitos, pregunta, respuesta, NULL::text AS topic, NULL::text AS contenido,\n        1 - (embedding <=> ${E}) AS similarity\n   FROM kb_faq\n   ORDER BY embedding <=> ${E} LIMIT 3)\nUNION ALL\n(SELECT 'politica' AS tipo, id, NULL::text AS slug, NULL::text AS categoria, NULL::text AS nombre,\n        NULL::text AS descripcion_corta, NULL::text AS descripcion_larga, NULL::text AS precio_setup,\n        NULL::text AS precio_recurrente, NULL::text AS tiempo_entrega, NULL::text[] AS entregables,\n        NULL::text[] AS casos_uso, NULL::text[] AS prerequisitos, NULL::text AS pregunta,\n        NULL::text AS respuesta, topic, contenido,\n        1 - (embedding <=> ${E}) AS similarity\n   FROM kb_politicas\n   ORDER BY embedding <=> ${E} LIMIT 2)\nORDER BY similarity DESC;`;\n\nreturn { sql, query: params.query };\n"
         },
         "id": "c75d5162-410a-45cb-8954-be6231470621",
         "name": "Construir SQL de busqueda",
@@ -327,7 +327,7 @@
       },
       {
         "parameters": {
-          "jsCode": "// Recolecta todos los resultados (cada item es una fila) y los retorna como array\nconst items = $input.all();\nconst query = $('Validar query').item.json.query;\n\nconst resultados = items.map(it => ({\n  id: it.json.id,\n  slug: it.json.slug,\n  categoria: it.json.categoria,\n  nombre: it.json.nombre,\n  descripcion_corta: it.json.descripcion_corta,\n  descripcion_larga: it.json.descripcion_larga,\n  precio_setup: it.json.precio_setup,\n  precio_recurrente: it.json.precio_recurrente,\n  tiempo_entrega: it.json.tiempo_entrega,\n  entregables: it.json.entregables,\n  casos_uso: it.json.casos_uso,\n  prerequisitos: it.json.prerequisitos,\n  similarity: it.json.similarity\n}));\n\nreturn {\n  ok: true,\n  query,\n  total: resultados.length,\n  resultados\n};"
+          "jsCode": "// Separa las filas del UNION por tipo. Mantiene `resultados` = servicios (shape\n// original, para no romper el Conversational) y agrega `faq` y `politicas`.\nconst items = $input.all();\nconst query = $('Validar query').item.json.query;\nconst all = items.map(it => it.json).filter(r => r && r.tipo);\n\nconst resultados = all.filter(r => r.tipo === 'servicio').map(r => ({\n  id: r.id, slug: r.slug, categoria: r.categoria, nombre: r.nombre,\n  descripcion_corta: r.descripcion_corta, descripcion_larga: r.descripcion_larga,\n  precio_setup: r.precio_setup, precio_recurrente: r.precio_recurrente,\n  tiempo_entrega: r.tiempo_entrega, entregables: r.entregables,\n  casos_uso: r.casos_uso, prerequisitos: r.prerequisitos, similarity: r.similarity\n}));\n\nconst faq = all.filter(r => r.tipo === 'faq').map(r => ({\n  id: r.id, categoria: r.categoria, pregunta: r.pregunta, respuesta: r.respuesta, similarity: r.similarity\n}));\n\nconst politicas = all.filter(r => r.tipo === 'politica').map(r => ({\n  id: r.id, topic: r.topic, contenido: r.contenido, similarity: r.similarity\n}));\n\nreturn { ok: true, query, total: resultados.length, resultados, faq, politicas };\n"
         },
         "id": "508e39aa-9301-4d8e-af3b-bfd9646954ed",
         "name": "Formatear respuesta",
@@ -444,15 +444,23 @@
       }
     },
     "authors": "Francisco Javier Ovalle Muñoz",
-    "name": "Version e93deb17",
-    "description": "",
-    "autosaved": true,
+    "name": null,
+    "description": null,
+    "autosaved": false,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-05-16T19:13:12.478Z",
-        "id": 336,
+        "createdAt": "2026-07-01T03:14:59.961Z",
+        "id": 476,
         "workflowId": "A0GvUlxKlNxyI83B",
-        "versionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
+        "versionId": "169d1c0a-d611-455a-9bb0-21a9733416c1",
+        "event": "deactivated",
+        "userId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      },
+      {
+        "createdAt": "2026-07-01T03:14:59.981Z",
+        "id": 477,
+        "workflowId": "A0GvUlxKlNxyI83B",
+        "versionId": "169d1c0a-d611-455a-9bb0-21a9733416c1",
         "event": "activated",
         "userId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
       }

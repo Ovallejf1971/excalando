@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-18T00:45:10.885Z",
+  "updatedAt": "2026-07-01T03:04:53.601Z",
   "createdAt": "2026-05-17T19:55:39.865Z",
   "id": "aKWx2pCCbiS7Z6Dh",
   "name": "Twilio Bridge (Twilio WhatsApp -> Conversational -> Twilio) Fase 2",
@@ -182,7 +182,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "// Toma respuesta del Conversational + prepara payloads para SQLs y para Twilio\nconst convResp = $input.item.json;\nconst original = $('Extraer conversacion_id').item.json;\nconst meta = convResp.metadata || {};\nconst convId = original.conversacion_id;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sqlUpdateConv = `UPDATE conversaciones SET ai_handled_count = ai_handled_count + 1, last_message_at = NOW() WHERE id = ${convId};`;\n\nlet sqlInsertAlerta = null;\nif (meta.tool_called === 'escalar_a_humano' || meta.needs_human_review === true) {\n  const motivo = meta.tool_args?.motivo || 'Escalacion automatica detectada';\n  const urgencia = meta.tool_args?.urgencia || 'media';\n  const severity = (urgencia === 'alta') ? 'alta' : 'media';\n  sqlInsertAlerta = `INSERT INTO alertas (conversacion_id, tipo, severity, message, notified_via, reviewed) VALUES (${convId}, ${esc('escalation_request')}, ${esc(severity)}, ${esc(motivo)}, ARRAY['log']::text[], false);`;\n}\n\nreturn {\n  json: {\n    // Para Twilio (whatsapp: prefix)\n    twilio_to: 'whatsapp:+' + original.contact_phone,\n    twilio_from: original.to, // El \"To\" del mensaje entrante es nuestro sender Twilio\n    twilio_body: convResp.respuesta || '(no respuesta)',\n    // Para Postgres\n    sql_update_conv: sqlUpdateConv,\n    sql_insert_alerta: sqlInsertAlerta,\n    needs_alerta: !!sqlInsertAlerta,\n    metadata: meta,\n    contact_name: original.contact_name\n  }\n};"
+        "jsCode": "// Toma respuesta del Conversational + prepara payloads para SQLs y para Twilio\nconst convResp = $input.item.json;\nconst original = $('Extraer conversacion_id').item.json;\nconst meta = convResp.metadata || {};\nconst convId = original.conversacion_id;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sqlUpdateConv = `UPDATE conversaciones SET ai_handled_count = ai_handled_count + 1, last_message_at = NOW() WHERE id = ${convId}; INSERT INTO mensajes_analisis (conversacion_id, message_id, direction, text, created_at) VALUES (${convId}, ${esc('out-'+convId+'-'+Date.now())}, 'out', ${esc(convResp.respuesta || '')}, NOW());`;\n\nlet sqlInsertAlerta = null;\nif (meta.tool_called === 'escalar_a_humano' || meta.needs_human_review === true) {\n  const motivo = meta.tool_args?.motivo || 'Escalacion automatica detectada';\n  const urgencia = meta.tool_args?.urgencia || 'media';\n  const severity = (urgencia === 'alta') ? 'alta' : 'media';\n  sqlInsertAlerta = `INSERT INTO alertas (conversacion_id, tipo, severity, message, notified_via, reviewed) VALUES (${convId}, ${esc('escalation_request')}, ${esc(severity)}, ${esc(motivo)}, ARRAY['log']::text[], false);`;\n}\n\nreturn {\n  json: {\n    // Para Twilio (whatsapp: prefix)\n    twilio_to: 'whatsapp:+' + original.contact_phone,\n    twilio_from: original.to, // El \"To\" del mensaje entrante es nuestro sender Twilio\n    twilio_body: convResp.respuesta || '(no respuesta)',\n    // Para Postgres\n    sql_update_conv: sqlUpdateConv,\n    sql_insert_alerta: sqlInsertAlerta,\n    needs_alerta: !!sqlInsertAlerta,\n    metadata: meta,\n    contact_name: original.contact_name\n  }\n};"
       },
       "id": "19f5e6a3-e0fc-433e-93f7-7827d7aacd65",
       "name": "Procesar respuesta + preparar SQLs",
@@ -507,9 +507,9 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "4b124896-ea0c-40e5-9f70-7807517b3de4",
-  "activeVersionId": "4b124896-ea0c-40e5-9f70-7807517b3de4",
-  "versionCounter": 28,
+  "versionId": "09fabe58-fe8b-44cc-9356-7a28cad1855b",
+  "activeVersionId": "09fabe58-fe8b-44cc-9356-7a28cad1855b",
+  "versionCounter": 31,
   "triggerCount": 1,
   "shared": [
     {
@@ -557,9 +557,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-05-18T00:45:12.446Z",
-    "createdAt": "2026-05-18T00:45:10.886Z",
-    "versionId": "4b124896-ea0c-40e5-9f70-7807517b3de4",
+    "updatedAt": "2026-07-01T03:04:53.606Z",
+    "createdAt": "2026-07-01T03:04:53.606Z",
+    "versionId": "09fabe58-fe8b-44cc-9356-7a28cad1855b",
     "workflowId": "aKWx2pCCbiS7Z6Dh",
     "nodes": [
       {
@@ -737,7 +737,7 @@
       {
         "parameters": {
           "mode": "runOnceForEachItem",
-          "jsCode": "// Toma respuesta del Conversational + prepara payloads para SQLs y para Twilio\nconst convResp = $input.item.json;\nconst original = $('Extraer conversacion_id').item.json;\nconst meta = convResp.metadata || {};\nconst convId = original.conversacion_id;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sqlUpdateConv = `UPDATE conversaciones SET ai_handled_count = ai_handled_count + 1, last_message_at = NOW() WHERE id = ${convId};`;\n\nlet sqlInsertAlerta = null;\nif (meta.tool_called === 'escalar_a_humano' || meta.needs_human_review === true) {\n  const motivo = meta.tool_args?.motivo || 'Escalacion automatica detectada';\n  const urgencia = meta.tool_args?.urgencia || 'media';\n  const severity = (urgencia === 'alta') ? 'alta' : 'media';\n  sqlInsertAlerta = `INSERT INTO alertas (conversacion_id, tipo, severity, message, notified_via, reviewed) VALUES (${convId}, ${esc('escalation_request')}, ${esc(severity)}, ${esc(motivo)}, ARRAY['log']::text[], false);`;\n}\n\nreturn {\n  json: {\n    // Para Twilio (whatsapp: prefix)\n    twilio_to: 'whatsapp:+' + original.contact_phone,\n    twilio_from: original.to, // El \"To\" del mensaje entrante es nuestro sender Twilio\n    twilio_body: convResp.respuesta || '(no respuesta)',\n    // Para Postgres\n    sql_update_conv: sqlUpdateConv,\n    sql_insert_alerta: sqlInsertAlerta,\n    needs_alerta: !!sqlInsertAlerta,\n    metadata: meta,\n    contact_name: original.contact_name\n  }\n};"
+          "jsCode": "// Toma respuesta del Conversational + prepara payloads para SQLs y para Twilio\nconst convResp = $input.item.json;\nconst original = $('Extraer conversacion_id').item.json;\nconst meta = convResp.metadata || {};\nconst convId = original.conversacion_id;\n\nfunction esc(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst sqlUpdateConv = `UPDATE conversaciones SET ai_handled_count = ai_handled_count + 1, last_message_at = NOW() WHERE id = ${convId}; INSERT INTO mensajes_analisis (conversacion_id, message_id, direction, text, created_at) VALUES (${convId}, ${esc('out-'+convId+'-'+Date.now())}, 'out', ${esc(convResp.respuesta || '')}, NOW());`;\n\nlet sqlInsertAlerta = null;\nif (meta.tool_called === 'escalar_a_humano' || meta.needs_human_review === true) {\n  const motivo = meta.tool_args?.motivo || 'Escalacion automatica detectada';\n  const urgencia = meta.tool_args?.urgencia || 'media';\n  const severity = (urgencia === 'alta') ? 'alta' : 'media';\n  sqlInsertAlerta = `INSERT INTO alertas (conversacion_id, tipo, severity, message, notified_via, reviewed) VALUES (${convId}, ${esc('escalation_request')}, ${esc(severity)}, ${esc(motivo)}, ARRAY['log']::text[], false);`;\n}\n\nreturn {\n  json: {\n    // Para Twilio (whatsapp: prefix)\n    twilio_to: 'whatsapp:+' + original.contact_phone,\n    twilio_from: original.to, // El \"To\" del mensaje entrante es nuestro sender Twilio\n    twilio_body: convResp.respuesta || '(no respuesta)',\n    // Para Postgres\n    sql_update_conv: sqlUpdateConv,\n    sql_insert_alerta: sqlInsertAlerta,\n    needs_alerta: !!sqlInsertAlerta,\n    metadata: meta,\n    contact_name: original.contact_name\n  }\n};"
         },
         "id": "19f5e6a3-e0fc-433e-93f7-7827d7aacd65",
         "name": "Procesar respuesta + preparar SQLs",
@@ -1053,18 +1053,26 @@
         ]
       }
     },
-    "authors": "Harol Palacios",
-    "name": "Version 4b124896",
-    "description": "",
+    "authors": "Francisco Javier Ovalle Muñoz",
+    "name": null,
+    "description": null,
     "autosaved": false,
     "workflowPublishHistory": [
       {
-        "createdAt": "2026-05-18T00:45:12.438Z",
-        "id": 350,
+        "createdAt": "2026-07-01T03:04:53.681Z",
+        "id": 474,
         "workflowId": "aKWx2pCCbiS7Z6Dh",
-        "versionId": "4b124896-ea0c-40e5-9f70-7807517b3de4",
+        "versionId": "09fabe58-fe8b-44cc-9356-7a28cad1855b",
+        "event": "deactivated",
+        "userId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      },
+      {
+        "createdAt": "2026-07-01T03:04:53.712Z",
+        "id": 475,
+        "workflowId": "aKWx2pCCbiS7Z6Dh",
+        "versionId": "09fabe58-fe8b-44cc-9356-7a28cad1855b",
         "event": "activated",
-        "userId": "2773d1b5-d1ac-45e1-b319-d68cc56e27cf"
+        "userId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
       }
     ]
   }

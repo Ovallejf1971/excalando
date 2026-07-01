@@ -31,7 +31,11 @@ _Última actualización: 2026-06-25_
             limpiado de datos de prueba. Ver `integrations/chatwoot-mirror/`.
             Pendiente menor: (a) migrar el token del espejo de admin personal a un AgentBot
             dedicado; (b) fase 2 "hub": que un humano responda DESDE Chatwoot al cliente.
-      - [ ] **Extender el RAG** para que consulte kb_faq/kb_politicas (hoy solo servicios).
+      - [x] **RAG extendido** — ahora busca en las 3 tablas (servicios + FAQ + políticas) vía
+            UNION, y el Conversational inyecta FAQ/políticas al contexto del LLM. Probado:
+            "¿permanencia?"/"¿garantía?" ya se responden solas (antes escalaban). Además se
+            corrigió un bug: el Conversational llamaba al RAG por URL pública (fallaba por SSL)
+            → ahora interno. Versiones vivas en `integrations/n8n/_live-backup/`.
 - [ ] **Score Digital A1** — persistir leads: `POST /api/score` → Postgres
       `scores_completados`. Hoy hay un `TODO` en `ScoreWizard.tsx`; si el visitante
       hace el Score y no agenda, perdemos el contacto.
