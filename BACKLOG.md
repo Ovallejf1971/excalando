@@ -50,6 +50,11 @@ _Última actualización: 2026-06-25_
       Alinearlo con la narrativa del pitch.
 - [ ] **Rediseño aspiracional del sitio** — salir del look "AI default" hacia plantillas
       world-class (Linear/Stripe/Cursor). _(ya en memoria)_
+- [ ] **Análisis del piloto de contenido (jun 1–27)** — correr la matriz de decisión del
+      `docs/content/piloto-jun-2026/tracking-piloto.md` (calidad drafts / tiempo Javier /
+      engagement / voz eXcalando) y decidir: plan mensual completo desde julio (3-4 verdes),
+      extender 2 semanas (2 verdes), o replantear. **Bloqueado:** el tracking está vacío;
+      Javier debe volcar las métricas reales de LinkedIn/Buffer de las 9 piezas.
 
 ## P2 — Plataforma / seguridad
 
