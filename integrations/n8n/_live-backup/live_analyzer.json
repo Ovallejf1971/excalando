@@ -1,0 +1,765 @@
+{
+  "updatedAt": "2026-05-05T23:05:49.755Z",
+  "createdAt": "2026-05-05T21:17:48.724Z",
+  "id": "z9ApbzTNiyPGN6rG",
+  "name": "Agent · Analyzer (clasifica mensajes WhatsApp)",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-analyzer",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "d0537c3d-d916-4f22-b2dc-e40788b60577",
+      "name": "Webhook (POST /agent-analyzer)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "agent-analyzer-picard-ia"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Sos el analizador de mensajes de WhatsApp para Picard-IA. Cada mensaje del cliente lo analizás y devolvés JSON estricto. Solo JSON. Nada más.\n\nOUTPUT JSON (todos los campos obligatorios):\n{\n  \"sentiment\": <number entre -1 y 1>,\n  \"emotion\": [<lista, ej: \"frustrado\", \"urgente\", \"curioso\", \"decidido\", \"escéptico\">],\n  \"intent\": <una de: \"pregunta_general\", \"pregunta_precio\", \"queja\", \"agendar_reunion\", \"comprar\", \"cancelar\", \"soporte\", \"comparar_competencia\", \"saludo\", \"otro\">,\n  \"topics\": [<servicios o temas mencionados, ej: \"chatbot\", \"web\", \"automatizacion\">],\n  \"flags\": [<lista, ej: \"bad_language\", \"escalation_request\", \"urgency\", \"high_value_signal\", \"competitor_mention\", \"legal_mention\">],\n  \"opportunity_score\": <0 a 1>,\n  \"risk_score\": <0 a 1>,\n  \"summary_es\": <una oración resumiendo el mensaje del cliente>\n}\n\nREGLAS DE DETECCIÓN\n- bad_language: groserías en español colombiano (marica, hijueputa, malparido, gonorrea, etc.) o amenazas\n- escalation_request: cliente escribe \"humano\", \"persona\", \"alguien real\", \"tu jefe\", \"el dueño\"\n- legal_mention: \"demanda\", \"denuncia\", \"estafa\", \"fraude\", \"abogado\", \"tutela\"\n- competitor_mention: nombres de otras agencias o \"su competencia\"\n- high_value_signal: menciones de presupuesto, \"necesito esto urgente\", empresa grande, \"queremos contratar\"\n- urgency: \"hoy\", \"ya\", \"urgente\", \"ahora mismo\"\n\nSCORING\n- opportunity_score alto (>0.7): pregunta precio + agenda reunión + menciona presupuesto\n- opportunity_score medio (0.4-0.7): muestra interés genuino pero sin compromiso\n- opportunity_score bajo (<0.4): consulta general, primera curiosidad\n- risk_score alto (>0.7): bad_language, sentiment muy negativo, legal_mention\n- risk_score medio: queja sin escalación, frustración detectable\n- risk_score bajo: tono normal o positivo\n\nIMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicación.",
+              "role": "system"
+            },
+            {
+              "content": "={{ $json.body.text }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "4ae12866-3f33-4367-b005-59aee02de995",
+      "name": "OpenAI: clasificar mensaje",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        240,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "ZGSaq6QUVIpCotp3",
+          "name": "OpenAI - Picard-IA"
+        }
+      },
+      "notes": "Modelo: gpt-4o-mini (más barato y suficiente para clasificación). Si OpenAI falla, considerar workflow de fallback con Anthropic."
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "mensajes_analisis",
+          "mode": "list",
+          "cachedResultName": "mensajes_analisis"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "direction": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.direction || 'inbound' }}",
+            "text": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.text }}",
+            "sentiment": "={{ $json.message.content.sentiment }}",
+            "intent": "={{ $json.message.content.intent }}",
+            "opportunity_score": "={{ $json.message.content.opportunity_score }}",
+            "risk_score": "={{ $json.message.content.risk_score }}",
+            "summary_es": "={{ $json.message.content.summary_es }}",
+            "emotion": "={{ $json.message.content.emotion }}",
+            "topics": "={{ $json.message.content.topics }}",
+            "flags": "={{ $json.message.content.flags }}",
+            "message_id": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.message_id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "conversacion_id",
+              "displayName": "conversacion_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "message_id",
+              "displayName": "message_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "direction",
+              "displayName": "direction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sentiment",
+              "displayName": "sentiment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "emotion",
+              "displayName": "emotion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "intent",
+              "displayName": "intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "topics",
+              "displayName": "topics",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "flags",
+              "displayName": "flags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "opportunity_score",
+              "displayName": "opportunity_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "risk_score",
+              "displayName": "risk_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "summary_es",
+              "displayName": "summary_es",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "dbd43ada-c1b1-4d1c-9a7c-e9df7e28bd6f",
+      "name": "Postgres → INSERT mensajes_analisis",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        528,
+        0
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "hUUVNAsVV6AZUCFz",
+          "name": "Agencia digital"
+        }
+      },
+      "notes": "Usar la credencial Postgres que apunta a agencia_digital. NOTA: las 3 columnas de array (emotion, topics, flags) son TEXT[] en Postgres — n8n debe enviarlas como JS arrays directos, no JSON.stringify. La columna conversacion_id NO se mapea — queda NULL automaticamente."
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"analysis\": {{ JSON.stringify($('OpenAI: clasificar mensaje').item.json.message.content) }},\n  \"saved_id\": {{ $('Postgres → INSERT mensajes_analisis').item.json.id }}\n}",
+        "options": {}
+      },
+      "id": "c91b7384-21ed-4433-a9ea-273808c61849",
+      "name": "Responder OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n.lithv.net/webhook/agent-alerts",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "analysis",
+              "value": "={{ $('OpenAI: clasificar mensaje').item.json.message.content }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.text }}"
+            },
+            {
+              "name": "conversacion_id",
+              "value": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.conversacion_id }}"
+            },
+            {
+              "name": "customer_name",
+              "value": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.customer_name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        736,
+        0
+      ],
+      "id": "16dfd65a-f6aa-48cd-90bd-1c2f45db803e",
+      "name": "Trigger Alerts"
+    }
+  ],
+  "connections": {
+    "Webhook (POST /agent-analyzer)": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: clasificar mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: clasificar mensaje": {
+      "main": [
+        [
+          {
+            "node": "Postgres → INSERT mensajes_analisis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres → INSERT mensajes_analisis": {
+      "main": [
+        [
+          {
+            "node": "Trigger Alerts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trigger Alerts": {
+      "main": [
+        [
+          {
+            "node": "Responder OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "1282ed12-8580-4662-846a-7257119a7b4c",
+  "activeVersionId": "1282ed12-8580-4662-846a-7257119a7b4c",
+  "versionCounter": 72,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-05-05T21:17:48.724Z",
+      "createdAt": "2026-05-05T21:17:48.724Z",
+      "role": "workflow:owner",
+      "workflowId": "z9ApbzTNiyPGN6rG",
+      "projectId": "VAzzc4rzSsnHhjEr",
+      "project": {
+        "updatedAt": "2025-08-05T01:53:17.026Z",
+        "createdAt": "2025-08-05T01:50:25.829Z",
+        "id": "VAzzc4rzSsnHhjEr",
+        "name": "Francisco Javier Ovalle Muñoz <ovallejf@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2026-05-03T18:03:53.372Z",
+      "createdAt": "2026-05-03T18:03:53.372Z",
+      "id": "XtP5ZcB8HnpazF1S",
+      "name": "picard-ia"
+    },
+    {
+      "updatedAt": "2026-05-05T21:09:38.311Z",
+      "createdAt": "2026-05-05T21:09:38.311Z",
+      "id": "TQIVZf2ajUCDvNIb",
+      "name": "agent"
+    },
+    {
+      "updatedAt": "2026-05-05T21:09:38.333Z",
+      "createdAt": "2026-05-05T21:09:38.333Z",
+      "id": "oCBbcUO8UA5Y5vHy",
+      "name": "v1"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-05-05T23:06:03.746Z",
+    "createdAt": "2026-05-05T23:05:49.756Z",
+    "versionId": "1282ed12-8580-4662-846a-7257119a7b4c",
+    "workflowId": "z9ApbzTNiyPGN6rG",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "agent-analyzer",
+          "responseMode": "responseNode",
+          "options": {
+            "allowedOrigins": "*"
+          }
+        },
+        "id": "d0537c3d-d916-4f22-b2dc-e40788b60577",
+        "name": "Webhook (POST /agent-analyzer)",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          0,
+          0
+        ],
+        "webhookId": "agent-analyzer-picard-ia"
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "gpt-4o-mini",
+            "mode": "list",
+            "cachedResultName": "GPT-4O-MINI"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Sos el analizador de mensajes de WhatsApp para Picard-IA. Cada mensaje del cliente lo analizás y devolvés JSON estricto. Solo JSON. Nada más.\n\nOUTPUT JSON (todos los campos obligatorios):\n{\n  \"sentiment\": <number entre -1 y 1>,\n  \"emotion\": [<lista, ej: \"frustrado\", \"urgente\", \"curioso\", \"decidido\", \"escéptico\">],\n  \"intent\": <una de: \"pregunta_general\", \"pregunta_precio\", \"queja\", \"agendar_reunion\", \"comprar\", \"cancelar\", \"soporte\", \"comparar_competencia\", \"saludo\", \"otro\">,\n  \"topics\": [<servicios o temas mencionados, ej: \"chatbot\", \"web\", \"automatizacion\">],\n  \"flags\": [<lista, ej: \"bad_language\", \"escalation_request\", \"urgency\", \"high_value_signal\", \"competitor_mention\", \"legal_mention\">],\n  \"opportunity_score\": <0 a 1>,\n  \"risk_score\": <0 a 1>,\n  \"summary_es\": <una oración resumiendo el mensaje del cliente>\n}\n\nREGLAS DE DETECCIÓN\n- bad_language: groserías en español colombiano (marica, hijueputa, malparido, gonorrea, etc.) o amenazas\n- escalation_request: cliente escribe \"humano\", \"persona\", \"alguien real\", \"tu jefe\", \"el dueño\"\n- legal_mention: \"demanda\", \"denuncia\", \"estafa\", \"fraude\", \"abogado\", \"tutela\"\n- competitor_mention: nombres de otras agencias o \"su competencia\"\n- high_value_signal: menciones de presupuesto, \"necesito esto urgente\", empresa grande, \"queremos contratar\"\n- urgency: \"hoy\", \"ya\", \"urgente\", \"ahora mismo\"\n\nSCORING\n- opportunity_score alto (>0.7): pregunta precio + agenda reunión + menciona presupuesto\n- opportunity_score medio (0.4-0.7): muestra interés genuino pero sin compromiso\n- opportunity_score bajo (<0.4): consulta general, primera curiosidad\n- risk_score alto (>0.7): bad_language, sentiment muy negativo, legal_mention\n- risk_score medio: queja sin escalación, frustración detectable\n- risk_score bajo: tono normal o positivo\n\nIMPORTANTE: solo devolvés el JSON sin texto extra. Sin markdown. Sin explicación.",
+                "role": "system"
+              },
+              {
+                "content": "={{ $json.body.text }}"
+              }
+            ]
+          },
+          "jsonOutput": true,
+          "options": {
+            "temperature": 0.1
+          }
+        },
+        "id": "4ae12866-3f33-4367-b005-59aee02de995",
+        "name": "OpenAI: clasificar mensaje",
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 1.8,
+        "position": [
+          240,
+          0
+        ],
+        "credentials": {
+          "openAiApi": {
+            "id": "ZGSaq6QUVIpCotp3",
+            "name": "OpenAI - Picard-IA"
+          }
+        },
+        "notes": "Modelo: gpt-4o-mini (más barato y suficiente para clasificación). Si OpenAI falla, considerar workflow de fallback con Anthropic."
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "public",
+            "mode": "list",
+            "cachedResultName": "public"
+          },
+          "table": {
+            "__rl": true,
+            "value": "mensajes_analisis",
+            "mode": "list",
+            "cachedResultName": "mensajes_analisis"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "direction": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.direction || 'inbound' }}",
+              "text": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.text }}",
+              "sentiment": "={{ $json.message.content.sentiment }}",
+              "intent": "={{ $json.message.content.intent }}",
+              "opportunity_score": "={{ $json.message.content.opportunity_score }}",
+              "risk_score": "={{ $json.message.content.risk_score }}",
+              "summary_es": "={{ $json.message.content.summary_es }}",
+              "emotion": "={{ $json.message.content.emotion }}",
+              "topics": "={{ $json.message.content.topics }}",
+              "flags": "={{ $json.message.content.flags }}",
+              "message_id": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.message_id }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "conversacion_id",
+                "displayName": "conversacion_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "message_id",
+                "displayName": "message_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "direction",
+                "displayName": "direction",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "text",
+                "displayName": "text",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "sentiment",
+                "displayName": "sentiment",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "emotion",
+                "displayName": "emotion",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "array",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "intent",
+                "displayName": "intent",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "topics",
+                "displayName": "topics",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "array",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "flags",
+                "displayName": "flags",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "array",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "opportunity_score",
+                "displayName": "opportunity_score",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "risk_score",
+                "displayName": "risk_score",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "summary_es",
+                "displayName": "summary_es",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "id": "dbd43ada-c1b1-4d1c-9a7c-e9df7e28bd6f",
+        "name": "Postgres → INSERT mensajes_analisis",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.5,
+        "position": [
+          528,
+          0
+        ],
+        "credentials": {
+          "postgres": {
+            "id": "hUUVNAsVV6AZUCFz",
+            "name": "Agencia digital"
+          }
+        },
+        "notes": "Usar la credencial Postgres que apunta a agencia_digital. NOTA: las 3 columnas de array (emotion, topics, flags) son TEXT[] en Postgres — n8n debe enviarlas como JS arrays directos, no JSON.stringify. La columna conversacion_id NO se mapea — queda NULL automaticamente."
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"ok\": true,\n  \"analysis\": {{ JSON.stringify($('OpenAI: clasificar mensaje').item.json.message.content) }},\n  \"saved_id\": {{ $('Postgres → INSERT mensajes_analisis').item.json.id }}\n}",
+          "options": {}
+        },
+        "id": "c91b7384-21ed-4433-a9ea-273808c61849",
+        "name": "Responder OK",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.1,
+        "position": [
+          1040,
+          16
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://n8n.lithv.net/webhook/agent-alerts",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "analysis",
+                "value": "={{ $('OpenAI: clasificar mensaje').item.json.message.content }}"
+              },
+              {
+                "name": "text",
+                "value": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.text }}"
+              },
+              {
+                "name": "conversacion_id",
+                "value": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.conversacion_id }}"
+              },
+              {
+                "name": "customer_name",
+                "value": "={{ $('Webhook (POST /agent-analyzer)').item.json.body.customer_name }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          736,
+          0
+        ],
+        "id": "16dfd65a-f6aa-48cd-90bd-1c2f45db803e",
+        "name": "Trigger Alerts"
+      }
+    ],
+    "connections": {
+      "Webhook (POST /agent-analyzer)": {
+        "main": [
+          [
+            {
+              "node": "OpenAI: clasificar mensaje",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI: clasificar mensaje": {
+        "main": [
+          [
+            {
+              "node": "Postgres → INSERT mensajes_analisis",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Postgres → INSERT mensajes_analisis": {
+        "main": [
+          [
+            {
+              "node": "Trigger Alerts",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Trigger Alerts": {
+        "main": [
+          [
+            {
+              "node": "Responder OK",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Francisco Javier Ovalle Muñoz",
+    "name": "Version 1282ed12",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-05-05T23:06:03.742Z",
+        "id": 316,
+        "workflowId": "z9ApbzTNiyPGN6rG",
+        "versionId": "1282ed12-8580-4662-846a-7257119a7b4c",
+        "event": "activated",
+        "userId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      }
+    ]
+  }
+}

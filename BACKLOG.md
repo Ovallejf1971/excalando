@@ -16,16 +16,18 @@ _Última actualización: 2026-06-25_
 > Principio: si le vendemos esto a las PYMES, eXcalando tiene que usarlo primero y
 > mostrarlo. La casa del herrero no puede tener azadón de palo.
 
-- [ ] ⭐ **Asistente WhatsApp de eXcalando** — _en progreso 2026-06-30:_
-      - [x] **KB actualizada** — reorganizada en las 4 capacidades del pitch + FAQ +
-            políticas, sin precios (consultivo), Score a 5 frentes. Cargada a
-            `agencia_digital` (14 servicios + 12 FAQ + 5 políticas con embeddings)
-            vía `integrations/n8n/load_kb.py`.
-      - [x] **Chatwoot recuperado** — estaba en crash-loop (pid stale), ya vivo en
-            `chat.lithv.net`.
+- [ ] ⭐ **Asistente WhatsApp de eXcalando** — _en progreso 2026-06-30._
+      OJO: el asistente **YA está construido y vivo en n8n** (Analyzer+Conversational+RAG+
+      Alerts+bridges Twilio y Evolution), no era greenfield. Ver [[project_whatsapp_agent_excalando]].
+      - [x] **KB actualizada y en producción** — 4 capacidades del pitch + FAQ + políticas,
+            sin precios, Score a 5 frentes. Cargada a `agencia_digital` con `load_kb.py`.
+            El RAG ya la sirve (verificado).
+      - [x] **Chatwoot recuperado** — estaba en crash-loop (pid stale), ya vivo en `chat.lithv.net`.
+      - [x] **Acceso API n8n headless** resuelto + backup de los 6 workflows vivos (`_live-backup/`).
+      - [ ] **Conectar Chatwoot al loop** (hoy los bridges lo saltan). Recomendado:
+            espejo aditivo (replicar mensajes a Chatwoot vía API sin tocar el bridge vivo),
+            luego evolucionar a hub con traspaso a humano nativo.
       - [ ] **Extender el RAG** para que consulte kb_faq/kb_politicas (hoy solo servicios).
-      - [ ] **Crear inbox de eXcalando en Chatwoot** + conectar Twilio WhatsApp (+1).
-      - [ ] **Agent Bot** (Chatwoot → n8n RAG → respuesta) + traspaso a humano.
 - [ ] **Score Digital A1** — persistir leads: `POST /api/score` → Postgres
       `scores_completados`. Hoy hay un `TODO` en `ScoreWizard.tsx`; si el visitante
       hace el Score y no agenda, perdemos el contacto.

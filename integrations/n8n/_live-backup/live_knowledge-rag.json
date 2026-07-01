@@ -1,0 +1,461 @@
+{
+  "updatedAt": "2026-05-16T19:13:08.035Z",
+  "createdAt": "2026-05-16T11:17:23.457Z",
+  "id": "A0GvUlxKlNxyI83B",
+  "name": "Agent · Knowledge RAG (busqueda semantica del catalogo)",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-rag",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "6d3fa46a-d505-4a1e-8437-31e551b3d47d",
+      "name": "Webhook (POST /agent-rag)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "agent-rag-excalando"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Valida y normaliza la query entrante\nconst body = $input.item.json.body || $input.item.json;\nconst query = (body.query || '').trim();\nconst topK = body.top_k || 3;\nconst categoria = body.categoria || null;\n\nif (!query) {\n  throw new Error('El campo \"query\" es obligatorio');\n}\n\nreturn { query, top_k: topK, categoria };"
+      },
+      "id": "a393f5cf-078c-4bb1-ad9e-13e447231f60",
+      "name": "Validar query",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {{ JSON.stringify($json.query) }},\n  \"model\": \"text-embedding-3-small\"\n}",
+        "options": {}
+      },
+      "id": "e05c27c6-ae37-435b-9629-6ab865f2f2b6",
+      "name": "OpenAI: embedding de la query",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "IfsRgBAf38gpOEg5",
+          "name": "OpenAI - eXcalando"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Construye el SQL completo con el embedding inline (evita el bug de queryReplacement con comas)\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst embedLiteral = \"'[\" + embedding.join(',') + \"]'::vector\";\nconst categoriaFilter = params.categoria\n  ? `WHERE categoria = ${escString(params.categoria)}`\n  : '';\nconst topK = parseInt(params.top_k, 10) || 3;\n\nconst sql = `SELECT\n  id,\n  slug,\n  categoria,\n  nombre,\n  descripcion_corta,\n  descripcion_larga,\n  precio_setup,\n  precio_recurrente,\n  tiempo_entrega,\n  entregables,\n  casos_uso,\n  prerequisitos,\n  1 - (embedding <=> ${embedLiteral}) AS similarity\nFROM kb_servicios\n${categoriaFilter}\nORDER BY embedding <=> ${embedLiteral}\nLIMIT ${topK};`;\n\nreturn { sql, query: params.query };"
+      },
+      "id": "c75d5162-410a-45cb-8954-be6231470621",
+      "name": "Construir SQL de busqueda",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recolecta todos los resultados (cada item es una fila) y los retorna como array\nconst items = $input.all();\nconst query = $('Validar query').item.json.query;\n\nconst resultados = items.map(it => ({\n  id: it.json.id,\n  slug: it.json.slug,\n  categoria: it.json.categoria,\n  nombre: it.json.nombre,\n  descripcion_corta: it.json.descripcion_corta,\n  descripcion_larga: it.json.descripcion_larga,\n  precio_setup: it.json.precio_setup,\n  precio_recurrente: it.json.precio_recurrente,\n  tiempo_entrega: it.json.tiempo_entrega,\n  entregables: it.json.entregables,\n  casos_uso: it.json.casos_uso,\n  prerequisitos: it.json.prerequisitos,\n  similarity: it.json.similarity\n}));\n\nreturn {\n  ok: true,\n  query,\n  total: resultados.length,\n  resultados\n};"
+      },
+      "id": "508e39aa-9301-4d8e-af3b-bfd9646954ed",
+      "name": "Formatear respuesta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "7da0ce7f-668e-4d35-bfba-ab1aa52029bc",
+      "name": "Responder JSON",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $json.sql }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        928,
+        0
+      ],
+      "id": "3969af22-ab51-4cfb-9b90-e8a7f5c96cf0",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "qa2xCOKMjuiMpSsd",
+          "name": "Postgres eXcalando"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook (POST /agent-rag)": {
+      "main": [
+        [
+          {
+            "node": "Validar query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar query": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: embedding de la query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: embedding de la query": {
+      "main": [
+        [
+          {
+            "node": "Construir SQL de busqueda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construir SQL de busqueda": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatear respuesta": {
+      "main": [
+        [
+          {
+            "node": "Responder JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Formatear respuesta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
+  "activeVersionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
+  "versionCounter": 38,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-05-16T11:17:23.457Z",
+      "createdAt": "2026-05-16T11:17:23.457Z",
+      "role": "workflow:owner",
+      "workflowId": "A0GvUlxKlNxyI83B",
+      "projectId": "VAzzc4rzSsnHhjEr",
+      "project": {
+        "updatedAt": "2025-08-05T01:53:17.026Z",
+        "createdAt": "2025-08-05T01:50:25.829Z",
+        "id": "VAzzc4rzSsnHhjEr",
+        "name": "Francisco Javier Ovalle Muñoz <ovallejf@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2026-05-07T02:03:05.666Z",
+      "createdAt": "2026-05-07T02:03:05.666Z",
+      "id": "qWIkgA7MpCv5KC23",
+      "name": "kb"
+    },
+    {
+      "updatedAt": "2026-05-16T11:17:21.766Z",
+      "createdAt": "2026-05-16T11:17:21.766Z",
+      "id": "ywjVZpR6RbUZd9Ad",
+      "name": "rag"
+    },
+    {
+      "updatedAt": "2026-05-16T11:17:21.781Z",
+      "createdAt": "2026-05-16T11:17:21.781Z",
+      "id": "gfT4C6gdy3K1pJnS",
+      "name": "excalando"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-05-16T19:13:12.489Z",
+    "createdAt": "2026-05-16T19:13:08.036Z",
+    "versionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
+    "workflowId": "A0GvUlxKlNxyI83B",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "agent-rag",
+          "responseMode": "responseNode",
+          "options": {
+            "allowedOrigins": "*"
+          }
+        },
+        "id": "6d3fa46a-d505-4a1e-8437-31e551b3d47d",
+        "name": "Webhook (POST /agent-rag)",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          0,
+          0
+        ],
+        "webhookId": "agent-rag-excalando"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Valida y normaliza la query entrante\nconst body = $input.item.json.body || $input.item.json;\nconst query = (body.query || '').trim();\nconst topK = body.top_k || 3;\nconst categoria = body.categoria || null;\n\nif (!query) {\n  throw new Error('El campo \"query\" es obligatorio');\n}\n\nreturn { query, top_k: topK, categoria };"
+        },
+        "id": "a393f5cf-078c-4bb1-ad9e-13e447231f60",
+        "name": "Validar query",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          240,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://api.openai.com/v1/embeddings",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "openAiApi",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"input\": {{ JSON.stringify($json.query) }},\n  \"model\": \"text-embedding-3-small\"\n}",
+          "options": {}
+        },
+        "id": "e05c27c6-ae37-435b-9629-6ab865f2f2b6",
+        "name": "OpenAI: embedding de la query",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          480,
+          0
+        ],
+        "credentials": {
+          "openAiApi": {
+            "id": "IfsRgBAf38gpOEg5",
+            "name": "OpenAI - eXcalando"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "// Construye el SQL completo con el embedding inline (evita el bug de queryReplacement con comas)\nconst params = $('Validar query').item.json;\nconst embeddingResp = $input.item.json;\nconst embedding = embeddingResp.data?.[0]?.embedding;\n\nif (!embedding) {\n  throw new Error('No se pudo generar embedding de la query');\n}\n\nfunction escString(s) {\n  if (s === null || s === undefined) return 'NULL';\n  return \"'\" + String(s).replace(/'/g, \"''\") + \"'\";\n}\n\nconst embedLiteral = \"'[\" + embedding.join(',') + \"]'::vector\";\nconst categoriaFilter = params.categoria\n  ? `WHERE categoria = ${escString(params.categoria)}`\n  : '';\nconst topK = parseInt(params.top_k, 10) || 3;\n\nconst sql = `SELECT\n  id,\n  slug,\n  categoria,\n  nombre,\n  descripcion_corta,\n  descripcion_larga,\n  precio_setup,\n  precio_recurrente,\n  tiempo_entrega,\n  entregables,\n  casos_uso,\n  prerequisitos,\n  1 - (embedding <=> ${embedLiteral}) AS similarity\nFROM kb_servicios\n${categoriaFilter}\nORDER BY embedding <=> ${embedLiteral}\nLIMIT ${topK};`;\n\nreturn { sql, query: params.query };"
+        },
+        "id": "c75d5162-410a-45cb-8954-be6231470621",
+        "name": "Construir SQL de busqueda",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          720,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "// Recolecta todos los resultados (cada item es una fila) y los retorna como array\nconst items = $input.all();\nconst query = $('Validar query').item.json.query;\n\nconst resultados = items.map(it => ({\n  id: it.json.id,\n  slug: it.json.slug,\n  categoria: it.json.categoria,\n  nombre: it.json.nombre,\n  descripcion_corta: it.json.descripcion_corta,\n  descripcion_larga: it.json.descripcion_larga,\n  precio_setup: it.json.precio_setup,\n  precio_recurrente: it.json.precio_recurrente,\n  tiempo_entrega: it.json.tiempo_entrega,\n  entregables: it.json.entregables,\n  casos_uso: it.json.casos_uso,\n  prerequisitos: it.json.prerequisitos,\n  similarity: it.json.similarity\n}));\n\nreturn {\n  ok: true,\n  query,\n  total: resultados.length,\n  resultados\n};"
+        },
+        "id": "508e39aa-9301-4d8e-af3b-bfd9646954ed",
+        "name": "Formatear respuesta",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1200,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={{ JSON.stringify($json) }}",
+          "options": {}
+        },
+        "id": "7da0ce7f-668e-4d35-bfba-ab1aa52029bc",
+        "name": "Responder JSON",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.1,
+        "position": [
+          1440,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "operation": "executeQuery",
+          "query": "{{ $json.sql }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          928,
+          0
+        ],
+        "id": "3969af22-ab51-4cfb-9b90-e8a7f5c96cf0",
+        "name": "Execute a SQL query",
+        "credentials": {
+          "postgres": {
+            "id": "qa2xCOKMjuiMpSsd",
+            "name": "Postgres eXcalando"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Webhook (POST /agent-rag)": {
+        "main": [
+          [
+            {
+              "node": "Validar query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Validar query": {
+        "main": [
+          [
+            {
+              "node": "OpenAI: embedding de la query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenAI: embedding de la query": {
+        "main": [
+          [
+            {
+              "node": "Construir SQL de busqueda",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Construir SQL de busqueda": {
+        "main": [
+          [
+            {
+              "node": "Execute a SQL query",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Formatear respuesta": {
+        "main": [
+          [
+            {
+              "node": "Responder JSON",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Execute a SQL query": {
+        "main": [
+          [
+            {
+              "node": "Formatear respuesta",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Francisco Javier Ovalle Muñoz",
+    "name": "Version e93deb17",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-05-16T19:13:12.478Z",
+        "id": 336,
+        "workflowId": "A0GvUlxKlNxyI83B",
+        "versionId": "e93deb17-6baf-4cd6-a505-78ad47685562",
+        "event": "activated",
+        "userId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      }
+    ]
+  }
+}

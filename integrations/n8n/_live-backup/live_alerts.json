@@ -1,0 +1,737 @@
+{
+  "updatedAt": "2026-05-05T22:34:54.931Z",
+  "createdAt": "2026-05-05T22:30:45.853Z",
+  "id": "f9IGGarfV3xxdhIK",
+  "name": "Agent · Alerts (router de alertas por severidad)",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "agent-alerts",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "06a6b32d-2fbc-454b-b825-866c63918308",
+      "name": "Webhook (POST /agent-alerts)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        64
+      ],
+      "webhookId": "agent-alerts-picard-ia"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Computa severidad y formatea mensaje para Telegram\nconst body = $input.item.json.body || $input.item.json;\nconst analysis = body.analysis || {};\nconst flags = analysis.flags || [];\nconst sentiment = analysis.sentiment ?? 0;\nconst opportunity = analysis.opportunity_score ?? 0;\nconst risk = analysis.risk_score ?? 0;\nconst text = body.text || '(sin texto)';\nconst summary = analysis.summary_es || '(sin resumen)';\nconst conversacion_id = body.conversacion_id || null;\nconst customer = body.customer_name || 'Anónimo';\n\nlet severity = 'baja';\nlet emoji = '🟢';\nlet title = 'EVENTO BAJO';\nlet tipo = 'low_priority';\n\nif (flags.includes('legal_mention')) {\n  severity = 'critica';\n  emoji = '🚨';\n  title = 'ALERTA CRÍTICA · MENCIÓN LEGAL';\n  tipo = 'legal_mention';\n} else if (flags.includes('bad_language')) {\n  severity = 'critica';\n  emoji = '🚨';\n  title = 'ALERTA CRÍTICA · LENGUAJE AGRESIVO';\n  tipo = 'bad_language';\n} else if (sentiment < -0.5) {\n  severity = 'alta';\n  emoji = '🟠';\n  title = 'ALERTA ALTA · SENTIMENT NEGATIVO';\n  tipo = 'sentiment_drop';\n} else if (flags.includes('escalation_request')) {\n  severity = 'media';\n  emoji = '🟡';\n  title = 'CLIENTE PIDE HUMANO';\n  tipo = 'escalation_request';\n} else if (opportunity > 0.8) {\n  severity = 'media';\n  emoji = '💎';\n  title = 'OPORTUNIDAD CALIENTE';\n  tipo = 'high_value_opportunity';\n}\n\n// Formatear mensaje Telegram (Markdown)\nconst message = `${emoji} *${title}*\\n\\n` +\n  `*Cliente:* ${customer}\\n` +\n  `*Sentiment:* ${sentiment} | *Risk:* ${risk} | *Opp:* ${opportunity}\\n` +\n  (flags.length > 0 ? `*Flags:* ${flags.join(', ')}\\n` : '') +\n  `\\n📝 *Mensaje del cliente:*\\n_${text.substring(0, 300)}${text.length > 300 ? '...' : ''}_\\n\\n` +\n  `🔍 *Análisis IA:*\\n${summary}\\n\\n` +\n  `🔗 *Conversación ID:* ${conversacion_id ?? 'sin asignar'}`;\n\nreturn {\n  severity,\n  tipo,\n  emoji,\n  title,\n  message,\n  conversacion_id,\n  customer,\n  shouldNotifyTelegram: severity !== 'baja'\n};"
+      },
+      "id": "35c45169-701b-4747-87eb-6b3ab66688ea",
+      "name": "Computar severidad y mensaje",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "alertas",
+          "mode": "list",
+          "cachedResultName": "alertas"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "conversacion_id": "={{ $json.conversacion_id }}",
+            "tipo": "={{ $json.tipo }}",
+            "severity": "={{ $json.severity }}",
+            "message": "={{ $json.message }}",
+            "notified_via": "={{ $json.shouldNotifyTelegram ? ['telegram'] : [] }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "conversacion_id",
+              "displayName": "conversacion_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tipo",
+              "displayName": "tipo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "severity",
+              "displayName": "severity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notified_via",
+              "displayName": "notified_via",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviewed",
+              "displayName": "reviewed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "reviewed_by",
+              "displayName": "reviewed_by",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "reviewed_at",
+              "displayName": "reviewed_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "action_taken",
+              "displayName": "action_taken",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "ee47e3ff-3ebd-45e3-9da3-f0a348631984",
+      "name": "Postgres → INSERT alertas",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        -480,
+        64
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "hUUVNAsVV6AZUCFz",
+          "name": "Agencia digital"
+        }
+      },
+      "notes": "Siempre INSERT, sin importar severidad. Para baja queda guardada para el email diario."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "is-not-baja",
+              "leftValue": "={{ $('Computar severidad y mensaje').item.json.severity }}",
+              "rightValue": "baja",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "52bce99a-839e-40a9-aa70-66438fca1bfc",
+      "name": "¿Notificar Telegram?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -240,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "2102520487",
+        "text": "={{ $('Computar severidad y mensaje').item.json.message }}",
+        "additionalFields": {
+          "disable_notification": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "4492f148-289e-4b8b-9d39-ffcb18172a19",
+      "name": "Telegram → Enviar alerta",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "b243b26f-14a0-4d5c-b8e9-cbeb8af7a9a7",
+      "credentials": {
+        "telegramApi": {
+          "id": "ag3kmPquIRVlEB4G",
+          "name": "Telegram - Picard-IA Alerts"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"severity\": \"{{ $('Computar severidad y mensaje').item.json.severity }}\",\n  \"notified_telegram\": {{ $('Computar severidad y mensaje').item.json.shouldNotifyTelegram }},\n  \"alerta_id\": {{ $('Postgres → INSERT alertas').item.json.id }}\n}",
+        "options": {}
+      },
+      "id": "e1701f31-87af-46e2-b11c-199fc8fdb84e",
+      "name": "Responder OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        64
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (POST /agent-alerts)": {
+      "main": [
+        [
+          {
+            "node": "Computar severidad y mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Computar severidad y mensaje": {
+      "main": [
+        [
+          {
+            "node": "Postgres → INSERT alertas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres → INSERT alertas": {
+      "main": [
+        [
+          {
+            "node": "¿Notificar Telegram?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Notificar Telegram?": {
+      "main": [
+        [
+          {
+            "node": "Telegram → Enviar alerta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Responder OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram → Enviar alerta": {
+      "main": [
+        [
+          {
+            "node": "Responder OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "ed2e40e9-39e5-4571-b86f-c32f86bbdf84",
+  "activeVersionId": "ed2e40e9-39e5-4571-b86f-c32f86bbdf84",
+  "versionCounter": 27,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-05-05T22:30:45.853Z",
+      "createdAt": "2026-05-05T22:30:45.853Z",
+      "role": "workflow:owner",
+      "workflowId": "f9IGGarfV3xxdhIK",
+      "projectId": "VAzzc4rzSsnHhjEr",
+      "project": {
+        "updatedAt": "2025-08-05T01:53:17.026Z",
+        "createdAt": "2025-08-05T01:50:25.829Z",
+        "id": "VAzzc4rzSsnHhjEr",
+        "name": "Francisco Javier Ovalle Muñoz <ovallejf@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      }
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2026-05-03T18:03:53.372Z",
+      "createdAt": "2026-05-03T18:03:53.372Z",
+      "id": "XtP5ZcB8HnpazF1S",
+      "name": "picard-ia"
+    },
+    {
+      "updatedAt": "2026-05-05T21:09:38.311Z",
+      "createdAt": "2026-05-05T21:09:38.311Z",
+      "id": "TQIVZf2ajUCDvNIb",
+      "name": "agent"
+    },
+    {
+      "updatedAt": "2026-05-05T22:30:44.201Z",
+      "createdAt": "2026-05-05T22:30:44.201Z",
+      "id": "H5JYWXfIvf1SVAys",
+      "name": "alerts"
+    },
+    {
+      "updatedAt": "2026-05-05T21:09:38.333Z",
+      "createdAt": "2026-05-05T21:09:38.333Z",
+      "id": "oCBbcUO8UA5Y5vHy",
+      "name": "v1"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-05-05T22:36:14.748Z",
+    "createdAt": "2026-05-05T22:34:54.932Z",
+    "versionId": "ed2e40e9-39e5-4571-b86f-c32f86bbdf84",
+    "workflowId": "f9IGGarfV3xxdhIK",
+    "nodes": [
+      {
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "agent-alerts",
+          "responseMode": "responseNode",
+          "options": {
+            "allowedOrigins": "*"
+          }
+        },
+        "id": "06a6b32d-2fbc-454b-b825-866c63918308",
+        "name": "Webhook (POST /agent-alerts)",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2,
+        "position": [
+          -960,
+          64
+        ],
+        "webhookId": "agent-alerts-picard-ia"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Computa severidad y formatea mensaje para Telegram\nconst body = $input.item.json.body || $input.item.json;\nconst analysis = body.analysis || {};\nconst flags = analysis.flags || [];\nconst sentiment = analysis.sentiment ?? 0;\nconst opportunity = analysis.opportunity_score ?? 0;\nconst risk = analysis.risk_score ?? 0;\nconst text = body.text || '(sin texto)';\nconst summary = analysis.summary_es || '(sin resumen)';\nconst conversacion_id = body.conversacion_id || null;\nconst customer = body.customer_name || 'Anónimo';\n\nlet severity = 'baja';\nlet emoji = '🟢';\nlet title = 'EVENTO BAJO';\nlet tipo = 'low_priority';\n\nif (flags.includes('legal_mention')) {\n  severity = 'critica';\n  emoji = '🚨';\n  title = 'ALERTA CRÍTICA · MENCIÓN LEGAL';\n  tipo = 'legal_mention';\n} else if (flags.includes('bad_language')) {\n  severity = 'critica';\n  emoji = '🚨';\n  title = 'ALERTA CRÍTICA · LENGUAJE AGRESIVO';\n  tipo = 'bad_language';\n} else if (sentiment < -0.5) {\n  severity = 'alta';\n  emoji = '🟠';\n  title = 'ALERTA ALTA · SENTIMENT NEGATIVO';\n  tipo = 'sentiment_drop';\n} else if (flags.includes('escalation_request')) {\n  severity = 'media';\n  emoji = '🟡';\n  title = 'CLIENTE PIDE HUMANO';\n  tipo = 'escalation_request';\n} else if (opportunity > 0.8) {\n  severity = 'media';\n  emoji = '💎';\n  title = 'OPORTUNIDAD CALIENTE';\n  tipo = 'high_value_opportunity';\n}\n\n// Formatear mensaje Telegram (Markdown)\nconst message = `${emoji} *${title}*\\n\\n` +\n  `*Cliente:* ${customer}\\n` +\n  `*Sentiment:* ${sentiment} | *Risk:* ${risk} | *Opp:* ${opportunity}\\n` +\n  (flags.length > 0 ? `*Flags:* ${flags.join(', ')}\\n` : '') +\n  `\\n📝 *Mensaje del cliente:*\\n_${text.substring(0, 300)}${text.length > 300 ? '...' : ''}_\\n\\n` +\n  `🔍 *Análisis IA:*\\n${summary}\\n\\n` +\n  `🔗 *Conversación ID:* ${conversacion_id ?? 'sin asignar'}`;\n\nreturn {\n  severity,\n  tipo,\n  emoji,\n  title,\n  message,\n  conversacion_id,\n  customer,\n  shouldNotifyTelegram: severity !== 'baja'\n};"
+        },
+        "id": "35c45169-701b-4747-87eb-6b3ab66688ea",
+        "name": "Computar severidad y mensaje",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -720,
+          64
+        ]
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "value": "public",
+            "mode": "list",
+            "cachedResultName": "public"
+          },
+          "table": {
+            "__rl": true,
+            "value": "alertas",
+            "mode": "list",
+            "cachedResultName": "alertas"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "conversacion_id": "={{ $json.conversacion_id }}",
+              "tipo": "={{ $json.tipo }}",
+              "severity": "={{ $json.severity }}",
+              "message": "={{ $json.message }}",
+              "notified_via": "={{ $json.shouldNotifyTelegram ? ['telegram'] : [] }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "conversacion_id",
+                "displayName": "conversacion_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "tipo",
+                "displayName": "tipo",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "severity",
+                "displayName": "severity",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "message",
+                "displayName": "message",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "notified_via",
+                "displayName": "notified_via",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "array",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "reviewed",
+                "displayName": "reviewed",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "boolean",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "reviewed_by",
+                "displayName": "reviewed_by",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "reviewed_at",
+                "displayName": "reviewed_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "action_taken",
+                "displayName": "action_taken",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "created_at",
+                "displayName": "created_at",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "id": "ee47e3ff-3ebd-45e3-9da3-f0a348631984",
+        "name": "Postgres → INSERT alertas",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.5,
+        "position": [
+          -480,
+          64
+        ],
+        "credentials": {
+          "postgres": {
+            "id": "hUUVNAsVV6AZUCFz",
+            "name": "Agencia digital"
+          }
+        },
+        "notes": "Siempre INSERT, sin importar severidad. Para baja queda guardada para el email diario."
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "is-not-baja",
+                "leftValue": "={{ $('Computar severidad y mensaje').item.json.severity }}",
+                "rightValue": "baja",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEquals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "52bce99a-839e-40a9-aa70-66438fca1bfc",
+        "name": "¿Notificar Telegram?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -240,
+          64
+        ]
+      },
+      {
+        "parameters": {
+          "chatId": "2102520487",
+          "text": "={{ $('Computar severidad y mensaje').item.json.message }}",
+          "additionalFields": {
+            "disable_notification": false,
+            "parse_mode": "Markdown"
+          }
+        },
+        "id": "4492f148-289e-4b8b-9d39-ffcb18172a19",
+        "name": "Telegram → Enviar alerta",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          0,
+          0
+        ],
+        "webhookId": "b243b26f-14a0-4d5c-b8e9-cbeb8af7a9a7",
+        "credentials": {
+          "telegramApi": {
+            "id": "ag3kmPquIRVlEB4G",
+            "name": "Telegram - Picard-IA Alerts"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "respondWith": "json",
+          "responseBody": "={\n  \"ok\": true,\n  \"severity\": \"{{ $('Computar severidad y mensaje').item.json.severity }}\",\n  \"notified_telegram\": {{ $('Computar severidad y mensaje').item.json.shouldNotifyTelegram }},\n  \"alerta_id\": {{ $('Postgres → INSERT alertas').item.json.id }}\n}",
+          "options": {}
+        },
+        "id": "e1701f31-87af-46e2-b11c-199fc8fdb84e",
+        "name": "Responder OK",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.1,
+        "position": [
+          240,
+          64
+        ]
+      }
+    ],
+    "connections": {
+      "Webhook (POST /agent-alerts)": {
+        "main": [
+          [
+            {
+              "node": "Computar severidad y mensaje",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Computar severidad y mensaje": {
+        "main": [
+          [
+            {
+              "node": "Postgres → INSERT alertas",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Postgres → INSERT alertas": {
+        "main": [
+          [
+            {
+              "node": "¿Notificar Telegram?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "¿Notificar Telegram?": {
+        "main": [
+          [
+            {
+              "node": "Telegram → Enviar alerta",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Responder OK",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram → Enviar alerta": {
+        "main": [
+          [
+            {
+              "node": "Responder OK",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Francisco Javier Ovalle Muñoz",
+    "name": "Version ed2e40e9",
+    "description": "",
+    "autosaved": true,
+    "workflowPublishHistory": [
+      {
+        "createdAt": "2026-05-05T22:36:14.743Z",
+        "id": 312,
+        "workflowId": "f9IGGarfV3xxdhIK",
+        "versionId": "ed2e40e9-39e5-4571-b86f-c32f86bbdf84",
+        "event": "activated",
+        "userId": "9ebef938-030a-48d7-b9d1-c28266b25f79"
+      }
+    ]
+  }
+}
