@@ -1,26 +1,129 @@
 {
   "_metadata": {
-    "version": "v1",
-    "fecha_actualizacion": "2026-05-06",
-    "total_entradas": 10,
-    "descripcion": "Contenido estructurado del catálogo eXcalando para cargar a kb_servicios (Postgres + pgvector). Cada entrada se transforma en embedding via OpenAI text-embedding-3-small (1536 dims) y se inserta en la tabla. El RAG agente consulta este catálogo para responder consultas de clientes con información real."
+    "version": "v2",
+    "fecha_actualizacion": "2026-06-28",
+    "estado": "PRODUCTIVO — cargado a agencia_digital 2026-06-30 con load_kb.py (kb_servicios+kb_faq+kb_politicas)",
+    "politica_precios": "El asistente NO da precios. El precio se define tras el Score Digital gratuito y una reunión sin compromiso. Única excepción: el Score Digital es 'Gratis' (gancho de entrada). Los precios internos viven en docs/interno y NO se exponen al cliente.",
+    "fuentes": [
+      "apps/comercial-pitch/slides.md (voz, posicionamiento, 4 capacidades, proceso, diferenciadores)",
+      "docs/interno/* capa cliente-segura (producto, proceso, políticas) — SIN exponer precios/márgenes/costos/economía interna",
+      "kb-content.json v1 (catálogo y framing)"
+    ],
+    "cambios_clave": [
+      "Spine reorganizado en las 4 capacidades del pitch (Cómo te ven/hablan/trabajas/decides)",
+      "Score Digital corregido a 5 frentes (antes decía 6, inconsistente con el producto real)",
+      "Precios REMOVIDOS de todas las respuestas: el asistente redirige al diagnóstico, no cotiza",
+      "Agregadas tablas kb_faq y kb_politicas derivadas del pitch (antes solo existía kb_servicios)",
+      "kb_casos vacío a propósito: no hay casos de cliente reales todavía"
+    ],
+    "pendientes_de_confirmar_javier": [
+      "Cobertura geográfica explícita (asumí Colombia, remoto)"
+    ]
   },
   "servicios": [
+    {
+      "slug": "capacidad-presencia",
+      "categoria": "capacidad",
+      "nombre": "Capacidad 1 · Cómo te ven (Presencia Digital)",
+      "descripcion_corta": "Tu web, tus redes y tu ficha de Google: lo primero que aparece cuando alguien busca tu nombre.",
+      "descripcion_larga": "La primera de las 4 capacidades de eXcalando. Es cómo te ve un cliente antes de hablarte: tu sitio web, tu ficha de Google, cómo apareces en tu zona. Si esto está descuidado, el cliente decide antes de contactarte. Cubre sitio web con dominio propio y hosting incluido, ficha de Google My Business optimizada, SEO local para aparecer en tu ciudad y correo profesional con tu dominio. Se materializa sobre todo en los paquetes de Presencia Digital (Básico, Intermedio, Profesional).",
+      "precio_setup": null,
+      "precio_recurrente": null,
+      "tiempo_entrega": null,
+      "entregables": [
+        "Sitio web con dominio propio y hosting incluido",
+        "Ficha de Google My Business optimizada",
+        "SEO local para aparecer en tu zona",
+        "Correo profesional @tudominio"
+      ],
+      "casos_uso": [
+        "Negocio sin web o con una web abandonada",
+        "Quien no aparece en Google cuando lo buscan",
+        "Profesional que necesita verse serio online"
+      ],
+      "prerequisitos": []
+    },
+    {
+      "slug": "capacidad-canales",
+      "categoria": "capacidad",
+      "nombre": "Capacidad 2 · Cómo te hablan (Canales Digitales)",
+      "descripcion_corta": "WhatsApp, chat web y redes respondiendo desde un mismo lugar, sin dejar al cliente colgado.",
+      "descripcion_larga": "La segunda capacidad. Es por dónde te escriben los clientes: WhatsApp, el chat de tu web, los mensajes de Instagram y Facebook. La velocidad de respuesta es donde se gana o se pierde el negocio, y hoy eso puede pasar las 24 horas sin un humano pegado al teléfono. Cubre WhatsApp Business conectado a tu equipo, redes respondiendo desde un solo lugar, formulario web que llega directo (no a un correo perdido) y atención fuera de horario que no deja al cliente esperando.",
+      "precio_setup": null,
+      "precio_recurrente": null,
+      "tiempo_entrega": null,
+      "entregables": [
+        "WhatsApp Business profesional conectado a tu equipo",
+        "Instagram y Facebook respondiendo desde un mismo lugar",
+        "Formulario web que llega directo a quien debe atenderlo",
+        "Atención fuera de horario para no dejar al cliente colgado"
+      ],
+      "casos_uso": [
+        "Negocio que pierde ventas por no contestar a tiempo",
+        "PyME que recibe mensajes por varios canales y se le pierden",
+        "Quien atiende solo y no puede estar pegado al WhatsApp"
+      ],
+      "prerequisitos": []
+    },
+    {
+      "slug": "capacidad-operacion",
+      "categoria": "capacidad",
+      "nombre": "Capacidad 3 · Cómo trabajas (Operación)",
+      "descripcion_corta": "Los procesos repetitivos de adentro —cotizar, facturar, agendar, recordar— que dejan de hacerse a mano.",
+      "descripcion_larga": "La tercera capacidad. Son las tareas repetitivas internas: cotizar, facturar, agendar, recordar, despachar. Cada paso que hoy haces a mano es candidato a no volver a hacerse a mano. Conectamos las herramientas que ya usas para que la información viaje sola entre ellas. Cubre reservas y agendamiento automático, cobros con link de pago, notificaciones automáticas al equipo y reportes que llegan solos por correo. Se materializa en Automatización a Medida.",
+      "precio_setup": null,
+      "precio_recurrente": null,
+      "tiempo_entrega": null,
+      "entregables": [
+        "Reservas y agendamiento automático",
+        "Cobros con link de pago integrado",
+        "Notificaciones automáticas a tu equipo",
+        "Reportes que llegan solos sin que abras nada"
+      ],
+      "casos_uso": [
+        "Pedidos por WhatsApp que hay que pasar a mano al sistema",
+        "Cotización aprobada que dispara contrato, agenda y aviso al equipo",
+        "Negocio que pierde horas en tareas administrativas repetitivas"
+      ],
+      "prerequisitos": []
+    },
+    {
+      "slug": "capacidad-inteligencia",
+      "categoria": "capacidad",
+      "nombre": "Capacidad 4 · Cómo decides (Inteligencia)",
+      "descripcion_corta": "Los datos que ya tienes pero no estás mirando, y los empleados digitales que actúan sobre ellos.",
+      "descripcion_larga": "La cuarta capacidad. Son los datos que ya tienes pero no estás usando —cuánto vendes, qué cliente vuelve, qué producto se mueve, qué mes se cae— y los empleados digitales que actúan sobre ellos. Aquí viven Tu Recepcionista WhatsApp 24/7 (responde y agenda), Tu Vendedor de Fidelización (reactiva tu base de clientes), Tu Vigilante de Reputación (cuida tus reseñas) y Tu Analista Digital (te traduce las métricas cada semana).",
+      "precio_setup": null,
+      "precio_recurrente": null,
+      "tiempo_entrega": null,
+      "entregables": [
+        "Recepcionista WhatsApp 24/7 que responde y agenda",
+        "Vendedor de fidelización sobre tu base de clientes existente",
+        "Vigilante de reputación que alerta reseñas",
+        "Analista digital que traduce tus métricas a lenguaje claro"
+      ],
+      "casos_uso": [
+        "Empresario que decide 'a ojo' porque no mira sus datos",
+        "Negocio con base de clientes dormida sin aprovechar",
+        "Quien quiere salir del operativo y dedicarse a la estrategia"
+      ],
+      "prerequisitos": []
+    },
     {
       "slug": "score-digital",
       "categoria": "diagnostico",
       "nombre": "Score Digital",
       "descripcion_corta": "Diagnóstico gratis de tu presencia digital en 5 minutos. Score 0-100 y plan de acción priorizado.",
-      "descripcion_larga": "El Score Digital es la puerta de entrada de eXcalando. Un asistente web evalúa 6 frentes de tu negocio (presencia web, ficha de Google, redes sociales, atención al cliente, automatización y reputación online). En menos de 5 minutos recibes un reporte personalizado con tu score total, el detalle por frente, y las 3 a 5 acciones de mayor impacto ordenadas por esfuerzo. Es 100% gratis, no necesitas tarjeta. El reporte llega por correo con el remitente Diagnóstico Digital y queda guardado para hacer seguimiento.",
+      "descripcion_larga": "El Score Digital es la puerta de entrada de eXcalando. Un asistente web evalúa 5 frentes de tu negocio: Presencia web, SEO local (qué tan fácil te encuentran en tu zona), Captación (cómo consigues clientes nuevos), Atención (qué tan rápido respondes) y Automatización. En menos de 5 minutos recibes un reporte con tu score total, el detalle por frente y las 3 a 5 acciones de mayor impacto, ordenadas por esfuerzo. Es 100% gratis y no necesitas tarjeta. El reporte llega por correo y queda guardado para revisarlo juntos en una llamada de 30 minutos, sin compromiso.",
       "precio_setup": "Gratis",
       "precio_recurrente": null,
       "tiempo_entrega": "5 minutos, sin agendar nada",
       "entregables": [
         "Reporte completo con tu score 0-100",
-        "Desglose por 6 frentes con notas específicas",
+        "Desglose por 5 frentes con notas específicas",
         "Top 3 a 5 acciones priorizadas (impacto vs esfuerzo)",
         "Reporte por correo (puedes reenviarlo a tu socio o equipo)",
-        "Click en la agenda y separamos una cita para revisar el reporte juntos"
+        "Opción de agendar una llamada de 30 min para revisarlo juntos"
       ],
       "casos_uso": [
         "PyME que quiere saber por dónde empezar a digitalizarse",
@@ -36,23 +139,22 @@
       "slug": "presencia-digital-basico",
       "categoria": "presencia",
       "nombre": "Presencia Digital · Nivel Básico",
-      "descripcion_corta": "Tu base digital. Página web profesional + ficha de Google + analista digital. $290.000/mes + setup único de $1.500.000.",
-      "descripcion_larga": "El Nivel Básico de Presencia Digital es para negocios que arrancan o tienen una web abandonada. Te entregamos una página web rápida, mobile-first y optimizada para conversión, configuramos tu ficha de Google con horarios y fotos, y te incluimos a Tu Analista Digital, un empleado IA que te manda cada lunes un reporte de cómo te fue la semana (visitas, llamadas, búsquedas). Compromiso mes a mes, sin permanencia. Soporte por chat con IA + escalado a humano si es crítico.",
-      "precio_setup": "$1.500.000 (única vez)",
-      "precio_recurrente": "$290.000 COP/mes",
+      "descripcion_corta": "Empieza por estar visible: página web + ficha de Google + reportes mensuales automáticos.",
+      "descripcion_larga": "El Nivel Básico cubre sobre todo la capacidad 'Cómo te ven'. Es para negocios que arrancan o tienen una web abandonada. Te entregamos una página web rápida, mobile-first y pensada para convertir, configuramos tu ficha de Google con horarios y fotos, y te incluimos reportes mensuales automáticos de cómo te fue (visitas, llamadas, búsquedas) y mantenimiento del sitio. Compromiso mes a mes, sin permanencia. Soporte por chat con escalado a humano si es crítico.",
+      "precio_setup": null,
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "2 a 3 semanas desde la primera reunión",
       "entregables": [
-        "Página web profesional responsive",
-        "Tu dirección de internet (dominio) y servidor incluido",
-        "Tu ficha de Google verificada y optimizada",
-        "Tu analista digital (reportes semanales automáticos)",
-        "Soporte por chat con IA + humano si es crítico"
+        "Página web profesional responsive con dominio y hosting incluido",
+        "Ficha de Google verificada y optimizada",
+        "Reportes mensuales automáticos de tu actividad digital",
+        "Mantenimiento del sitio incluido",
+        "Soporte por chat con escalado a humano si es crítico"
       ],
       "casos_uso": [
         "PyME que arranca de cero con presencia digital",
         "Negocio con web abandonada hace años",
-        "Profesional independiente que necesita verse serio online",
-        "Quien quiere base digital sin pago grande mensual"
+        "Profesional independiente que necesita verse serio online"
       ],
       "prerequisitos": [
         "Logo o ideas gráficas (si no tienes, lo armamos juntos)",
@@ -64,15 +166,16 @@
       "slug": "presencia-digital-intermedio",
       "categoria": "presencia",
       "nombre": "Presencia Digital · Nivel Intermedio",
-      "descripcion_corta": "El más elegido. Web + ficha Google + 4 empleados digitales (analista, vigilante de reseñas, community manager, vendedor de fidelización). $790.000/mes + setup único $1.500.000.",
-      "descripcion_larga": "El Nivel Intermedio es para negocios que ya tienen flujo y quieren crecer en clientes nuevos sin estar pendientes. Incluye todo lo del Nivel Básico más tres empleados digitales adicionales: Tu Vigilante de Reputación que monitorea reseñas en Google, Facebook y TripAdvisor 24/7; Tu Community Manager que crea 12 publicaciones al mes en Instagram y Facebook (tú apruebas con un clic); y Tu Vendedor de Fidelización que arma campañas mensuales para reactivar clientes que no te compran hace tiempo. Incluye 2 actualizaciones de contenido al mes en tu web. Soporte por chat con IA + humano si es crítico.",
-      "precio_setup": "$1.500.000 (única vez)",
-      "precio_recurrente": "$790.000 COP/mes",
+      "descripcion_corta": "El más elegido. Visible + activo: web + ficha + WhatsApp y chat conectados + manejo de reseñas + community manager + fidelización.",
+      "descripcion_larga": "El Nivel Intermedio es el más elegido y suma las capacidades 'Cómo te hablan' y parte de 'Cómo decides'. Incluye todo lo del Básico más: WhatsApp y chat de tu web conectados en un solo lugar, manejo asistido de reseñas en Google y Facebook, Tu Community Manager (12 publicaciones al mes en Instagram y Facebook que apruebas con un clic) y Tu Vendedor de Fidelización (campañas mensuales para reactivar clientes que no te compran hace tiempo). Incluye 2 actualizaciones de contenido al mes en tu web. Mes a mes, sin permanencia.",
+      "precio_setup": null,
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "2 a 3 semanas desde la primera reunión",
       "entregables": [
         "Todo lo del Nivel Básico",
-        "Tu vigilante de reputación (monitoreo y respuestas a reseñas)",
-        "Tu community manager (12 publicaciones/mes en redes)",
+        "WhatsApp + chat web conectados en un solo lugar",
+        "Manejo asistido de reseñas en Google y Facebook",
+        "Tu community manager (12 publicaciones/mes que apruebas con un clic)",
         "Tu vendedor de fidelización (campañas mensuales para reactivar clientes)",
         "2 actualizaciones de contenido al mes en tu web"
       ],
@@ -85,28 +188,29 @@
       "prerequisitos": [
         "Todo lo del Nivel Básico",
         "Cuentas de Instagram y Facebook activas o las creamos",
-        "Base de clientes históricos para reactivación (planilla u opcional)"
+        "Base de clientes históricos para reactivación (opcional)"
       ]
     },
     {
       "slug": "presencia-digital-profesional",
       "categoria": "presencia",
       "nombre": "Presencia Digital · Nivel Profesional",
-      "descripcion_corta": "El paquete completo. Web + ficha Google + los 5 empleados digitales + reunión Zoom mensual + soporte humano lun-vie 8h. $1.590.000/mes + setup único $1.500.000.",
-      "descripcion_larga": "El Nivel Profesional es para negocios que quieren atender 24/7 y nunca perder una venta. Incluye todo lo del Nivel Intermedio más Tu Recepcionista WhatsApp 24/7 (asistente IA que contesta preguntas, agenda citas y te avisa solo cuando hay que entrar tú), una reunión Zoom mensual con vos para revisar resultados, 4 actualizaciones de contenido al mes en tu web, y soporte humano dedicado lunes a viernes 8h con respuesta en menos de 4 horas hábiles.",
-      "precio_setup": "$1.500.000 (única vez)",
-      "precio_recurrente": "$1.590.000 COP/mes",
+      "descripcion_corta": "Todo cubierto: las 4 capacidades + Recepcionista WhatsApp 24/7 + automatización + revisión estratégica mensual.",
+      "descripcion_larga": "El Nivel Profesional cubre las 4 capacidades completas. Incluye todo lo del Intermedio más: Tu Recepcionista WhatsApp 24/7 (asistente que contesta, agenda citas y te avisa solo cuando hay que entrar tú), automatización a medida de un proceso clave de tu operación, una revisión estratégica mensual contigo para ver resultados, 4 actualizaciones de contenido al mes y soporte prioritario humano de lunes a viernes con respuesta en menos de 4 horas hábiles.",
+      "precio_setup": null,
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "3 a 4 semanas desde la primera reunión",
       "entregables": [
         "Todo lo del Nivel Intermedio",
-        "Tu recepcionista WhatsApp 24/7 (asistente IA con escalación)",
-        "Reunión Zoom mensual contigo para revisar resultados",
+        "Tu recepcionista WhatsApp 24/7 con escalación a humano",
+        "Automatización a medida de un proceso clave",
+        "Revisión estratégica mensual contigo",
         "4 actualizaciones de contenido al mes en tu web",
-        "Soporte humano dedicado lun-vie 8h (respuesta menor a 4h)"
+        "Soporte prioritario lun-vie (respuesta menor a 4h hábiles)"
       ],
       "casos_uso": [
         "Negocio que pierde ventas por no contestar a tiempo",
-        "PyME con un solo dueño/empleado que no puede estar pegado al WhatsApp",
+        "PyME con un solo dueño que no puede estar pegado al WhatsApp",
         "Comercio o servicio con muchas preguntas repetitivas",
         "Empresario que quiere salir del operativo y dedicarse a estrategia"
       ],
@@ -120,10 +224,10 @@
       "slug": "empleado-analista-digital",
       "categoria": "empleado",
       "nombre": "Tu Analista Digital · Reporte Semanal",
-      "descripcion_corta": "Cada lunes te llega un mensaje con cómo te fue la semana: visitas, llamadas, búsquedas. Si pasa algo raro, te alerta. $180.000/mes.",
-      "descripcion_larga": "Tu Analista Digital es un empleado IA que vigila las métricas clave de tu negocio y te las traduce a lenguaje claro. Cada lunes a las 8 AM recibes un mensaje (WhatsApp o correo) con cuánta gente visitó tu web, de dónde vienen, qué buscaron en Google para encontrarte, cuántos te llamaron desde tu ficha de Google. Si pasa algo raro (caída de visitas, aumento brusco) te alerta de inmediato. Compara con la semana anterior y te dice si vas mejor o peor, sin gráficas confusas. Funciona 24/7, prácticamente cero tiempo tuyo.",
+      "descripcion_corta": "Cada lunes te llega un mensaje con cómo te fue la semana: visitas, llamadas, búsquedas. Si pasa algo raro, te alerta.",
+      "descripcion_larga": "Un empleado digital de la capacidad 'Cómo decides'. Vigila las métricas clave de tu negocio y te las traduce a lenguaje claro. Cada lunes a las 8 AM recibes un mensaje (WhatsApp o correo) con cuánta gente visitó tu web, de dónde vienen, qué buscaron para encontrarte y cuántos te llamaron desde tu ficha de Google. Si pasa algo raro (caída o pico de visitas) te alerta de inmediato. Compara con la semana anterior y te dice si vas mejor o peor, sin gráficas confusas. Prácticamente cero tiempo tuyo.",
       "precio_setup": null,
-      "precio_recurrente": "$180.000 COP/mes",
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "3 a 5 días para activar",
       "entregables": [
         "Reporte semanal automático cada lunes a las 8 AM",
@@ -138,18 +242,18 @@
       ],
       "prerequisitos": [
         "Acceso a tu ficha de Google",
-        "Conectar tu web a Google Analytics (lo hacemos nosotros)",
-        "Reunión inicial de 30 min para definir métricas que te importan"
+        "Conectar tu web a la medición de visitas (lo hacemos nosotros)",
+        "Reunión inicial de 30 min para definir las métricas que te importan"
       ]
     },
     {
       "slug": "empleado-vigilante-reputacion",
       "categoria": "empleado",
       "nombre": "Tu Vigilante de Reputación · Guardián de Reseñas",
-      "descripcion_corta": "Vigila 24/7 tus reseñas en Google, Facebook y TripAdvisor. Responde solo las buenas, te avisa de las malas en menos de 5 minutos. $250.000/mes.",
-      "descripcion_larga": "Tu Vigilante de Reputación es un empleado IA que cuida tu imagen online sin que tú tengas que abrir tus redes. Monitorea las 24 horas las reseñas que entran a tu Google, Facebook y TripAdvisor. Cuando entra una reseña de 5 estrellas, le responde solo con un mensaje cálido y personalizado (sin sonar a robot). Cuando entra una reseña de 1 a 3 estrellas, te avisa por WhatsApp en menos de 5 minutos y te sugiere una respuesta para que tú decidas. Te manda un reporte mensual con tu rating, su evolución, y comparativo con tu competencia más cercana.",
+      "descripcion_corta": "Vigila 24/7 tus reseñas en Google, Facebook y TripAdvisor. Responde solo las buenas, te avisa de las malas en menos de 5 minutos.",
+      "descripcion_larga": "Un empleado digital de la capacidad 'Cómo decides'. Cuida tu imagen online sin que tengas que abrir tus redes. Monitorea 24/7 las reseñas que entran a tu Google, Facebook y TripAdvisor. Cuando entra una reseña de 5 estrellas, responde sola con un mensaje cálido y personalizado. Cuando entra una de 1 a 3 estrellas, te avisa por WhatsApp en menos de 5 minutos y te sugiere una respuesta para que tú decidas. Cada mes te manda un reporte con tu rating, su evolución y un comparativo con tu competencia más cercana.",
       "precio_setup": null,
-      "precio_recurrente": "$250.000 COP/mes",
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "5 a 7 días para activar",
       "entregables": [
         "Monitoreo 24/7 de reseñas en Google, Facebook, TripAdvisor",
@@ -161,7 +265,7 @@
       "casos_uso": [
         "Restaurantes, hoteles, clínicas dentales, peluquerías",
         "Negocio que ya tiene reseñas pero no las contesta",
-        "PyME que quiere ver malas reseñas antes que clientes"
+        "PyME que quiere ver malas reseñas antes que sus clientes"
       ],
       "prerequisitos": [
         "Permiso de gestor en tu ficha de Google y Facebook",
@@ -173,20 +277,20 @@
       "slug": "empleado-community-manager",
       "categoria": "empleado",
       "nombre": "Tu Community Manager · Creador de Contenido",
-      "descripcion_corta": "Cada lunes te entrega 3 publicaciones listas para esa semana. Tú apruebas con un clic y se publican solas en Instagram y Facebook. $480.000/mes.",
-      "descripcion_larga": "Tu Community Manager es un empleado IA que mantiene tus redes activas sin que tú tengas que pensar qué publicar. Cada lunes te entrega 3 publicaciones listas para esa semana (12 al mes). Cada publicación trae el texto, la idea para la imagen, los hashtags, y la mejor hora para publicar. Llegan a una carpeta compartida en Google Drive o Notion para que las apruebes con un clic. Una vez aprobadas, se publican solas en Instagram y Facebook a la hora indicada. El agente conoce tu rubro, servicios, ciudad y tono.",
+      "descripcion_corta": "Cada lunes te entrega 3 publicaciones listas para la semana. Tú apruebas con un clic y se publican solas en Instagram y Facebook.",
+      "descripcion_larga": "Un empleado digital de la capacidad 'Cómo decides'. Mantiene tus redes activas sin que tengas que pensar qué publicar. Cada lunes te entrega 3 publicaciones listas (12 al mes), cada una con su texto, la idea de imagen, los hashtags y la mejor hora para publicar. Llegan a una carpeta compartida para que las apruebes con un clic, y una vez aprobadas se publican solas en Instagram y Facebook. Conoce tu rubro, servicios, ciudad y tono.",
       "precio_setup": null,
-      "precio_recurrente": "$480.000 COP/mes",
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "7 a 10 días para activar",
       "entregables": [
-        "12 publicaciones al mes (3 por semana) listas con texto + imagen + hashtags",
-        "Aprobación con un clic vía Google Drive o Notion",
-        "Publicación automática en Instagram y Facebook en mejor hora",
+        "12 publicaciones al mes (3 por semana) con texto + idea de imagen + hashtags",
+        "Aprobación con un clic desde una carpeta compartida",
+        "Publicación automática en Instagram y Facebook a la mejor hora",
         "Adaptación al tono, rubro, servicios y ciudad de tu negocio"
       ],
       "casos_uso": [
         "PyME que sabe que tiene que publicar pero no tiene tiempo",
-        "Negocio que está publicando mal o sin estrategia",
+        "Negocio que publica sin estrategia o muy de vez en cuando",
         "Emprendedor que ya invirtió en redes pero no ve resultados"
       ],
       "prerequisitos": [
@@ -200,25 +304,25 @@
       "slug": "empleado-vendedor-fidelizacion",
       "categoria": "empleado",
       "nombre": "Tu Vendedor de Fidelización · Recuperador de Clientes",
-      "descripcion_corta": "Detecta clientes que no te compran hace 60-180 días y arma campañas personalizadas por WhatsApp o correo para reactivarlos. $420.000/mes.",
-      "descripcion_larga": "Tu Vendedor de Fidelización es un empleado IA que recupera clientes que ya te conocen. Lee tu base de clientes (planilla de Excel, sistema de facturación, lo que sea) y detecta los que no te compran hace 60, 90 o 180 días. Una vez al mes arma una campaña personalizada por tipo de cliente (oferta especial, recordatorio, encuesta corta) y la envía vía WhatsApp Business o correo según prefiera cada uno. Te muestra cuántos respondieron, cuántos volvieron a comprar y cuánta plata recuperaste. Recordatorio: recuperar un cliente que ya te conoce cuesta 5 veces menos que conseguir uno nuevo.",
+      "descripcion_corta": "Detecta clientes que no te compran hace 60-180 días y arma campañas personalizadas por WhatsApp o correo para reactivarlos.",
+      "descripcion_larga": "Un empleado digital de la capacidad 'Cómo decides'. Recupera clientes que ya te conocen. Lee tu base de clientes (planilla de Excel, sistema de facturación, lo que tengas) y detecta los que no te compran hace 60, 90 o 180 días. Una vez al mes arma una campaña personalizada por tipo de cliente (oferta, recordatorio, encuesta corta) y la envía por WhatsApp Business o correo según prefiera cada uno. Te muestra cuántos respondieron, cuántos volvieron a comprar y cuánta plata recuperaste. Recuperar un cliente que ya te conoce cuesta hasta 5 veces menos que conseguir uno nuevo.",
       "precio_setup": null,
-      "precio_recurrente": "$420.000 COP/mes",
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "10 a 14 días para activar",
       "entregables": [
         "Análisis automático de tu base de clientes",
         "Detección de clientes inactivos por 60, 90, 180 días",
         "Campaña mensual personalizada por segmento",
-        "Envío vía WhatsApp Business o correo",
+        "Envío por WhatsApp Business o correo",
         "Reporte de respuestas, recompras y plata recuperada"
       ],
       "casos_uso": [
-        "Negocio con base acumulada de más de 100 clientes históricos",
+        "Negocio con base de más de 100 clientes históricos",
         "Servicio recurrente: peluquería, consultorio, taller, gimnasio",
         "Comercio con clientes dormidos sin forma de despertarlos"
       ],
       "prerequisitos": [
-        "Base de clientes con nombre, teléfono o correo, fecha última compra",
+        "Base de clientes con nombre, teléfono o correo y fecha de última compra",
         "3 tipos de oferta que estás dispuesto a hacer",
         "WhatsApp Business activado o lo configuramos"
       ]
@@ -227,62 +331,145 @@
       "slug": "empleado-recepcionista-whatsapp",
       "categoria": "empleado",
       "nombre": "Tu Recepcionista WhatsApp · Asistente 24/7",
-      "descripcion_corta": "Contesta tu WhatsApp 24/7. Responde preguntas, agenda citas, te avisa solo cuando hay que entrar tú. $750.000/mes.",
-      "descripcion_larga": "Tu Recepcionista WhatsApp es el empleado IA más completo. Contesta tu WhatsApp las 24 horas, los 7 días, incluso a las 11 de la noche o un domingo. Responde preguntas frecuentes (precios, horarios, ubicación, formas de pago). Agenda citas o reuniones directo en tu calendario. Te avisa solo cuando tiene que entrar una persona: cuando hay queja, una venta caliente, una pregunta legal o algo fuera de su conocimiento. Cada noche te manda un resumen del día con cuántos contactos atendió, cuántas citas agendó, los temas top. Aprende constantemente: cuanto más responde, mejor lo hace. El 60% de las consultas WhatsApp llegan fuera del horario de oficina.",
+      "descripcion_corta": "Contesta tu WhatsApp 24/7. Responde preguntas, agenda citas, te avisa solo cuando hay que entrar tú.",
+      "descripcion_larga": "El empleado digital más completo, eje de las capacidades 'Cómo te hablan' y 'Cómo decides'. Contesta tu WhatsApp las 24 horas, los 7 días, incluso de noche o un domingo. Responde preguntas frecuentes (horarios, ubicación, servicios), agenda citas directo en tu calendario y te avisa solo cuando tiene que entrar una persona: una queja, una venta caliente, una pregunta legal o algo fuera de su conocimiento. Cada noche te manda un resumen del día con cuántos contactos atendió, cuántas citas agendó y los temas top. El 60% de las consultas por WhatsApp llegan fuera del horario de oficina.",
       "precio_setup": null,
-      "precio_recurrente": "$750.000 COP/mes",
+      "precio_recurrente": "El precio se define contigo tras el Score Digital gratuito y una reunión sin compromiso, según tu caso.",
       "tiempo_entrega": "14 a 21 días para activar",
       "entregables": [
-        "Atención WhatsApp 24/7 con IA conversacional",
-        "Respuestas a preguntas frecuentes con tu información real",
+        "Atención WhatsApp 24/7 con respuestas en tu información real",
         "Agenda automática de citas en tu calendario",
-        "Escalación inteligente a humano (queja, venta caliente, fuera de KB)",
+        "Escalación inteligente a humano (queja, venta caliente, fuera de su conocimiento)",
         "Resumen diario nocturno con métricas de atención"
       ],
       "casos_uso": [
         "Negocio que pierde ventas por no contestar a tiempo",
         "PyME con un solo dueño que no puede estar pegado al WhatsApp",
         "Comercio o servicio con muchas preguntas repetitivas (clínica, escuela, restaurante, hotel)",
-        "Negocio que quiere atender por la noche y fines de semana sin contratar a nadie"
+        "Negocio que quiere atender de noche y fines de semana sin contratar a nadie"
       ],
       "prerequisitos": [
         "2 horas de reunión inicial para armar 30 preguntas frecuentes",
-        "5 a 10 servicios o productos con precios y características",
+        "5 a 10 servicios o productos con sus características",
         "WhatsApp Business activado",
-        "Definir qué temas siempre escala a humano"
+        "Definir qué temas siempre escalan a humano"
       ]
     },
     {
       "slug": "automatizacion-medida",
       "categoria": "automatizacion",
       "nombre": "Automatización a Medida",
-      "descripcion_corta": "Conectamos las herramientas que ya usas para que trabajen solas. Proyectos custom desde $800.000.",
-      "descripcion_larga": "La Automatización a Medida es para negocios que tienen procesos repetitivos diarios. Diseñamos un flujo a tu medida que conecta las herramientas que ya tienes (WhatsApp, correo, Excel, sistema de facturación, tienda virtual, CRM) y dejamos que la información viaje sola entre ellas. Casos típicos: pedidos por WhatsApp creados solos en tu sistema de facturación, cotización aprobada que dispara contrato + agenda + notifica equipo, tienda virtual conectada con inventario y contabilidad. Tres niveles según complejidad. La regla 20/80: el 20% de tus tareas repetitivas se llevan el 80% de tu tiempo administrativo, una buena automatización te recupera 10-30 horas al mes.",
-      "precio_setup": "Desde $800.000 (Simple) · Desde $2.000.000 (Intermedia) · Desde $5.000.000 (Compleja)",
-      "precio_recurrente": "Mantenimiento opcional: $80.000 (Simple) · $180.000 (Intermedia) · $350.000 (Compleja) por mes",
-      "tiempo_entrega": "1 a 2 semanas (Simple) · 2 a 4 semanas (Intermedia) · 4 a 6 semanas (Compleja)",
+      "descripcion_corta": "Conectamos las herramientas que ya usas para que trabajen solas. Proyectos a la medida según tu proceso.",
+      "descripcion_larga": "La forma de comprar la capacidad 'Cómo trabajas'. Para negocios con procesos repetitivos diarios. Diseñamos un flujo a tu medida que conecta las herramientas que ya tienes (WhatsApp, correo, Excel, facturación, tienda virtual) y dejamos que la información viaje sola entre ellas. Casos típicos: pedidos por WhatsApp creados solos en tu facturación; cotización aprobada que dispara contrato, agenda y aviso al equipo; tienda virtual conectada con inventario y contabilidad. La regla 20/80: el 20% de tus tareas repetitivas se lleva el 80% de tu tiempo administrativo; una buena automatización te recupera entre 10 y 30 horas al mes. El alcance y la inversión se definen tras un diagnóstico gratuito de 1 hora.",
+      "precio_setup": null,
+      "precio_recurrente": "El alcance y el precio se definen tras un diagnóstico gratuito de 1 hora, según la complejidad de tu proceso.",
+      "tiempo_entrega": "Según complejidad: típicamente de 1 a 6 semanas. Se confirma en el diagnóstico.",
       "entregables": [
         "Diagnóstico inicial gratis (1 hora) para mapear tu proceso actual",
-        "Diseño visual del flujo antes de programar (tú apruebas)",
+        "Diseño visual del flujo antes de construir (tú apruebas)",
         "Implementación + pruebas con casos reales",
         "Capacitación a ti o tu equipo (1 a 2 horas)",
-        "Documentación clara de cada paso del flujo",
+        "Documentación clara de cada paso",
         "2 semanas de soporte post-entrega sin costo",
         "Garantía: 30 días sin costo si algo falla por nuestra culpa"
       ],
       "casos_uso": [
-        "Pedidos por WhatsApp se crean solos en tu sistema de facturación",
-        "Cotización aprobada → contrato firmado + agenda inicio + notifica equipo",
-        "Tienda virtual conectada con tu inventario y tu contabilidad",
-        "Citas médicas/consultorio con confirmación automática + recordatorio + encuesta",
-        "Reportes mensuales a clientes que se generan solos",
-        "Alertas inmediatas cuando un equipo o sistema falla"
+        "Pedidos por WhatsApp que se crean solos en tu facturación",
+        "Cotización aprobada → contrato + agenda + aviso al equipo",
+        "Tienda virtual conectada con tu inventario y contabilidad",
+        "Citas con confirmación automática + recordatorio + encuesta",
+        "Reportes mensuales a clientes que se generan solos"
       ],
       "prerequisitos": [
-        "1 hora para diagnóstico inicial donde nos cuentas el proceso",
+        "1 hora para el diagnóstico donde nos cuentas el proceso",
         "Acceso a las herramientas que vas a conectar",
         "Una persona de tu equipo que conozca bien el proceso actual"
       ]
     }
-  ]
+  ],
+  "faq": [
+    {
+      "categoria": "posicionamiento",
+      "pregunta": "¿Por qué debería digitalizar mi negocio?",
+      "respuesta": "Porque hoy se está quedando plata sobre la mesa sin que lo veas. En LATAM, el 92% de las ventas de las PyMEs todavía pasa por el mostrador, el voz a voz o la suerte, y 8 de cada 10 dueños dicen que la tecnología que tienen los frena más de lo que los ayuda. No se trata de 'estar en internet' por moda, sino de no perder clientes que hoy buscan, comparan y escriben antes de comprar. El primer paso es gratis: el Score Digital te dice exactamente dónde estás perdiendo."
+    },
+    {
+      "categoria": "calificacion",
+      "pregunta": "¿eXcalando es para mi negocio?",
+      "respuesta": "Probablemente sí si eres dueño u operador de una PyME de entre 5 y 50 empleados, sabes que lo digital importa pero no sabes por dónde empezar, lo que tienes hoy (web, redes, WhatsApp) no te funciona como debería, y quieres delegar la operación digital en vez de aprender otra herramienta más. Para saberlo con datos, hacé el Score Digital: en 5 minutos te decimos si tiene sentido y por dónde."
+    },
+    {
+      "categoria": "calificacion",
+      "pregunta": "¿Para quién NO es eXcalando?",
+      "respuesta": "Para empresas grandes (más de 200 empleados) con su propio equipo de tecnología, para quien busca el precio más bajo del mercado en vez de la mejor solución, para quien quiere control técnico total sin delegar nada, y para quien espera resultados milagrosos en menos de 30 días. Preferimos ser claros desde el principio."
+    },
+    {
+      "categoria": "modelo",
+      "pregunta": "¿Qué hace eXcalando exactamente?",
+      "respuesta": "Trabajamos cuatro capacidades digitales que funcionan integradas, no sueltas: 1) Cómo te ven (tu web, redes y ficha de Google), 2) Cómo te hablan (WhatsApp, chat y redes respondiendo desde un solo lugar), 3) Cómo trabajas (automatizar los procesos repetitivos de adentro), y 4) Cómo decides (usar tus datos y poner empleados digitales a actuar sobre ellos). Empezamos por donde más te duele, según tu Score."
+    },
+    {
+      "categoria": "proceso",
+      "pregunta": "¿Cómo trabajan? ¿Cuál es el proceso?",
+      "respuesta": "Cinco etapas con plazos firmes y sin sorpresas: Diagnóstico (3 a 5 días, terminamos con reporte + propuesta), Diseño (5 a 7 días, te entregamos un blueprint que firmas), Construcción (10 a 30 días), Puesta en marcha (3 a 5 días, sistema en vivo) y Operación (mensual y continua, con soporte). Cada etapa entrega algo concreto antes de pasar a la siguiente."
+    },
+    {
+      "categoria": "proceso",
+      "pregunta": "¿Cuánto se demora tener todo funcionando?",
+      "respuesta": "Depende del alcance, pero un proyecto típico está en vivo alrededor de la semana 7 desde la primera reunión, y de ahí sigue la operación mensual continua. Los paquetes de Presencia Digital suelen estar listos en 2 a 4 semanas. En el diagnóstico te damos plazos firmes para tu caso."
+    },
+    {
+      "categoria": "precio",
+      "pregunta": "¿Cuánto cuesta?",
+      "respuesta": "El precio depende de tu negocio y de lo que necesites, por eso no damos una cifra al aire: sería irresponsable. Trabajamos con un setup único al firmar más una mensualidad según el nivel, y lo definimos contigo después del Score Digital (que es gratis) y una reunión de 30 minutos sin compromiso. Así te damos un número real, no un estimado que no se sostiene. ¿Quieres que arranquemos por el Score?"
+    },
+    {
+      "categoria": "precio",
+      "pregunta": "¿Manejan descuentos?",
+      "respuesta": "Sí, tenemos beneficios por pago anual adelantado y por combinar varios servicios. El detalle te lo pasamos en la propuesta, una vez sabemos qué necesitas. Lo importante: cobramos por el valor que entregamos, no por ser los más baratos."
+    },
+    {
+      "categoria": "permanencia",
+      "pregunta": "¿Hay contrato de permanencia o cláusula de amarre?",
+      "respuesta": "No. Trabajamos mes a mes. Si te quieres ir, avisas con 30 días y listo, sin penalidad de salida. Y algo importante: no hay lock-in, te llevas todo funcionando. Lo que construimos es tuyo."
+    },
+    {
+      "categoria": "garantia",
+      "pregunta": "¿Ofrecen garantía?",
+      "respuesta": "Sí. Tienes una garantía de 30 a 90 días según el servicio: si no hay resultados, lo arreglamos sin costo extra. En automatizaciones, además, 30 días sin costo si algo falla por nuestra culpa."
+    },
+    {
+      "categoria": "diagnostico",
+      "pregunta": "¿El diagnóstico tiene costo?",
+      "respuesta": "No, el Score Digital es 100% gratis y no necesitas tarjeta. En 5 minutos recibes un reporte con tu score de 0 a 100 y las acciones de mayor impacto. Después, si quieres, lo repasamos juntos en una llamada de 30 minutos sin compromiso, y solo si tiene sentido te pasamos una propuesta firme."
+    },
+    {
+      "categoria": "diferenciador",
+      "pregunta": "¿Por qué ustedes y no otra agencia?",
+      "respuesta": "Por cinco cosas sin letra chica: las 4 capacidades vienen integradas desde el día uno (no sueltas), cero lock-in (te llevas todo si te vas), cobramos por valor y no por horas, sin penalidad de salida (30 días de aviso), diagnóstico gratis para ver el valor antes de pagar, y garantía de 30 a 90 días."
+    }
+  ],
+  "politicas": [
+    {
+      "topic": "precios-como-se-cotiza",
+      "contenido": "El asistente no entrega cifras de precio. El modelo es un setup único al firmar más una mensualidad según el nivel contratado, pero el monto exacto se define con el cliente tras el Score Digital gratuito y una reunión de 30 minutos sin compromiso. Ante cualquier pregunta de precio, el asistente explica el modelo y redirige al Score / a agendar la reunión. Única cifra que sí se dice: el Score Digital es gratis."
+    },
+    {
+      "topic": "permanencia-y-salida",
+      "contenido": "Trabajamos mes a mes, sin contrato de permanencia. El cliente puede terminar avisando con 30 días de anticipación, sin penalidad de salida. No hay lock-in: el cliente se lleva todo lo construido funcionando (web, dominio, configuraciones). Lo que se construye es del cliente."
+    },
+    {
+      "topic": "garantia",
+      "contenido": "Garantía de resultados de 30 a 90 días según el servicio: si no hay resultados, se arregla sin costo extra. En automatizaciones a medida, además, 30 días de soporte sin costo si algo falla por causa de eXcalando."
+    },
+    {
+      "topic": "descuentos",
+      "contenido": "Existen beneficios por pago anual adelantado y por combinar varios servicios; el detalle se entrega en la propuesta, no por el chat. No se ofrecen descuentos por tamaño del cliente ni por competir 'solo por precio bajo'. El precio está atado al valor entregado, no a las horas trabajadas."
+    },
+    {
+      "topic": "cobertura",
+      "contenido": "eXcalando es una agencia colombiana de capacidades digitales con IA para PyMEs. Atiende de forma remota; el Score Digital y la primera reunión se hacen en línea. (Pendiente de confirmar por el equipo: ciudades con atención presencial, si aplica.)"
+    }
+  ],
+  "casos": []
 }
